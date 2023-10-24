@@ -2,6 +2,8 @@ import './assets/main.css'
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+
 
 
 const scene = new THREE.Scene();
@@ -11,31 +13,51 @@ const renderer = new THREE.WebGLRenderer({alpha: true});
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.getElementById('container3D').appendChild( renderer.domElement );
 const controls = new OrbitControls( camera, renderer.domElement );
-let objToRenderer = 'monk';
 
-const loader = new GLTFLoader();
-
-loader.load(
-    `src/assets/gltf/Studentenzimmer_01.gltf`,
-    function ( gltf ) {
-    
-        scene.add( gltf.scene );
+const fbxLoader = new FBXLoader()
+fbxLoader.load(
+    'src/assets/gltf/Studentenzimmer_01.fbx',
+    (object) => {
+        object.scale.set(0.1, 0.1, 0.1) 
+        object.position.set(0, 0, 20)
+        scene.add(object)
     },
-    function ( xhr ) {
-        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+    (xhr) => {
+        console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
     },
-    function ( error ) {
-        console.log( 'An error happened' );
+    (error) => {
+        console.log(error)
     }
 )
 
+// const loader = new GLTFLoader();
 
-camera.position.z = 0
-camera.position.y = 8
-camera.position.x = 25
-camera.rotation.y = 0.9
-camera.rotation.x = -0.6
-camera.rotation.z = 0.5
+// loader.load(
+//     `src/assets/gltf/Studentenzimmer_01.gltf`,
+//     function ( gltf ) {
+    
+//         scene.add( gltf.scene );
+//     },
+//     function ( xhr ) {
+//         console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+//     },
+//     function ( error ) {
+//         console.log( 'An error happened' );
+//     }
+// )
+
+const axesHelper = new THREE.AxesHelper( 5 );
+scene.add( axesHelper );
+
+// camera.position.z = 0
+// camera.position.y = 8
+// camera.position.x = 25
+// camera.rotation.y = 0.9
+// camera.rotation.x = -0.6
+// camera.rotation.z = 0.5
+camera.lookAt(0, 0, 0)
+camera.position.z = 20
+
 
 
 
