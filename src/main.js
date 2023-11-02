@@ -13,13 +13,31 @@ const renderer = new THREE.WebGLRenderer({alpha: true});
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.getElementById('container3D').appendChild( renderer.domElement );
 const controls = new OrbitControls( camera, renderer.domElement );
+let objecct = new THREE.Group();
 
 const fbxLoader = new FBXLoader()
 fbxLoader.load(
     'src/assets/gltf/Studentenzimmer_01.fbx',
     (object) => {
+        object.traverse( function ( child ) {
+            objecct = object;
+
+            if ( child.isMesh ) {
+        
+                console.log( child.geometry.attributes.uv );
+                const texture = new THREE.TextureLoader().load( "src/assets/gltf/dfg.jpeg" );
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.repeat.set( 4, 4 );
+                child.material.map = texture; 
+        
+            }
+        
+        } );
         object.scale.set(0.1, 0.1, 0.1) 
-        object.position.set(0, 0, 20)
+        object.position.set(0, 0, 0)
+        
+        
         scene.add(object)
     },
     (xhr) => {
@@ -30,43 +48,26 @@ fbxLoader.load(
     }
 )
 
-// const loader = new GLTFLoader();
-
-// loader.load(
-//     `src/assets/gltf/Studentenzimmer_01.gltf`,
-//     function ( gltf ) {
-    
-//         scene.add( gltf.scene );
-//     },
-//     function ( xhr ) {
-//         console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-//     },
-//     function ( error ) {
-//         console.log( 'An error happened' );
-//     }
-// )
 
 const axesHelper = new THREE.AxesHelper( 5 );
 scene.add( axesHelper );
+camera.position.y = 120;
+camera.position.z = 60;
+camera.position.x = -120;
 
-// camera.position.z = 0
-// camera.position.y = 8
-// camera.position.x = 25
-// camera.rotation.y = 0.9
-// camera.rotation.x = -0.6
-// camera.rotation.z = 0.5
-camera.lookAt(0, 0, 0)
-camera.position.z = 20
+//camera.rotateOnAxis(new THREE.Vector3(3,0,0), -0.5); 
+camera.lookAt(objecct.position);
 
 
 
 
-const topLight = new THREE.DirectionalLight( 0xffffff, 1);
-topLight.position.set( 500, 500, 500 );
-topLight.castShadow = true;
-scene.add( topLight );
+// const topLight = new THREE.DirectionalLight( 0xffffff, 0.3);
+// topLight.position.set( 0, 3000, 0 );
+// topLight.castShadow = true;
+// scene.add( topLight );
 
 const ambientLight = new THREE.AmbientLight( 0x333333, 10 ); // soft white light
+ambientLight.position.y = 1000
 scene.add( ambientLight );
 
 function animate() {
