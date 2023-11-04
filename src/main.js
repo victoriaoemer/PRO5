@@ -16,16 +16,16 @@ const controls = new OrbitControls( camera, renderer.domElement );
 let objecct = new THREE.Group();
 
 const fbxLoader = new FBXLoader()
-fbxLoader.load(
-    'src/assets/gltf/Studentenzimmer_01.fbx',
+/*fbxLoader.load(
+    'src/assets/gltf/Desk_wood06.fbx',
     (object) => {
         object.traverse( function ( child ) {
-            objecct = object;
+            object = object;
 
             if ( child.isMesh ) {
         
                 console.log( child.geometry.attributes.uv );
-                const texture = new THREE.TextureLoader().load( "src/assets/gltf/dfg.jpeg" );
+                const texture = new THREE.TextureLoader().load( "src/assets/gltf/Birch_wood.jpg" );
                 texture.wrapS = THREE.RepeatWrapping;
                 texture.wrapT = THREE.RepeatWrapping;
                 texture.repeat.set( 4, 4 );
@@ -45,8 +45,16 @@ fbxLoader.load(
     },
     (error) => {
         console.log(error)
-    }
-)
+    })*/
+
+    const glTFLoader = new GLTFLoader()
+    
+        glTFLoader.load('src/assets/gltf/desk.gltf', function (gltf) {
+        gltf.scene.scale.set(1, 1, 1) 
+        gltf.scene.position.set(0, 0, 0)
+        scene.add(gltf.scene)
+})
+
 
 
 const axesHelper = new THREE.AxesHelper( 5 );
@@ -61,12 +69,12 @@ camera.lookAt(objecct.position);
 
 
 
-// const topLight = new THREE.DirectionalLight( 0xffffff, 0.3);
-// topLight.position.set( 0, 3000, 0 );
-// topLight.castShadow = true;
-// scene.add( topLight );
+const topLight = new THREE.DirectionalLight( 0xffffff, 3);
+topLight.position.set( 100, 100, 0 );
+topLight.castShadow = true;
+scene.add( topLight );
 
-const ambientLight = new THREE.AmbientLight( 0x333333, 10 ); // soft white light
+const ambientLight = new THREE.AmbientLight( 0xffffff, 10 ); // soft white light
 ambientLight.position.y = 1000
 scene.add( ambientLight );
 
@@ -77,3 +85,5 @@ function animate() {
 
 
 animate();
+
+
