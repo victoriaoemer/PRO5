@@ -47,13 +47,43 @@ const fbxLoader = new FBXLoader()
         console.log(error)
     })*/
 
+    const num = 1;
     const glTFLoader = new GLTFLoader()
+
+    if (num == 1) {
     
         glTFLoader.load('src/assets/gltf/desk.gltf', function (gltf) {
-        gltf.scene.scale.set(1, 1, 1) 
-        gltf.scene.position.set(0, 0, 0)
+            
+        gltf.scene.scale.set(0.5, 0.5, 0.5) 
+        gltf.scene.position.set(0, 0, -50)
         scene.add(gltf.scene)
-})
+
+        glTFLoader.load('src/assets/gltf/Bed.gltf', function (gltf) {
+            
+            gltf.scene.scale.set(0.5, 0.5, 0.5) 
+            gltf.scene.position.set(0, 0, 45)
+            gltf.scene.rotateY(-1.5)
+            scene.add(gltf.scene)
+        })
+})}
+else{
+
+    glTFLoader.load('src/assets/gltf/Desk_dark01.gltf', function (gltf) {
+            
+    gltf.scene.scale.set(5, 5, 5) 
+    gltf.scene.position.set(0, 0, -50)
+    scene.add(gltf.scene)
+
+    glTFLoader.load('src/assets/gltf/Bed_dark.gltf', function (gltf) {
+            
+        gltf.scene.scale.set(0.5, 0.5, 0.5) 
+        gltf.scene.position.set(0, 0, 45)
+        gltf.scene.rotateY(-1.5)
+        scene.add(gltf.scene)
+    })
+})}
+
+
 
 
 
@@ -74,7 +104,7 @@ topLight.position.set( 100, 100, 0 );
 topLight.castShadow = true;
 scene.add( topLight );
 
-const ambientLight = new THREE.AmbientLight( 0xffffff, 10 ); // soft white light
+const ambientLight = new THREE.AmbientLight( 0xffffff, 2 ); // soft white light
 ambientLight.position.y = 1000
 scene.add( ambientLight );
 
