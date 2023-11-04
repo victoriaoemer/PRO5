@@ -1,7 +1,8 @@
 <template>
   <div>
     <div id="container3D"></div>
-    <button @click="changeModel">Change Model</button>
+    <button @click="hideDesk">Toggle Desk</button>
+    <button @click="hideBed">Toggle Bed</button>
   </div>
 </template>
 
@@ -15,11 +16,13 @@ export default {
   data() {
     return {
       num: 1, // Initialize the variable you want to change
+      loadedObjects: {},
     };
   },
   mounted() {
     this.init3DScene();
    this.num = 1;
+    
   },
   computed: {
     scene() {
@@ -30,17 +33,17 @@ export default {
     init3DScene() {
       console.log(this.num);
       const scene = this.scene; // Reference the computed property
-
+      const loadedObjects=this.loadedObjects;
       const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
       const renderer = new THREE.WebGLRenderer({ alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.getElementById('container3D').appendChild(renderer.domElement);
       const controls = new OrbitControls(camera, renderer.domElement);
-      let objecct = new THREE.Group();
+      let object = new THREE.Group();
       const glTFLoader = new GLTFLoader()
 
-      if (this.num == 1) {
+      /*if (this.num == 1) {
 
         glTFLoader.load('src/assets/gltf/desk.gltf', function (gltf) {
 
@@ -58,7 +61,6 @@ export default {
         })
       }
       else {
-
         glTFLoader.load('src/assets/gltf/Desk_dark01.gltf', function (gltf) {
 
           gltf.scene.scale.set(5, 5, 5)
@@ -74,10 +76,26 @@ export default {
           })
         })
       }
+*/
 
 
+glTFLoader.load('src/assets/gltf/desk.gltf', function (gltf) {
+  gltf.scene.scale.set(0.5, 0.5, 0.5);
+  gltf.scene.position.set(0, 0, -50);
+  scene.add(gltf.scene);
 
+  loadedObjects.desk = gltf.scene;
 
+  glTFLoader.load('src/assets/gltf/Bed.gltf', function (gltf) {
+    gltf.scene.scale.set(0.5, 0.5, 0.5);
+    gltf.scene.position.set(0, 0, 45);
+    gltf.scene.rotateY(-1.5);
+          scene.add(gltf.scene);
+
+    loadedObjects.bed = gltf.scene;
+  
+  });
+});
 
       const axesHelper = new THREE.AxesHelper(5);
       scene.add(axesHelper);
@@ -86,7 +104,7 @@ export default {
       camera.position.x = -120;
 
       //camera.rotateOnAxis(new THREE.Vector3(3,0,0), -0.5); 
-      camera.lookAt(objecct.position);
+      camera.lookAt(object.position);
 
 
 
@@ -146,14 +164,25 @@ export default {
     // Reinitialize the 3D scene with the new model
     this.init3DScene();
   },
+  hideDesk() {
+      // Hide the desk object
+      this.toggleVisibility('desk');
+    },
+    hideBed() {
+      // Hide the bed object
+      this.toggleVisibility('bed');
+    },
+    toggleVisibility(id){
+    const loadedObjects= this.loadedObjects;
+    const objectToToggleVisibility = loadedObjects[id];
+    console.log(objectToToggleVisibility.visible);
+  if (objectToToggleVisibility) {
+    objectToToggleVisibility.visible = (objectToToggleVisibility.visible) ? false : true; // Hide the object
+  }
+  },
 
   },
 
 };
 </script>
 
-<style scoped>
-  body{
-    width: 340px;
-  } 
-</style>
