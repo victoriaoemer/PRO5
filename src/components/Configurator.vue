@@ -45,13 +45,13 @@ export default {
 
       /*if (this.num == 1) {
 
-        glTFLoader.load('src/assets/gltf/desk.gltf', function (gltf) {
+        glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
 
-          gltf.scene.scale.set(0.5, 0.5, 0.5)
+          gltf.scene.scale.set(5, 5, 5)
           gltf.scene.position.set(0, 0, -50)
           scene.add(gltf.scene)
 
-          glTFLoader.load('src/assets/gltf/Bed.gltf', function (gltf) {
+          glTFLoader.load('src/assets/gltf/Bed/Bed_light.gltf', function (gltf) {
 
             gltf.scene.scale.set(0.5, 0.5, 0.5)
             gltf.scene.position.set(0, 0, 45)
@@ -61,13 +61,13 @@ export default {
         })
       }
       else {
-        glTFLoader.load('src/assets/gltf/Desk_dark01.gltf', function (gltf) {
+        glTFLoader.load('src/assets/gltf/Desk/Desk_dark.gltf', function (gltf) {
 
           gltf.scene.scale.set(5, 5, 5)
           gltf.scene.position.set(0, 0, -50)
           scene.add(gltf.scene)
 
-          glTFLoader.load('src/assets/gltf/Bed_dark.gltf', function (gltf) {
+          glTFLoader.load('src/assets/gltf/Bed/Bed_dark.gltf', function (gltf) {
 
             gltf.scene.scale.set(0.5, 0.5, 0.5)
             gltf.scene.position.set(0, 0, 45)
@@ -79,21 +79,48 @@ export default {
 */
 
 
-glTFLoader.load('src/assets/gltf/desk.gltf', function (gltf) {
-  gltf.scene.scale.set(0.5, 0.5, 0.5);
-  gltf.scene.position.set(0, 0, -50);
+glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
+  gltf.scene.scale.set(5, 5, 5);
+  gltf.scene.position.set(30, 0, 150);
   scene.add(gltf.scene);
 
   loadedObjects.desk = gltf.scene;
 
-  glTFLoader.load('src/assets/gltf/Bed.gltf', function (gltf) {
+  glTFLoader.load('src/assets/gltf/Closet/Closet_light.gltf', function (gltf) {
+    gltf.scene.scale.set(50, 50, 50);
+    gltf.scene.position.set(-110, 0, 150);
+    gltf.scene.rotateY(1.5);
+          scene.add(gltf.scene);
+
+    loadedObjects.closet = gltf.scene;
+
+    glTFLoader.load('src/assets/gltf/Bed/Bed_light.gltf', function (gltf) {
     gltf.scene.scale.set(0.5, 0.5, 0.5);
     gltf.scene.position.set(0, 0, 45);
     gltf.scene.rotateY(-1.5);
           scene.add(gltf.scene);
 
     loadedObjects.bed = gltf.scene;
-  
+
+
+    glTFLoader.load('src/assets/gltf/Garderobe/Garderobe_light.gltf', function (gltf) {
+    gltf.scene.scale.set(50, 50, 50);
+    gltf.scene.position.set(-100, 50, -150);
+    gltf.scene.rotateY(0);
+          scene.add(gltf.scene);
+
+    loadedObjects.garderobe = gltf.scene;
+
+    glTFLoader.load('src/assets/gltf/LowChair/LowChair_light.gltf', function (gltf) {
+    gltf.scene.scale.set(50, 50, 50);
+    gltf.scene.position.set(5, 0, 150 );
+    gltf.scene.rotateY(1.5);
+          scene.add(gltf.scene);
+
+    loadedObjects.lowchair = gltf.scene;
+        });
+      });
+    });
   });
 });
 
