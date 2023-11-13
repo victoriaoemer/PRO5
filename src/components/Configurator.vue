@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="container3D"></div>
-    <button @click="hideDesk">Toggle Desk</button>
+    <button @click="hideRoom">Toggle Room</button>
     <button @click="hideBed">Toggle Bed</button>
   </div>
 </template>
@@ -48,7 +48,7 @@ export default {
         glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
 
           gltf.scene.scale.set(5, 5, 5)
-          gltf.scene.position.set(0, 0, -50)
+          gltf.scene.position.set(-10, 0, 90)
           scene.add(gltf.scene)
 
           glTFLoader.load('src/assets/gltf/Bed/Bed_light.gltf', function (gltf) {
@@ -78,26 +78,33 @@ export default {
       }
 */
 
+glTFLoader.load('src/assets/gltf/Walls/Room.gltf', function (gltf) {
+    gltf.scene.scale.set(50, 50, 50);
+    gltf.scene.position.set(-110, 0, 210);
+    gltf.scene.rotateY(0);
+          scene.add(gltf.scene);
+
+    loadedObjects.room = gltf.scene;
 
 glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
   gltf.scene.scale.set(5, 5, 5);
-  gltf.scene.position.set(30, 0, 150);
+  gltf.scene.position.set(37, 10, 160);
   scene.add(gltf.scene);
 
   loadedObjects.desk = gltf.scene;
 
   glTFLoader.load('src/assets/gltf/Closet/Closet_light.gltf', function (gltf) {
     gltf.scene.scale.set(50, 50, 50);
-    gltf.scene.position.set(-110, 0, 150);
-    gltf.scene.rotateY(1.5);
+    gltf.scene.position.set(-70, 10, 165);
+    gltf.scene.rotateY(1.55);
           scene.add(gltf.scene);
 
     loadedObjects.closet = gltf.scene;
 
     glTFLoader.load('src/assets/gltf/Bed/Bed_light.gltf', function (gltf) {
     gltf.scene.scale.set(0.5, 0.5, 0.5);
-    gltf.scene.position.set(0, 0, 45);
-    gltf.scene.rotateY(-1.5);
+    gltf.scene.position.set(0, 10, 85);
+    gltf.scene.rotateY(-1.55);
           scene.add(gltf.scene);
 
     loadedObjects.bed = gltf.scene;
@@ -105,7 +112,7 @@ glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
 
     glTFLoader.load('src/assets/gltf/Garderobe/Garderobe_light.gltf', function (gltf) {
     gltf.scene.scale.set(50, 50, 50);
-    gltf.scene.position.set(-100, 50, -150);
+    gltf.scene.position.set(-35, 0, -142);
     gltf.scene.rotateY(0);
           scene.add(gltf.scene);
 
@@ -113,11 +120,39 @@ glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
 
     glTFLoader.load('src/assets/gltf/LowChair/LowChair_light.gltf', function (gltf) {
     gltf.scene.scale.set(50, 50, 50);
-    gltf.scene.position.set(5, 0, 150 );
-    gltf.scene.rotateY(1.5);
+    gltf.scene.position.set(10, 10, 160 );
+    gltf.scene.rotateY(1.55);
           scene.add(gltf.scene);
 
     loadedObjects.lowchair = gltf.scene;
+
+    glTFLoader.load('src/assets/gltf/HighChair/HighChair_light.gltf', function (gltf) {
+    gltf.scene.scale.set(50, 50, 50);
+    gltf.scene.position.set(-40, 0, -5 );
+    gltf.scene.rotateY(1.5);
+          scene.add(gltf.scene);
+
+    loadedObjects.highchair = gltf.scene;
+
+    glTFLoader.load('src/assets/gltf/Kitchen/Kitchen_light.gltf', function (gltf) {
+    gltf.scene.scale.set(50, 50, 50);
+    gltf.scene.position.set(-35, 0, 16 );
+    gltf.scene.rotateY(0);
+          scene.add(gltf.scene);
+
+    loadedObjects.kitchen = gltf.scene;
+
+    glTFLoader.load('src/assets/gltf/Washbasin/Washbasin_light.gltf', function (gltf) {
+    gltf.scene.scale.set(50, 50, 50);
+    gltf.scene.position.set(0, 0, -75 );
+    gltf.scene.rotateY(-1.55);
+          scene.add(gltf.scene);
+
+    loadedObjects.washbasin = gltf.scene;
+                });
+              });
+            });
+          });
         });
       });
     });
@@ -126,8 +161,8 @@ glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
 
       const axesHelper = new THREE.AxesHelper(5);
       scene.add(axesHelper);
-      camera.position.y = 120;
-      camera.position.z = 60;
+      camera.position.y = 400;
+      camera.position.z = 100;
       camera.position.x = -120;
 
       //camera.rotateOnAxis(new THREE.Vector3(3,0,0), -0.5); 
@@ -191,13 +226,13 @@ glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
     // Reinitialize the 3D scene with the new model
     this.init3DScene();
   },
-  hideDesk() {
-      // Hide the desk object
-      this.toggleVisibility('desk');
-    },
-    hideBed() {
-      // Hide the bed object
+  hideBed() {
+      // Hide the room object
       this.toggleVisibility('bed');
+    },
+    hideRoom() {
+      // Hide the bed object
+      this.toggleVisibility('room');
     },
     toggleVisibility(id){
     const loadedObjects= this.loadedObjects;
