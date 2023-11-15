@@ -6,15 +6,12 @@ import Configurator from './components/Configurator.vue';
 </script>
 
 <template>
-  <header>
-  </header>
   <main>
+    <h1>KitzConfig</h1>
   <Configurator></Configurator>
   </main>
 </template>
 
 <style scoped>
-html{
-  width: 1000px;
-}
+
 </style>
