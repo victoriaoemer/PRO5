@@ -297,7 +297,7 @@ export default {
       camera.position.set(-120, 400, 100);
       camera.lookAt(object.position);
 
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1.4);
 directionalLight.position.set(100, 100, 100);
 directionalLight.castShadow = true; // Enable shadow casting for the light
 scene.add(directionalLight);
