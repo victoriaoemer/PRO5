@@ -22,6 +22,7 @@
 
 }
 .textureButton img{
+  background-color: white;
   border-radius: 20px;
   width: 40px;
   height: 40px;
