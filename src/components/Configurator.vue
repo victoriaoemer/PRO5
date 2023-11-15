@@ -5,23 +5,25 @@
       <button @click="hideRoom">Toggle Room</button>
       <button @click="hideBed">Toggle Bed</button>
       <div class="buttonContainer">
-      <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeTexture(index)">
-        <img :src="texture" alt="Texture Image">
+        <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeTexture(index)">
+          <img :src="texture" alt="Texture Image">
+        </div>
       </div>
-    </div>
     </div>
   </div>
 </template>
 <style>
-.buttonContainer{
+.buttonContainer {
   display: flex;
 }
-.textureButton{
+
+.textureButton {
   border-radius: 10px;
   flex-direction: row;
 
 }
-.textureButton img{
+
+.textureButton img {
   background-color: white;
   border-radius: 20px;
   width: 40px;
@@ -87,7 +89,10 @@ export default {
         'src/assets/gltf/text/Gold_wood.jpg',
         'src/assets/gltf/text/Birch_wood.jpg',
         'src/assets/gltf/text/adthe.jpg',
-      ]
+      ],
+      activeCamera: null,
+      camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000),
+      camera2: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000),
     };
   },
 
@@ -105,7 +110,10 @@ export default {
     init3DScene() {
       const scene = this.scene;
       const loadedObjects = this.loadedObjects;
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      //const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      this.activeCamera = this.camera;
+
+      console.log(this.activeCamera);
 
       const renderer = new THREE.WebGLRenderer({ alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -306,29 +314,36 @@ export default {
       });
 
 
-      
+
       //--------------------------------- Load the lights and Helpers ---------------------------------//
 
 
       const axesHelper = new THREE.AxesHelper(5);
       scene.add(axesHelper);
-      camera.position.set(-120, 400, 100);
-      camera.lookAt(object.position);
+      this.camera.position.set(-120, 400, 100);
+      this.camera.lookAt(object.position);
+      this.camera2.position.set(-60, 200, 50);
+      this.camera2.lookAt(object.position);
 
       const directionalLight = new THREE.DirectionalLight(0xffffff, 1.4);
-directionalLight.position.set(100, 100, 100);
-directionalLight.castShadow = true; // Enable shadow casting for the light
-scene.add(directionalLight);
+      directionalLight.position.set(100, 100, 100);
+      directionalLight.castShadow = true; // Enable shadow casting for the light
+      scene.add(directionalLight);
 
       const ambientLight = new THREE.AmbientLight(0xffffff, 2); // soft white light
       ambientLight.position.y = 1000
       scene.add(ambientLight);
 
-      function animate() {
+      const animate = () => {
         requestAnimationFrame(animate);
-        renderer.render(scene, camera);
+        renderer.render(scene, this.activeCamera);
       }
       animate();
+
+    },
+
+    toggleCamera(){
+      this.activeCamera = (this.activeCamera === this.camera) ? this.camera2 : this.camera;
 
     },
 
@@ -336,7 +351,7 @@ scene.add(directionalLight);
       const loadedObjects = this.loadedObjects;
       const texturePath = this.textures[index];
       const textureloader = new THREE.TextureLoader().load(texturePath);
-      
+
       for (let key in loadedObjects) {
         if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle') continue;
         const object = loadedObjects[key];
