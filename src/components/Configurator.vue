@@ -259,7 +259,16 @@ export default {
         scene.add(gltf.scene);
       });
 
-      glTFLoader.load('src/assets/gltf/Washbasin/Washbasin_light.gltf', function (gltf) {
+      glTFLoader.load('src/assets/gltf/Washbasin_sep/Washbasin_stuff.gltf', function (gltf) {
+        gltf.scene.scale.set(50, 50, 50);
+        gltf.scene.position.set(0, 0, -75);
+        gltf.scene.rotateY(-1.55);
+
+        loadedObjects.washbasinstuff = gltf.scene;
+        scene.add(gltf.scene);
+      });
+
+      glTFLoader.load('src/assets/gltf/Washbasin_sep/Washbasin_wood.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(0, 0, -75);
         gltf.scene.rotateY(-1.55);
@@ -319,7 +328,7 @@ export default {
       const textureloader = new THREE.TextureLoader().load(texturePath);
       
       for (let key in loadedObjects) {
-        if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'highchairfeet' || key === 'kitchenstuff') continue;
+        if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff') continue;
         const object = loadedObjects[key];
         object.traverse(function (node) {
           if (node instanceof THREE.Mesh) {
