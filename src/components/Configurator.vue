@@ -224,9 +224,10 @@ if (node instanceof THREE.Mesh) {
       const texturePath = this.textures[textureIndex];
       const textureloader = new THREE.TextureLoader().load(texturePath);
 
-      // Update the material of the specific mesh (in this case, the desk)
-      if (loadedObjects.desk) {
-        loadedObjects.desk.traverse(function (node) {
+      for(let key in loadedObjects) {
+        if(key === 'room') continue;
+        const object = loadedObjects[key];
+        object.traverse(function (node) {
           if (node instanceof THREE.Mesh) {
             node.material.map = textureloader;
             node.material.needsUpdate = true;
@@ -234,7 +235,6 @@ if (node instanceof THREE.Mesh) {
         });
       }
 
-      // Toggle to the next texture
       this.textureIndex = (textureIndex + 1) % this.textures.length;
     },
     clearScene() {
