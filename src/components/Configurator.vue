@@ -72,15 +72,6 @@ export default {
         loadedObjects.closet = gltf.scene;
       });
 
-      glTFLoader.load('src/assets/gltf/Bed/Bed_light.gltf', function (gltf) {
-        gltf.scene.scale.set(0.5, 0.5, 0.5);
-        gltf.scene.position.set(0, 10, 85);
-        gltf.scene.rotateY(-1.55);
-        scene.add(gltf.scene);
-
-        loadedObjects.bed = gltf.scene;
-      });
-
       glTFLoader.load('src/assets/gltf/Bed_sep/Bed_stuff.gltf', function (gltf) {
         gltf.scene.scale.set(0.5, 0.5, 0.5);
         gltf.scene.position.set(0, 10, 85);
@@ -225,7 +216,8 @@ export default {
     },
 
     hideBed() {
-      this.toggleVisibility('bed');
+      this.toggleVisibility('bedwood');
+      this.toggleVisibility('bedstuff');
     },
 
     hideRoom() {
