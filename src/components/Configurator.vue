@@ -22,6 +22,7 @@
 
 }
 .textureButton img{
+  background-color: white;
   border-radius: 20px;
   width: 40px;
   height: 40px;
@@ -305,10 +306,10 @@ export default {
       camera.position.set(-120, 400, 100);
       camera.lookAt(object.position);
 
-      const topLight = new THREE.DirectionalLight(0xffffff, 3);
-      topLight.position.set(100, 100, 0);
-      topLight.castShadow = true;
-      scene.add(topLight);
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1.4);
+directionalLight.position.set(100, 100, 100);
+directionalLight.castShadow = true; // Enable shadow casting for the light
+scene.add(directionalLight);
 
       const ambientLight = new THREE.AmbientLight(0xffffff, 2); // soft white light
       ambientLight.position.y = 1000
