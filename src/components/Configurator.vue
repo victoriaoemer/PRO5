@@ -54,7 +54,7 @@ export default {
 
       const glTFLoader = new GLTFLoader()
 
-      glTFLoader.load('src/assets/gltf/Walls/Room_02.gltf', function (gltf) {
+      glTFLoader.load('src/assets/gltf/Walls/Room.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(-110, 0, 210);
         gltf.scene.rotateY(0);
@@ -81,6 +81,24 @@ export default {
         loadedObjects.bed = gltf.scene;
       });
 
+      glTFLoader.load('src/assets/gltf/Bed_sep/Bed_stuff.gltf', function (gltf) {
+        gltf.scene.scale.set(0.5, 0.5, 0.5);
+        gltf.scene.position.set(0, 10, 85);
+        gltf.scene.rotateY(-1.55);
+        scene.add(gltf.scene);
+
+        loadedObjects.bedstuff = gltf.scene;
+      });
+
+      glTFLoader.load('src/assets/gltf/Bed_sep/Bed_wood.gltf', function (gltf) {
+        gltf.scene.scale.set(0.5, 0.5, 0.5);
+        gltf.scene.position.set(0, 10, 85);
+        gltf.scene.rotateY(-1.55);
+        scene.add(gltf.scene);
+
+        loadedObjects.bedwood = gltf.scene;
+      });
+
       glTFLoader.load('src/assets/gltf/Garderobe/Garderobe_light.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(-35, 0, -142);
@@ -90,13 +108,22 @@ export default {
         loadedObjects.garderobe = gltf.scene;
       });
 
-      glTFLoader.load('src/assets/gltf/LowChair/LowChair_light.gltf', function (gltf) {
+      glTFLoader.load('src/assets/gltf/LowChair_sep/LowChair_feets.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(10, 10, 160);
         gltf.scene.rotateY(1.55);
         scene.add(gltf.scene);
 
-        loadedObjects.lowchair = gltf.scene;
+        loadedObjects.lowchairfeets = gltf.scene;
+      });
+
+      glTFLoader.load('src/assets/gltf/LowChair_sep/LowChair_wood.gltf', function (gltf) {
+        gltf.scene.scale.set(50, 50, 50);
+        gltf.scene.position.set(10, 10, 160);
+        gltf.scene.rotateY(1.55);
+        scene.add(gltf.scene);
+
+        loadedObjects.lowchairwood = gltf.scene;
       });
 
       glTFLoader.load('src/assets/gltf/HighChair/HighChair_light.gltf', function (gltf) {
@@ -185,7 +212,7 @@ export default {
       const textureloader = new THREE.TextureLoader().load(texturePath);
 
       for (let key in loadedObjects) {
-        if (key === 'room') continue;
+        if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff') continue;
         const object = loadedObjects[key];
         object.traverse(function (node) {
           if (node instanceof THREE.Mesh) {
