@@ -9,6 +9,7 @@
           <img :src="texture" alt="Texture Image">
         </div>
       </div>
+      <button @click="toggleCamera">Toggle Camera</button>
     </div>
   </div>
 </template>
@@ -118,7 +119,7 @@ export default {
       const renderer = new THREE.WebGLRenderer({ alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.getElementById('container3D').appendChild(renderer.domElement);
-      const controls = new OrbitControls(camera, renderer.domElement);
+      const controls = new OrbitControls(this.activeCamera, renderer.domElement);
       let object = new THREE.Group();
       const textureloader = new THREE.TextureLoader().load('src/assets/gltf/text/Gold_wood.jpg');
 
