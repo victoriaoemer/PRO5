@@ -139,7 +139,7 @@ export default {
         loadedObjects.floor = gltf.scene;
       });
 
-      glTFLoader.load('src/assets/gltf/Closet/Closet_light.gltf', function (gltf) {
+      glTFLoader.load('src/assets/gltf/Closet_sep/Closet_wood.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(-70, 10, 165);
         gltf.scene.rotateY(1.55);
@@ -150,6 +150,15 @@ export default {
             node.material.map = textureloader;
           }
         });
+        scene.add(gltf.scene);
+      });
+
+      glTFLoader.load('src/assets/gltf/Closet_sep/Closet_handle.gltf', function (gltf) {
+        gltf.scene.scale.set(50, 50, 50);
+        gltf.scene.position.set(-70, 10, 165);
+        gltf.scene.rotateY(1.55);
+
+        loadedObjects.closethandle = gltf.scene;
         scene.add(gltf.scene);
       });
 
@@ -329,7 +338,7 @@ scene.add(directionalLight);
       const textureloader = new THREE.TextureLoader().load(texturePath);
       
       for (let key in loadedObjects) {
-        if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff') continue;
+        if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle') continue;
         const object = loadedObjects[key];
         object.traverse(function (node) {
           if (node instanceof THREE.Mesh) {
