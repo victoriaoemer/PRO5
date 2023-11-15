@@ -78,6 +78,7 @@ export default {
       }
 */
 
+/*
 glTFLoader.load('src/assets/gltf/Walls/Room.gltf', function (gltf) {
     gltf.scene.scale.set(50, 50, 50);
     gltf.scene.position.set(-110, 0, 210);
@@ -157,7 +158,30 @@ glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
       });
     });
   });
+});*/
+
+const textureloader = new THREE.TextureLoader().load('src/assets/gltf/text/Gold_wood.jpg');
+
+glTFLoader.load('src/assets/gltf/Desk_sep/Desk.gltf', function (gltf) {
+  gltf.scene.scale.set(5, 5, 5);
+  gltf.scene.position.set(37, 10, 160);
+
+  loadedObjects.desk = gltf.scene;
+
+  loadedObjects.desk.traverse(function(node) {
+
+if (node instanceof THREE.Mesh) {
+
+    node.material.map = textureloader;
+}
+
 });
+  
+  scene.add(gltf.scene);
+
+  
+});
+
 
       const axesHelper = new THREE.AxesHelper(5);
       scene.add(axesHelper);
