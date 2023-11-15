@@ -172,7 +172,7 @@ export default {
         scene.add(gltf.scene);
       });
 
-      glTFLoader.load('src/assets/gltf/Kitchen/Kitchen_light.gltf', function (gltf) {
+      glTFLoader.load('src/assets/gltf/Kitchen_sep/Kitchen_wood.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(-35, 0, 16);
         gltf.scene.rotateY(0);
@@ -183,6 +183,15 @@ export default {
             node.material.map = textureloader;
           }
         });
+        scene.add(gltf.scene);
+      });
+
+      glTFLoader.load('src/assets/gltf/Kitchen_sep/Kitchen_stuff.gltf', function (gltf) {
+        gltf.scene.scale.set(50, 50, 50);
+        gltf.scene.position.set(-35, 0, 16);
+        gltf.scene.rotateY(0);
+
+        loadedObjects.kitchenstuff = gltf.scene;
         scene.add(gltf.scene);
       });
 
@@ -247,7 +256,7 @@ export default {
       const textureloader = new THREE.TextureLoader().load(texturePath);
 
       for (let key in loadedObjects) {
-        if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'highchairfeet') continue;
+        if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'highchairfeet' || key === 'kitchenstuff') continue;
         const object = loadedObjects[key];
         object.traverse(function (node) {
           if (node instanceof THREE.Mesh) {
