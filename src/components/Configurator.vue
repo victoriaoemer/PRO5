@@ -1,12 +1,52 @@
 <template>
-  <div>
+  <div class="container">
     <div id="container3D"></div>
+    <div class="ui">
     <button @click="hideRoom">Toggle Room</button>
     <button @click="hideBed">Toggle Bed</button>
     <button @click="changeTexture">Change Texture</button>
   </div>
+  </div>
 </template>
+<style>
+.container{
+  display: flex;
+  padding: 2rem;
+  flex-direction: row;
+}
+.ui{
 
+  margin-left: 2rem;
+  margin-right: 2rem;
+  display: flex;
+  flex-direction: column;
+  
+}
+button{
+  margin: 4px;
+  justify-content: start;
+  background-color: white;
+  border-width: 0px;
+  border-radius: 4px;
+  box-shadow: rgba(91, 91, 97, 0.2) 0px 7px 29px 0px;
+  padding-block: 20px;
+    padding-inline: 12px
+}
+#container3D {
+  flex-direction: row;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  background-color: rgb(249, 249, 249)
+}
+canvas{
+
+  width: 1024px !important;
+  height: 546px !important;;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 10px;
+}
+
+</style>
 <script>
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
