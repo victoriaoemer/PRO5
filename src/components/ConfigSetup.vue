@@ -33,8 +33,6 @@ const textures = [
   'src/assets/gltf/text/Birch_wood.jpg',
   'src/assets/gltf/text/adthe.jpg',
 ]
-
-
 const textureloader = new THREE.TextureLoader().load('src/assets/gltf/text/Gold_wood.jpg');
 
 
@@ -44,6 +42,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 const controls = new OrbitControls(activeCamera, renderer.domElement);
 let object = new THREE.Group();
 
+
 onMounted(() => {
   const container = document.getElementById('container3D');
   if (container) {
@@ -52,6 +51,11 @@ onMounted(() => {
     console.error('Container-Element nicht gefunden.');
   }
 });
+
+
+//------------------------------------------Load Objects------------------------------------------//
+
+
 const glTFLoader = new GLTFLoader();
 
 glTFLoader.load('src/assets/gltf/Room/Room.gltf', function (gltf) {
@@ -238,6 +242,10 @@ glTFLoader.load('src/assets/gltf/Desk_sep/Desk.gltf', function (gltf) {
   scene.add(gltf.scene);
 });
 
+
+
+//------------------------------------------Axis and Lights------------------------------------------//
+
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 camera.position.set(-120, 400, 100);
@@ -257,8 +265,12 @@ scene.add(ambientLight);
 const animate = () => {
   requestAnimationFrame(animate);
   renderer.render(scene, activeCamera);
+  controls.update();
 }
 animate();
+
+
+//------------------------------------------Functions------------------------------------------//
 
 
 function toggleVisibility(id) {
@@ -282,11 +294,10 @@ function changeTexture(index) {
   for (let key in loadedObjects) {
     if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle') continue;
     const object = loadedObjects[key];
-    
-    // Use the index to get the appropriate texture from the textures array
+
     const textureUrl = textures[index];
     const newTexture = new THREE.TextureLoader().load(textureUrl);
-    
+
     object.traverse(function (node) {
       if (node instanceof THREE.Mesh) {
         node.material.map = newTexture;
@@ -300,12 +311,9 @@ function changeTexture(index) {
 
 function toggleCamera() {
   activeCamera = (activeCamera === camera) ? camera2 : camera;
-
+  renderer.render(scene, activeCamera);
+  controls.object = activeCamera;
 }
-
-
-
-
 </script>
 
 

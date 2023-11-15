@@ -1,4 +1,5 @@
 <script setup>
+import ConfigSetup from './components/ConfigSetup.vue';
 import Configurator from './components/Configurator.vue';
 
 </script>
@@ -6,10 +7,8 @@ import Configurator from './components/Configurator.vue';
 <template>
   <main>
     <h1>KitzConfig</h1>
-  <Configurator></Configurator>
+    <ConfigSetup />
   </main>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
