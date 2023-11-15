@@ -120,13 +120,22 @@ export default {
 
       const glTFLoader = new GLTFLoader()
 
-      glTFLoader.load('src/assets/gltf/Walls/Room.gltf', function (gltf) {
+      glTFLoader.load('src/assets/gltf/Room/Room.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(-110, 0, 210);
         gltf.scene.rotateY(0);
         scene.add(gltf.scene);
 
         loadedObjects.room = gltf.scene;
+      });
+
+      glTFLoader.load('src/assets/gltf/Room/Floor.gltf', function (gltf) {
+        gltf.scene.scale.set(50, 50, 50);
+        gltf.scene.position.set(-110, 0, 210);
+        gltf.scene.rotateY(0);
+        scene.add(gltf.scene);
+
+        loadedObjects.floor = gltf.scene;
       });
 
       glTFLoader.load('src/assets/gltf/Closet/Closet_light.gltf', function (gltf) {
@@ -204,13 +213,13 @@ export default {
         scene.add(gltf.scene);
       });
 
-      glTFLoader.load('src/assets/gltf/HighChair/HighChair_light.gltf', function (gltf) {
+      glTFLoader.load('src/assets/gltf/HighChair_sep/HighChair_wood.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(-40, 0, -5);
         gltf.scene.rotateY(1.5);
 
-        loadedObjects.highchair = gltf.scene;
-        loadedObjects.highchair.traverse(function (node) {
+        loadedObjects.highchairwood = gltf.scene;
+        loadedObjects.highchairwood.traverse(function (node) {
           if (node instanceof THREE.Mesh) {
             node.material.map = textureloader;
           }
@@ -218,7 +227,16 @@ export default {
         scene.add(gltf.scene);
       });
 
-      glTFLoader.load('src/assets/gltf/Kitchen/Kitchen_light.gltf', function (gltf) {
+      glTFLoader.load('src/assets/gltf/HighChair_sep/HighChair_feet.gltf', function (gltf) {
+        gltf.scene.scale.set(50, 50, 50);
+        gltf.scene.position.set(-40, 0, -5);
+        gltf.scene.rotateY(1.5);
+
+        loadedObjects.highchairfeet = gltf.scene;
+        scene.add(gltf.scene);
+      });
+
+      glTFLoader.load('src/assets/gltf/Kitchen_sep/Kitchen_wood.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(-35, 0, 16);
         gltf.scene.rotateY(0);
@@ -229,6 +247,15 @@ export default {
             node.material.map = textureloader;
           }
         });
+        scene.add(gltf.scene);
+      });
+
+      glTFLoader.load('src/assets/gltf/Kitchen_sep/Kitchen_stuff.gltf', function (gltf) {
+        gltf.scene.scale.set(50, 50, 50);
+        gltf.scene.position.set(-35, 0, 16);
+        gltf.scene.rotateY(0);
+
+        loadedObjects.kitchenstuff = gltf.scene;
         scene.add(gltf.scene);
       });
 
@@ -292,7 +319,7 @@ export default {
       const textureloader = new THREE.TextureLoader().load(texturePath);
       
       for (let key in loadedObjects) {
-        if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff') continue;
+        if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'highchairfeet' || key === 'kitchenstuff') continue;
         const object = loadedObjects[key];
         object.traverse(function (node) {
           if (node instanceof THREE.Mesh) {
