@@ -102,7 +102,7 @@ export default {
 
   methods: {
     init3DScene() {
-      const scene = this.scene; 
+      const scene = this.scene;
       const loadedObjects = this.loadedObjects;
       const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -111,6 +111,8 @@ export default {
       document.getElementById('container3D').appendChild(renderer.domElement);
       const controls = new OrbitControls(camera, renderer.domElement);
       let object = new THREE.Group();
+      const textureloader = new THREE.TextureLoader().load('src/assets/gltf/text/Gold_wood.jpg');
+
 
 
       //--------------------------------- Load the obejcts ---------------------------------//
@@ -131,9 +133,14 @@ export default {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(-70, 10, 165);
         gltf.scene.rotateY(1.55);
-        scene.add(gltf.scene);
 
         loadedObjects.closet = gltf.scene;
+        loadedObjects.closet.traverse(function (node) {
+          if (node instanceof THREE.Mesh) {
+            node.material.map = textureloader;
+          }
+        });
+        scene.add(gltf.scene);
       });
 
       glTFLoader.load('src/assets/gltf/Bed_sep/Bed_stuff.gltf', function (gltf) {
@@ -143,98 +150,117 @@ export default {
         scene.add(gltf.scene);
 
         loadedObjects.bedstuff = gltf.scene;
+        //no texture
       });
 
       glTFLoader.load('src/assets/gltf/Bed_sep/Bed_wood.gltf', function (gltf) {
         gltf.scene.scale.set(0.5, 0.5, 0.5);
         gltf.scene.position.set(0, 10, 85);
         gltf.scene.rotateY(-1.55);
-        scene.add(gltf.scene);
 
         loadedObjects.bedwood = gltf.scene;
+        loadedObjects.bedwood.traverse(function (node) {
+          if (node instanceof THREE.Mesh) {
+            node.material.map = textureloader;
+          }
+        });
+        scene.add(gltf.scene);
       });
 
       glTFLoader.load('src/assets/gltf/Garderobe/Garderobe_light.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(-35, 0, -142);
         gltf.scene.rotateY(0);
-        scene.add(gltf.scene);
 
         loadedObjects.garderobe = gltf.scene;
+        loadedObjects.garderobe.traverse(function (node) {
+          if (node instanceof THREE.Mesh) {
+            node.material.map = textureloader;
+          }
+        });
+        scene.add(gltf.scene);
       });
 
       glTFLoader.load('src/assets/gltf/LowChair_sep/LowChair_feets.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(10, 10, 160);
         gltf.scene.rotateY(1.55);
-        scene.add(gltf.scene);
 
         loadedObjects.lowchairfeets = gltf.scene;
+        scene.add(gltf.scene);
       });
 
       glTFLoader.load('src/assets/gltf/LowChair_sep/LowChair_wood.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(10, 10, 160);
         gltf.scene.rotateY(1.55);
-        scene.add(gltf.scene);
 
         loadedObjects.lowchairwood = gltf.scene;
+        loadedObjects.lowchairwood.traverse(function (node) {
+          if (node instanceof THREE.Mesh) {
+            node.material.map = textureloader;
+          }
+        });
+        scene.add(gltf.scene);
       });
 
       glTFLoader.load('src/assets/gltf/HighChair/HighChair_light.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(-40, 0, -5);
         gltf.scene.rotateY(1.5);
-        scene.add(gltf.scene);
 
         loadedObjects.highchair = gltf.scene;
+        loadedObjects.highchair.traverse(function (node) {
+          if (node instanceof THREE.Mesh) {
+            node.material.map = textureloader;
+          }
+        });
+        scene.add(gltf.scene);
       });
 
       glTFLoader.load('src/assets/gltf/Kitchen/Kitchen_light.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(-35, 0, 16);
         gltf.scene.rotateY(0);
-        scene.add(gltf.scene);
 
         loadedObjects.kitchen = gltf.scene;
+        loadedObjects.kitchen.traverse(function (node) {
+          if (node instanceof THREE.Mesh) {
+            node.material.map = textureloader;
+          }
+        });
+        scene.add(gltf.scene);
       });
 
       glTFLoader.load('src/assets/gltf/Washbasin/Washbasin_light.gltf', function (gltf) {
         gltf.scene.scale.set(50, 50, 50);
         gltf.scene.position.set(0, 0, -75);
         gltf.scene.rotateY(-1.55);
-        scene.add(gltf.scene);
 
         loadedObjects.washbasin = gltf.scene;
+        loadedObjects.washbasin.traverse(function (node) {
+          if (node instanceof THREE.Mesh) {
+            node.material.map = textureloader;
+          }
+        });
+        scene.add(gltf.scene);
       });
-
-
-      //--------------------------------- Load the textures ---------------------------------//
-
-
-      const textureloader = new THREE.TextureLoader().load('src/assets/gltf/text/Gold_wood.jpg');
 
       glTFLoader.load('src/assets/gltf/Desk_sep/Desk.gltf', function (gltf) {
         gltf.scene.scale.set(5, 5, 5);
         gltf.scene.position.set(37, 10, 160);
 
         loadedObjects.desk = gltf.scene;
-
         loadedObjects.desk.traverse(function (node) {
-
           if (node instanceof THREE.Mesh) {
-
             node.material.map = textureloader;
           }
-
         });
-
         scene.add(gltf.scene);
-
-
       });
 
 
+      
       //--------------------------------- Load the lights and Helpers ---------------------------------//
 
 
