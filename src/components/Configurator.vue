@@ -4,11 +4,74 @@
     <div class="ui">
       <button @click="hideRoom">Toggle Room</button>
       <button @click="hideBed">Toggle Bed</button>
-      <button @click="changeTexture">Change Texture</button>
+      <div class="buttonContainer">
+      <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeTexture(index)">
+        <img :src="texture" alt="Texture Image">
+      </div>
+    </div>
     </div>
   </div>
 </template>
+<style>
+.buttonContainer{
+  display: flex;
+}
+.textureButton{
+  border-radius: 10px;
+  flex-direction: row;
 
+}
+.textureButton img{
+  border-radius: 20px;
+  width: 40px;
+  height: 40px;
+  box-shadow: rgba(91, 91, 97, 0.2) 0px 5px 5px 0px;
+  padding: 2px;
+  margin: 4px;
+}
+
+.container {
+
+  display: flex;
+  padding: 2rem;
+  flex-direction: row;
+}
+
+.ui {
+
+  margin-left: 2rem;
+  margin-right: 2rem;
+  flex-direction: column;
+
+}
+
+button {
+  margin: 4px;
+  justify-content: start;
+  background-color: white;
+  border-width: 0px;
+  border-radius: 4px;
+  box-shadow: rgba(91, 91, 97, 0.2) 0px 7px 29px 0px;
+  padding-block: 20px;
+  padding-inline: 12px
+}
+
+#container3D {
+  flex-direction: row;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  background-color: rgb(249, 249, 249)
+}
+
+canvas {
+
+  width: 1024px !important;
+  height: 546px !important;
+  ;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 10px;
+}
+</style>
 <script>
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -22,6 +85,7 @@ export default {
       textures: [
         'src/assets/gltf/text/Gold_wood.jpg',
         'src/assets/gltf/text/Birch_wood.jpg',
+        'src/assets/gltf/text/adthe.jpg',
       ]
     };
   },
@@ -196,12 +260,11 @@ export default {
 
     },
 
-    changeTexture() {
+    changeTexture(index) {
       const loadedObjects = this.loadedObjects;
-      const textureIndex = this.textureIndex;
-      const texturePath = this.textures[textureIndex];
+      const texturePath = this.textures[index];
       const textureloader = new THREE.TextureLoader().load(texturePath);
-
+      
       for (let key in loadedObjects) {
         if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff') continue;
         const object = loadedObjects[key];
@@ -212,7 +275,8 @@ export default {
           }
         });
       }
-      this.textureIndex = (textureIndex + 1) % this.textures.length;
+      console.log("here");
+      this.textureIndex = index;
     },
 
     hideBed() {
@@ -239,46 +303,4 @@ export default {
 
 
 
-<style>
-.container {
-  display: flex;
-  padding: 2rem;
-  flex-direction: row;
-}
 
-.ui {
-
-  margin-left: 2rem;
-  margin-right: 2rem;
-  display: flex;
-  flex-direction: column;
-
-}
-
-button {
-  margin: 4px;
-  justify-content: start;
-  background-color: white;
-  border-width: 0px;
-  border-radius: 4px;
-  box-shadow: rgba(91, 91, 97, 0.2) 0px 7px 29px 0px;
-  padding-block: 20px;
-  padding-inline: 12px
-}
-
-#container3D {
-  flex-direction: row;
-  margin-left: 2rem;
-  margin-right: 2rem;
-  background-color: rgb(249, 249, 249)
-}
-
-canvas {
-
-  width: 1024px !important;
-  height: 546px !important;
-  ;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border-radius: 10px;
-}
-</style>
