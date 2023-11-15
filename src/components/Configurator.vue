@@ -2,6 +2,7 @@
   <div>
     <div id="container3D"></div>
     <button @click="hideRoom">Toggle Room</button>
+    <button @click="switchTexture">Toggle Texture</button>
     <button @click="hideBed">Toggle Bed</button>
   </div>
 </template>
@@ -17,11 +18,15 @@ export default {
     return {
       num: 1, // Initialize the variable you want to change
       loadedObjects: {},
+      currentTexture: null,
+      birchTextureLoader: new THREE.TextureLoader().load('src/assets/gltf/text/Birch_wood.jpg'),
+      goldTextureLoader: new THREE.TextureLoader().load('src/assets/gltf/text/Gold_wood.jpg'),
     };
   },
   mounted() {
     this.init3DScene();
    this.num = 1;
+
     
   },
   computed: {
@@ -31,7 +36,7 @@ export default {
   },
   methods: {
     init3DScene() {
-      console.log(this.num);
+
       const scene = this.scene; // Reference the computed property
       const loadedObjects=this.loadedObjects;
       const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -43,42 +48,8 @@ export default {
       let object = new THREE.Group();
       const glTFLoader = new GLTFLoader()
 
-      /*if (this.num == 1) {
-
-        glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
-
-          gltf.scene.scale.set(5, 5, 5)
-          gltf.scene.position.set(-10, 0, 90)
-          scene.add(gltf.scene)
-
-          glTFLoader.load('src/assets/gltf/Bed/Bed_light.gltf', function (gltf) {
-
-            gltf.scene.scale.set(0.5, 0.5, 0.5)
-            gltf.scene.position.set(0, 0, 45)
-            gltf.scene.rotateY(-1.5)
-            scene.add(gltf.scene)
-          })
-        })
-      }
-      else {
-        glTFLoader.load('src/assets/gltf/Desk/Desk_dark.gltf', function (gltf) {
-
-          gltf.scene.scale.set(5, 5, 5)
-          gltf.scene.position.set(0, 0, -50)
-          scene.add(gltf.scene)
-
-          glTFLoader.load('src/assets/gltf/Bed/Bed_dark.gltf', function (gltf) {
-
-            gltf.scene.scale.set(0.5, 0.5, 0.5)
-            gltf.scene.position.set(0, 0, 45)
-            gltf.scene.rotateY(-1.5)
-            scene.add(gltf.scene)
-          })
-        })
-      }
-*/
-
-/*
+      this.currentTexture= this.birchTextureLoader;
+/*  
 glTFLoader.load('src/assets/gltf/Walls/Room.gltf', function (gltf) {
     gltf.scene.scale.set(50, 50, 50);
     gltf.scene.position.set(-110, 0, 210);
@@ -160,26 +131,24 @@ glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
   });
 });*/
 
-const textureloader = new THREE.TextureLoader().load('src/assets/gltf/text/Gold_wood.jpg');
 
-glTFLoader.load('src/assets/gltf/Desk_sep/Desk.gltf', function (gltf) {
+
+// ...
+
+glTFLoader.load('src/assets/gltf/Desk_sep/Desk.gltf', (gltf) => {
   gltf.scene.scale.set(5, 5, 5);
   gltf.scene.position.set(37, 10, 160);
 
-  loadedObjects.desk = gltf.scene;
+  this.loadedObjects.desk = gltf.scene;
+  this.currentTexture = this.goldTextureLoader;
 
-  loadedObjects.desk.traverse(function(node) {
+  this.loadedObjects.desk.traverse((node) => {
+    if (node instanceof THREE.Mesh) {
+      node.material.map = this.currentTexture;
+    }
+  });
 
-if (node instanceof THREE.Mesh) {
-
-    node.material.map = textureloader;
-}
-
-});
-  
-  scene.add(gltf.scene);
-
-  
+  this.scene.add(gltf.scene);
 });
 
 
@@ -210,6 +179,19 @@ if (node instanceof THREE.Mesh) {
       }
       animate();
 
+
+
+    },
+    switchTexture() {
+      this.currentTexture = this.birchTextureLoader;
+
+      this.loadedObjects.desk.traverse((node) => {
+        if (node instanceof THREE.Mesh) {
+          node.material.map = this.currentTexture;
+        }
+      });
+
+      this.scene.add(this.loadedObjects.desk);
     },
     clearScene() {
     // Find the container element by its ID
@@ -250,6 +232,7 @@ if (node instanceof THREE.Mesh) {
     // Reinitialize the 3D scene with the new model
     this.init3DScene();
   },
+
   hideBed() {
       // Hide the room object
       this.toggleVisibility('bed');
