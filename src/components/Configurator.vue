@@ -85,8 +85,8 @@ export default {
       }
 */
 
-/*
-glTFLoader.load('src/assets/gltf/Walls/Room.gltf', function (gltf) {
+
+glTFLoader.load('src/assets/gltf/Walls/Room_02.gltf', function (gltf) {
     gltf.scene.scale.set(50, 50, 50);
     gltf.scene.position.set(-110, 0, 210);
     gltf.scene.rotateY(0);
@@ -94,12 +94,12 @@ glTFLoader.load('src/assets/gltf/Walls/Room.gltf', function (gltf) {
 
     loadedObjects.room = gltf.scene;
 
-glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
+/*glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
   gltf.scene.scale.set(5, 5, 5);
   gltf.scene.position.set(37, 10, 160);
   scene.add(gltf.scene);
 
-  loadedObjects.desk = gltf.scene;
+  loadedObjects.desk = gltf.scene;*/
 
   glTFLoader.load('src/assets/gltf/Closet/Closet_light.gltf', function (gltf) {
     gltf.scene.scale.set(50, 50, 50);
@@ -165,7 +165,7 @@ glTFLoader.load('src/assets/gltf/Desk/Desk_light.gltf', function (gltf) {
       });
     });
   });
-});*/
+
 
 const textureloader = new THREE.TextureLoader().load('src/assets/gltf/text/Gold_wood.jpg');
 
