@@ -12,7 +12,7 @@
       </div>
       <div class="buttonContainer">
         <p>change one texture</p>
-        <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeOneTexture(index, 'closet')">
+        <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeOneTexture(index, selectedObjectName)">
           <img :src="texture" alt="Texture Image">
         </div>
       </div>
@@ -51,7 +51,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 const controls = new OrbitControls(activeCamera, renderer.domElement);
 let object = new THREE.Group();
 
-
+let selectedObjectName = null;
 onMounted(() => {
   const container = document.getElementById('container3D');
   if (container) {
@@ -59,6 +59,7 @@ onMounted(() => {
   } else {
     console.error('Container-Element nicht gefunden.');
   }
+
 });
 
 
@@ -67,7 +68,7 @@ onMounted(() => {
 
 const glTFLoader = new GLTFLoader();
 
-glTFLoader.load('src/assets/gltf/Room/Room.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Room/room.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
@@ -76,7 +77,7 @@ glTFLoader.load('src/assets/gltf/Room/Room.gltf', function (gltf) {
   fixedObjects.room = gltf.scene;
 });
 
-glTFLoader.load('src/assets/gltf/Room/Floor.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Room/floor.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
@@ -85,16 +86,16 @@ glTFLoader.load('src/assets/gltf/Room/Floor.gltf', function (gltf) {
   fixedObjects.floor = gltf.scene;
 });
 
-glTFLoader.load('src/assets/gltf/Room/Mirror_room.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Room/mirror_room.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
   scene.add(gltf.scene);
 
-  //fixedObjects.roommirror = gltf.scene;
+  //fixedObjects.mirror_room = gltf.scene;
 });
 
-glTFLoader.load('src/assets/gltf/Room/Doors.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Room/doors.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
@@ -103,7 +104,7 @@ glTFLoader.load('src/assets/gltf/Room/Doors.gltf', function (gltf) {
   fixedObjects.doors = gltf.scene;
 });
 
-glTFLoader.load('src/assets/gltf/Closet_sep/Closet_wood.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Closet_sep/closet.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-70, 10, 165);
   gltf.scene.rotateY(1.55);
@@ -117,7 +118,7 @@ glTFLoader.load('src/assets/gltf/Closet_sep/Closet_wood.gltf', function (gltf) {
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('src/assets/gltf/Closet_sep/Closet_handle.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Closet_sep/closet_handle.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-70, 10, 165);
   gltf.scene.rotateY(1.55);
@@ -126,7 +127,7 @@ glTFLoader.load('src/assets/gltf/Closet_sep/Closet_handle.gltf', function (gltf)
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('src/assets/gltf/Bed_sep/Bed_stuff.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Bed_sep/bed_stuff.gltf', function (gltf) {
   gltf.scene.scale.set(0.5, 0.5, 0.5);
   gltf.scene.position.set(0, 10, 85);
   gltf.scene.rotateY(-1.55);
@@ -136,7 +137,7 @@ glTFLoader.load('src/assets/gltf/Bed_sep/Bed_stuff.gltf', function (gltf) {
   //no texture
 });
 
-glTFLoader.load('src/assets/gltf/Bed_sep/Bed_wood.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Bed_sep/bedwood.gltf', function (gltf) {
   gltf.scene.scale.set(0.5, 0.5, 0.5);
   gltf.scene.position.set(0, 10, 85);
   gltf.scene.rotateY(-1.55);
@@ -150,7 +151,7 @@ glTFLoader.load('src/assets/gltf/Bed_sep/Bed_wood.gltf', function (gltf) {
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('src/assets/gltf/Garderobe/Garderobe_light.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Garderobe/garderobe.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-35, 0, -142);
   gltf.scene.rotateY(0);
@@ -164,7 +165,7 @@ glTFLoader.load('src/assets/gltf/Garderobe/Garderobe_light.gltf', function (gltf
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('src/assets/gltf/LowChair_sep/LowChair_feets.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/LowChair_sep/lowchair_feet.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(10, 10, 160);
   gltf.scene.rotateY(1.55);
@@ -173,7 +174,7 @@ glTFLoader.load('src/assets/gltf/LowChair_sep/LowChair_feets.gltf', function (gl
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('src/assets/gltf/LowChair_sep/LowChair_wood.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/LowChair_sep/lowchair_wood.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(10, 10, 160);
   gltf.scene.rotateY(1.55);
@@ -210,7 +211,7 @@ glTFLoader.load('src/assets/gltf/HighChair_sep/HighChair_feet.gltf', function (g
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('src/assets/gltf/Kitchen_sep/Kitchen_wood.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Kitchen_sep/kitchen_wood.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-35, 10, 16);
   gltf.scene.rotateY(0);
@@ -224,7 +225,7 @@ glTFLoader.load('src/assets/gltf/Kitchen_sep/Kitchen_wood.gltf', function (gltf)
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('src/assets/gltf/Kitchen_sep/Kitchen_stuff.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Kitchen_sep/kitchen_stuff.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-35, 10, 16);
   gltf.scene.rotateY(0);
@@ -256,7 +257,7 @@ glTFLoader.load('src/assets/gltf/Washbasin_sep/Washbasin_wood.gltf', function (g
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('src/assets/gltf/Desk_sep/Desk.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
   gltf.scene.scale.set(5, 5, 5);
   gltf.scene.position.set(37, 10, 160);
 
@@ -301,12 +302,55 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 2); // soft white light
 ambientLight.position.y = 1000
 scene.add(ambientLight);
 
+
 const animate = () => {
   requestAnimationFrame(animate);
   renderer.render(scene, activeCamera);
   controls.update();
 }
 animate();
+
+const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        renderer.domElement.addEventListener('click', onClick, false);
+
+
+
+let INTERSECTED;
+        function onClick() {
+            event.preventDefault();
+
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, activeCamera);
+
+            var intersects = raycaster.intersectObjects(scene.children);
+      
+            if (intersects.length > 0) {
+               // console.log('Intersection:', intersects[0]);
+                console.log(loadedObjects);
+                selectedObjectName = intersects[0].object.name;
+                selectedObjectName = selectedObjectName.replace(/_[0-9]/g, '');
+                console.log(selectedObjectName);
+                if (INTERSECTED != intersects[0].object) {
+
+                    if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+
+                    INTERSECTED = intersects[0].object;
+                    INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+                    INTERSECTED.material.emissive.setHex(0xff0000);
+
+                }
+
+            } else {
+
+                if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+
+                INTERSECTED = null;
+
+            }
+        }
 
 
 //------------------------------------------Functions------------------------------------------//

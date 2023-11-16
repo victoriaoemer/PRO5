@@ -20,7 +20,7 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Closet_handle",
+            "name" : "closet_handle",
             "scale" : [
                 0.0010999999940395355,
                 0.0010999999940395355,

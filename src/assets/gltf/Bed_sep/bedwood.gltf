@@ -20,7 +20,7 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Bettgestell",
+            "name" : "bedwood",
             "rotation" : [
                 0.7071068286895752,
                 0,
@@ -35,7 +35,7 @@
         },
         {
             "mesh" : 1,
-            "name" : "Nachttisch",
+            "name" : "bedwood",
             "rotation" : [
                 0.7071068286895752,
                 0,

@@ -6,7 +6,7 @@
     "scene" : 0,
     "scenes" : [
         {
-            "name" : "Scene",
+            "name" : "doors",
             "nodes" : [
                 0,
                 1,
@@ -23,7 +23,7 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Door02",
+            "name" : "doors",
             "scale" : [
                 0.0010000000474974513,
                 0.0010000000474974513,
@@ -32,7 +32,7 @@
         },
         {
             "mesh" : 1,
-            "name" : "Bathroom_door",
+            "name" : "doors",
             "scale" : [
                 0.0010000000474974513,
                 0.0010000000474974513,

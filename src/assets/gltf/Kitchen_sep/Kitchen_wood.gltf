@@ -20,7 +20,7 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Kitchen.001",
+            "name" : "kitchen",
             "scale" : [
                 0.0010000000474974513,
                 0.0010000000474974513,
@@ -29,7 +29,7 @@
         },
         {
             "mesh" : 1,
-            "name" : "Kitchen_backwall",
+            "name" : "kitchen",
             "scale" : [
                 0.0010000000474974513,
                 0.0010000000474974513,
@@ -38,7 +38,7 @@
         },
         {
             "mesh" : 2,
-            "name" : "Kitchen_sidewall",
+            "name" : "kitchen",
             "scale" : [
                 0.0010000000474974513,
                 0.0010000000474974513,
@@ -47,7 +47,7 @@
         },
         {
             "mesh" : 3,
-            "name" : "Kitchen_wood_below",
+            "name" : "kitchen",
             "scale" : [
                 0.0010000000474974513,
                 0.0010000000474974513,
@@ -56,7 +56,7 @@
         },
         {
             "mesh" : 4,
-            "name" : "Kitchen_Wood_side_below",
+            "name" : "kitchen",
             "scale" : [
                 0.0010000000474974513,
                 0.0010000000474974513,
@@ -65,7 +65,7 @@
         },
         {
             "mesh" : 5,
-            "name" : "Kitchen_wood_side_below_front",
+            "name" : "kitchen",
             "scale" : [
                 0.0010000000474974513,
                 0.0010000000474974513,

@@ -16,7 +16,7 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Low Chair.001",
+            "name" : "lowchair_feet",
             "scale" : [
                 0.0010000000474974513,
                 0.0010000000474974513,
@@ -25,7 +25,7 @@
         },
         {
             "mesh" : 1,
-            "name" : "Low Chair.002",
+            "name" : "lowchair_feet",
             "scale" : [
                 0.0010000000474974513,
                 0.0010000000474974513,
