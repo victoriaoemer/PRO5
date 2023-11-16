@@ -5,7 +5,14 @@
       <button @click="hideRoom">Toggle Room</button>
       <button @click="hideBed">Toggle Bed</button>
       <div class="buttonContainer">
-        <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeTexture(index)">
+        <p>change all textures</p>
+        <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeAllTextures(index)">
+          <img :src="texture" alt="Texture Image">
+        </div>
+      </div>
+      <div class="buttonContainer">
+        <p>change one texture</p>
+        <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeOneTexture(index, 'closet')">
           <img :src="texture" alt="Texture Image">
         </div>
       </div>
@@ -299,11 +306,10 @@ function hideRoom() {
   toggleVisibility('room');
 }
 
-function changeTexture(index) {
+function changeAllTextures(index) {
   for (let key in loadedObjects) {
     if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle') continue;
     const object = loadedObjects[key];
-
     const textureUrl = textures[index];
     const newTexture = new THREE.TextureLoader().load(textureUrl);
 
@@ -316,7 +322,21 @@ function changeTexture(index) {
   }
   textureIndex = index;
 }
+function changeOneTexture(index, object) {
+ 
+    object=loadedObjects[object];
+    const textureUrl = textures[index];
+    const newTexture = new THREE.TextureLoader().load(textureUrl);
 
+    object.traverse(function (node) {
+      if (node instanceof THREE.Mesh) {
+        node.material.map = newTexture;
+        node.material.needsUpdate = true;
+      }
+    });
+
+  textureIndex = index;
+}
 
 function toggleCamera() {
   activeCamera = (activeCamera === camera) ? camera2 : camera;
