@@ -181,8 +181,8 @@
     "images" : [
         {
             "mimeType" : "image/jpeg",
-            "name" : "Gold_wood",
-            "uri" : "Gold_wood.jpg"
+            "name" : "Birch_wood",
+            "uri" : "Birch_wood.jpg"
         }
     ],
     "accessors" : [
