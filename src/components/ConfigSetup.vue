@@ -76,6 +76,15 @@ glTFLoader.load('src/assets/gltf/Room/Floor.gltf', function (gltf) {
   loadedObjects.floor = gltf.scene;
 });
 
+glTFLoader.load('src/assets/gltf/Room/Mirror_room.gltf', function (gltf) {
+  gltf.scene.scale.set(50, 50, 50);
+  gltf.scene.position.set(-110, 0, 210);
+  gltf.scene.rotateY(0);
+  scene.add(gltf.scene);
+
+  loadedObjects.roommirror = gltf.scene;
+});
+
 glTFLoader.load('src/assets/gltf/Closet_sep/Closet_wood.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-70, 10, 165);
@@ -162,7 +171,7 @@ glTFLoader.load('src/assets/gltf/LowChair_sep/LowChair_wood.gltf', function (glt
 
 glTFLoader.load('src/assets/gltf/HighChair_sep/HighChair_wood.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
-  gltf.scene.position.set(-40, 0, -5);
+  gltf.scene.position.set(-40, 10, -5);
   gltf.scene.rotateY(1.5);
 
   loadedObjects.highchairwood = gltf.scene;
@@ -176,7 +185,7 @@ glTFLoader.load('src/assets/gltf/HighChair_sep/HighChair_wood.gltf', function (g
 
 glTFLoader.load('src/assets/gltf/HighChair_sep/HighChair_feet.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
-  gltf.scene.position.set(-40, 0, -5);
+  gltf.scene.position.set(-40, 10, -5);
   gltf.scene.rotateY(1.5);
 
   loadedObjects.highchairfeet = gltf.scene;
@@ -185,7 +194,7 @@ glTFLoader.load('src/assets/gltf/HighChair_sep/HighChair_feet.gltf', function (g
 
 glTFLoader.load('src/assets/gltf/Kitchen_sep/Kitchen_wood.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
-  gltf.scene.position.set(-35, 0, 16);
+  gltf.scene.position.set(-35, 10, 16);
   gltf.scene.rotateY(0);
 
   loadedObjects.kitchen = gltf.scene;
@@ -199,7 +208,7 @@ glTFLoader.load('src/assets/gltf/Kitchen_sep/Kitchen_wood.gltf', function (gltf)
 
 glTFLoader.load('src/assets/gltf/Kitchen_sep/Kitchen_stuff.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
-  gltf.scene.position.set(-35, 0, 16);
+  gltf.scene.position.set(-35, 10, 16);
   gltf.scene.rotateY(0);
 
   loadedObjects.kitchenstuff = gltf.scene;
@@ -208,7 +217,7 @@ glTFLoader.load('src/assets/gltf/Kitchen_sep/Kitchen_stuff.gltf', function (gltf
 
 glTFLoader.load('src/assets/gltf/Washbasin_sep/Washbasin_stuff.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
-  gltf.scene.position.set(0, 0, -75);
+  gltf.scene.position.set(0, 10, -75);
   gltf.scene.rotateY(-1.55);
 
   loadedObjects.washbasinstuff = gltf.scene;
@@ -217,7 +226,7 @@ glTFLoader.load('src/assets/gltf/Washbasin_sep/Washbasin_stuff.gltf', function (
 
 glTFLoader.load('src/assets/gltf/Washbasin_sep/Washbasin_wood.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
-  gltf.scene.position.set(0, 0, -75);
+  gltf.scene.position.set(0, 10, -75);
   gltf.scene.rotateY(-1.55);
 
   loadedObjects.washbasin = gltf.scene;
@@ -292,7 +301,7 @@ function hideRoom() {
 
 function changeTexture(index) {
   for (let key in loadedObjects) {
-    if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle') continue;
+    if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle') continue;
     const object = loadedObjects[key];
 
     const textureUrl = textures[index];
