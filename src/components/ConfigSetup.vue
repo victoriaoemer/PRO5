@@ -3,7 +3,7 @@
     <div id="container3D"></div>
     <div class="ui">
       <button @click="hideRoom">Toggle Room</button>
-      <button @click="hideBed">Toggle Bed</button>
+      <button @click="hideDesklamp">Toggle Desk lamp</button>
       <div class="buttonContainer">
         <p>change all textures</p>
         <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeAllTextures(index)">
@@ -258,6 +258,17 @@ glTFLoader.load('src/assets/gltf/Desk_sep/Desk.gltf', function (gltf) {
   scene.add(gltf.scene);
 });
 
+//------------------------------------------Additional objects to toggle------------------------------------------//
+
+glTFLoader.load('src/assets/gltf/Objects/DeskLamp.gltf', function (gltf) {
+  gltf.scene.scale.set(5, 5, 5);
+  gltf.scene.position.set(45, 47, 181);
+  gltf.scene.rotateY(-2.5);
+  scene.add(gltf.scene);
+
+  loadedObjects.desklamp = gltf.scene;
+});
+
 
 
 //------------------------------------------Axis and Lights------------------------------------------//
@@ -302,13 +313,13 @@ function hideBed() {
   toggleVisibility('bedstuff');
 }
 
-function hideRoom() {
-  toggleVisibility('room');
+function hideDesklamp() {
+  toggleVisibility('desklamp');
 }
 
 function changeAllTextures(index) {
   for (let key in loadedObjects) {
-    if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle') continue;
+    if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
     const object = loadedObjects[key];
     const textureUrl = textures[index];
     const newTexture = new THREE.TextureLoader().load(textureUrl);
