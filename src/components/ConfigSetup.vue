@@ -26,6 +26,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls'
+
 import { onMounted } from 'vue';
 const loadedObjects = {};
 const fixedObjects = {};
@@ -48,7 +50,9 @@ const textureloader = new THREE.TextureLoader().load('src/assets/gltf/text/Gold_
 const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-const controls = new OrbitControls(activeCamera, renderer.domElement);
+let controls = new OrbitControls(activeCamera, renderer.domElement);
+
+
 let object = new THREE.Group();
 
 
@@ -56,9 +60,12 @@ onMounted(() => {
   const container = document.getElementById('container3D');
   if (container) {
     container.appendChild(renderer.domElement);
+
   } else {
-    console.error('Container-Element nicht gefunden.');
+    console.error('Container-Element not found.');
   }
+
+
 });
 
 
@@ -288,7 +295,7 @@ const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 camera.position.set(-120, 400, 100);
 camera.lookAt(object.position);
-camera2.position.set(-60, 200, 50);
+camera2.position.set(-60, 80, 50);
 camera2.lookAt(object.position);
 
 
@@ -304,12 +311,43 @@ scene.add(ambientLight);
 const animate = () => {
   requestAnimationFrame(animate);
   renderer.render(scene, activeCamera);
-  controls.update();
 }
 animate();
 
 
 //------------------------------------------Functions------------------------------------------//
+
+function toggleCamera() {
+  activeCamera = (activeCamera === camera) ? camera2 : camera;
+
+  // Remove existing controls
+  controls.dispose();
+
+  if (activeCamera === camera) {
+    // Create OrbitControls for camera
+    controls = new OrbitControls(activeCamera, renderer.domElement);
+  
+    controls.update();
+
+  } else {
+    // Create PointerLockControls for camera2 (first-person)
+    controls = new PointerLockControls(activeCamera, renderer.domElement);
+    controls.enabled = true;
+
+    // Enable pointer lock on click for first-person controls
+    const element = renderer.domElement;
+    element.addEventListener('click', function () {
+      controls.lock();
+    });
+  }
+
+  // Update the controls in the render loop
+  controls.addEventListener('change', () => {
+    renderer.render(scene, activeCamera);
+  });
+
+  
+}
 
 
 function toggleVisibility(id) {
@@ -345,26 +383,22 @@ function changeAllTextures(index) {
   textureIndex = index;
 }
 function changeOneTexture(index, object) {
- 
-    object=loadedObjects[object];
-    const textureUrl = textures[index];
-    const newTexture = new THREE.TextureLoader().load(textureUrl);
 
-    object.traverse(function (node) {
-      if (node instanceof THREE.Mesh) {
-        node.material.map = newTexture;
-        node.material.needsUpdate = true;
-      }
-    });
+  object = loadedObjects[object];
+  const textureUrl = textures[index];
+  const newTexture = new THREE.TextureLoader().load(textureUrl);
+
+  object.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.material.map = newTexture;
+      node.material.needsUpdate = true;
+    }
+  });
 
   textureIndex = index;
 }
 
-function toggleCamera() {
-  activeCamera = (activeCamera === camera) ? camera2 : camera;
-  renderer.render(scene, activeCamera);
-  controls.object = activeCamera;
-}
+
 </script>
 
 
