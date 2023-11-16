@@ -2,7 +2,7 @@
   <div class="container">
     <div id="container3D"></div>
     <div class="ui">
-      <button @click="hideRoom">Toggle Room</button>
+      <button @click="hideWalls">Toggle Walls</button>
       <button @click="hideDesklamp">Toggle Desk lamp</button>
       <div class="buttonContainer">
         <p>change all textures</p>
@@ -90,6 +90,15 @@ glTFLoader.load('src/assets/gltf/Room/Mirror_room.gltf', function (gltf) {
   scene.add(gltf.scene);
 
   loadedObjects.roommirror = gltf.scene;
+});
+
+glTFLoader.load('src/assets/gltf/Room/Doors.gltf', function (gltf) {
+  gltf.scene.scale.set(50, 50, 50);
+  gltf.scene.position.set(-110, 0, 210);
+  gltf.scene.rotateY(0);
+  scene.add(gltf.scene);
+
+  loadedObjects.doors = gltf.scene;
 });
 
 glTFLoader.load('src/assets/gltf/Closet_sep/Closet_wood.gltf', function (gltf) {
@@ -308,9 +317,8 @@ function toggleVisibility(id) {
   }
 }
 
-function hideBed() {
-  toggleVisibility('bedwood');
-  toggleVisibility('bedstuff');
+function hideWalls() {
+  toggleVisibility('room');
 }
 
 function hideDesklamp() {
@@ -319,7 +327,7 @@ function hideDesklamp() {
 
 function changeAllTextures(index) {
   for (let key in loadedObjects) {
-    if (key === 'room' || key === 'lowchairfeets' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
+    if (key === 'room' || key === 'lowchairfeets' || key === 'doors' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
     const object = loadedObjects[key];
     const textureUrl = textures[index];
     const newTexture = new THREE.TextureLoader().load(textureUrl);
