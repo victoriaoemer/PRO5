@@ -28,6 +28,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { onMounted } from 'vue';
 const loadedObjects = {};
+const fixedObjects = {};
+
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 const camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -71,7 +73,7 @@ glTFLoader.load('src/assets/gltf/Room/Room.gltf', function (gltf) {
   gltf.scene.rotateY(0);
   scene.add(gltf.scene);
 
-  loadedObjects.room = gltf.scene;
+  fixedObjects.room = gltf.scene;
 });
 
 glTFLoader.load('src/assets/gltf/Room/Floor.gltf', function (gltf) {
@@ -80,7 +82,7 @@ glTFLoader.load('src/assets/gltf/Room/Floor.gltf', function (gltf) {
   gltf.scene.rotateY(0);
   scene.add(gltf.scene);
 
-  loadedObjects.floor = gltf.scene;
+  fixedObjects.floor = gltf.scene;
 });
 
 glTFLoader.load('src/assets/gltf/Room/Mirror_room.gltf', function (gltf) {
@@ -89,7 +91,7 @@ glTFLoader.load('src/assets/gltf/Room/Mirror_room.gltf', function (gltf) {
   gltf.scene.rotateY(0);
   scene.add(gltf.scene);
 
-  loadedObjects.roommirror = gltf.scene;
+  //fixedObjects.roommirror = gltf.scene;
 });
 
 glTFLoader.load('src/assets/gltf/Room/Doors.gltf', function (gltf) {
@@ -98,7 +100,7 @@ glTFLoader.load('src/assets/gltf/Room/Doors.gltf', function (gltf) {
   gltf.scene.rotateY(0);
   scene.add(gltf.scene);
 
-  loadedObjects.doors = gltf.scene;
+  fixedObjects.doors = gltf.scene;
 });
 
 glTFLoader.load('src/assets/gltf/Closet_sep/Closet_wood.gltf', function (gltf) {
@@ -120,7 +122,7 @@ glTFLoader.load('src/assets/gltf/Closet_sep/Closet_handle.gltf', function (gltf)
   gltf.scene.position.set(-70, 10, 165);
   gltf.scene.rotateY(1.55);
 
-  loadedObjects.closethandle = gltf.scene;
+  //loadedObjects.closethandle = gltf.scene;
   scene.add(gltf.scene);
 });
 
@@ -130,7 +132,7 @@ glTFLoader.load('src/assets/gltf/Bed_sep/Bed_stuff.gltf', function (gltf) {
   gltf.scene.rotateY(-1.55);
   scene.add(gltf.scene);
 
-  loadedObjects.bedstuff = gltf.scene;
+  //loadedObjects.bedstuff = gltf.scene;
   //no texture
 });
 
@@ -167,7 +169,7 @@ glTFLoader.load('src/assets/gltf/LowChair_sep/LowChair_feets.gltf', function (gl
   gltf.scene.position.set(10, 10, 160);
   gltf.scene.rotateY(1.55);
 
-  loadedObjects.lowchairfeets = gltf.scene;
+  //loadedObjects.lowchairfeets = gltf.scene;
   scene.add(gltf.scene);
 });
 
@@ -204,7 +206,7 @@ glTFLoader.load('src/assets/gltf/HighChair_sep/HighChair_feet.gltf', function (g
   gltf.scene.position.set(-40, 10, -5);
   gltf.scene.rotateY(1.5);
 
-  loadedObjects.highchairfeet = gltf.scene;
+  //loadedObjects.highchairfeet = gltf.scene;
   scene.add(gltf.scene);
 });
 
@@ -227,7 +229,7 @@ glTFLoader.load('src/assets/gltf/Kitchen_sep/Kitchen_stuff.gltf', function (gltf
   gltf.scene.position.set(-35, 10, 16);
   gltf.scene.rotateY(0);
 
-  loadedObjects.kitchenstuff = gltf.scene;
+  //loadedObjects.kitchenstuff = gltf.scene;
   scene.add(gltf.scene);
 });
 
@@ -236,7 +238,7 @@ glTFLoader.load('src/assets/gltf/Washbasin_sep/Washbasin_stuff.gltf', function (
   gltf.scene.position.set(0, 10, -75);
   gltf.scene.rotateY(-1.55);
 
-  loadedObjects.washbasinstuff = gltf.scene;
+  //loadedObjects.washbasinstuff = gltf.scene;
   scene.add(gltf.scene);
 });
 
@@ -275,7 +277,7 @@ glTFLoader.load('src/assets/gltf/Objects/DeskLamp.gltf', function (gltf) {
   gltf.scene.rotateY(-2.5);
   scene.add(gltf.scene);
 
-  loadedObjects.desklamp = gltf.scene;
+  fixedObjects.desklamp = gltf.scene;
 });
 
 
@@ -288,6 +290,7 @@ camera.position.set(-120, 400, 100);
 camera.lookAt(object.position);
 camera2.position.set(-60, 200, 50);
 camera2.lookAt(object.position);
+
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1.4);
 directionalLight.position.set(100, 100, 100);
@@ -310,7 +313,7 @@ animate();
 
 
 function toggleVisibility(id) {
-  const objectToToggleVisibility = loadedObjects[id];
+  const objectToToggleVisibility = fixedObjects[id];
   console.log(objectToToggleVisibility.visible);
   if (objectToToggleVisibility) {
     objectToToggleVisibility.visible = (objectToToggleVisibility.visible) ? false : true; // Hide the object
@@ -327,7 +330,7 @@ function hideDesklamp() {
 
 function changeAllTextures(index) {
   for (let key in loadedObjects) {
-    if (key === 'room' || key === 'lowchairfeets' || key === 'doors' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
+    //if (key === 'room' || key === 'lowchairfeets' || key === 'doors' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
     const object = loadedObjects[key];
     const textureUrl = textures[index];
     const newTexture = new THREE.TextureLoader().load(textureUrl);
