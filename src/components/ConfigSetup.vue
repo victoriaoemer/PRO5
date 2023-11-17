@@ -43,7 +43,8 @@ let textureIndex = 1;
 const textures = [
   'src/assets/gltf/text/Gold_wood.jpg',
   'src/assets/gltf/text/Birch_wood.jpg',
-  'src/assets/gltf/text/adthe.jpg',
+  'src/assets/gltf/text/ply_wood.jpg',
+  //'src/assets/gltf/text/adthe.jpg',
 ]
 const textureloader = new THREE.TextureLoader().load('src/assets/gltf/text/Gold_wood.jpg');
 
