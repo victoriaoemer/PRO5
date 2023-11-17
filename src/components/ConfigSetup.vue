@@ -12,7 +12,8 @@
       </div>
       <div class="buttonContainer">
         <p>change one texture</p>
-        <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeOneTexture(index, selectedObjectName)">
+        <div v-for="(texture, index) in textures" :key="index" class="textureButton"
+          @click="changeOneTexture(index, selectedObjectName)">
           <img :src="texture" alt="Texture Image">
         </div>
       </div>
@@ -315,46 +316,46 @@ const animate = () => {
 animate();
 
 const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
-        renderer.domElement.addEventListener('click', onClick, false);
+const mouse = new THREE.Vector2();
+renderer.domElement.addEventListener('click', onClick, false);
 
 
 
 let INTERSECTED;
-        function onClick() {
-            event.preventDefault();
+function onClick() {
+  event.preventDefault();
 
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
-            raycaster.setFromCamera(mouse, activeCamera);
+  raycaster.setFromCamera(mouse, activeCamera);
 
-            var intersects = raycaster.intersectObjects(scene.children);
-      
-            if (intersects.length > 0) {
-               // console.log('Intersection:', intersects[0]);
-                console.log(loadedObjects);
-                selectedObjectName = intersects[0].object.name;
-                selectedObjectName = selectedObjectName.replace(/_[0-9]/g, '');
-                console.log(selectedObjectName);
-                if (INTERSECTED != intersects[0].object) {
+  var intersects = raycaster.intersectObjects(scene.children);
 
-                    if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+  if (intersects.length > 0) {
+    // console.log('Intersection:', intersects[0]);
+    console.log(loadedObjects);
+    selectedObjectName = intersects[0].object.name;
+    selectedObjectName = selectedObjectName.replace(/_[0-9]/g, '');
+    console.log(selectedObjectName);
+    if (INTERSECTED != intersects[0].object) {
 
-                    INTERSECTED = intersects[0].object;
-                    INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-                    INTERSECTED.material.emissive.setHex(0xff0000);
+      if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
 
-                }
+      INTERSECTED = intersects[0].object;
+      INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+      INTERSECTED.material.emissive.setHex(0xff0000);
 
-            } else {
+    }
 
-                if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+  } else {
 
-                INTERSECTED = null;
+    if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
 
-            }
-        }
+    INTERSECTED = null;
+
+  }
+}
 
 
 //------------------------------------------Functions------------------------------------------//
@@ -368,7 +369,7 @@ function toggleCamera() {
   if (activeCamera === camera) {
     // Create OrbitControls for camera
     controls = new OrbitControls(activeCamera, renderer.domElement);
-  
+
     controls.update();
 
   } else {
@@ -388,7 +389,7 @@ function toggleCamera() {
     renderer.render(scene, activeCamera);
   });
 
-  
+
 }
 
 
