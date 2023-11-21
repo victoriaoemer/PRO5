@@ -300,12 +300,12 @@ camera2.position.set(-60, 80, 50);
 camera2.lookAt(object.position);
 
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1.4);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 4);
 directionalLight.position.set(100, 100, 100);
 directionalLight.castShadow = true; // Enable shadow casting for the light
 scene.add(directionalLight);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 2); // soft white light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // soft white light
 ambientLight.position.y = 1000
 scene.add(ambientLight);
 
