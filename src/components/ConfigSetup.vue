@@ -84,7 +84,7 @@ glTFLoader.load('src/assets/gltf/Room/room.gltf', function (gltf) {
   fixedObjects.room = gltf.scene;
 });
 
-glTFLoader.load('src/assets/gltf/Room/Room_wireframe.gltf', function (gltf) {
+glTFLoader.load('src/assets/gltf/Room/Room_wireframe02.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
