@@ -331,22 +331,30 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 renderer.domElement.addEventListener('click', onClick, false);
 
-
+const raycastObjects = [];
 
 let INTERSECTED;
 function onClick() {
-  event.preventDefault();
+  for (const key in loadedObjects) {
+  if (Object.hasOwnProperty.call(loadedObjects, key)) {
+    const object = loadedObjects[key];
+    if (object instanceof THREE.Object3D) {
+      raycastObjects.push(object);
+    }
+  }
+}
 
+  event.preventDefault();
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, activeCamera);
 
-  var intersects = raycaster.intersectObjects(scene.children);
+
+  var intersects = raycaster.intersectObjects(raycastObjects);
 
   if (intersects.length > 0) {
     // console.log('Intersection:', intersects[0]);
-    console.log(loadedObjects);
     selectedObjectName = intersects[0].object.name;
     selectedObjectName = selectedObjectName.replace(/_[0-9]/g, '');
     console.log(selectedObjectName);
@@ -368,6 +376,7 @@ function onClick() {
 
   }
 }
+
 
 
 //------------------------------------------Functions------------------------------------------//
