@@ -1,0 +1,516 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v3.3.32",
+        "version" : "2.0"
+    },
+    "extensionsUsed" : [
+        "KHR_materials_specular",
+        "KHR_materials_ior"
+    ],
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "water_tap",
+            "scale" : [
+                0.0010000000474974513,
+                0.0010000000474974513,
+                0.0010000000474974513
+            ]
+        },
+        {
+            "mesh" : 1,
+            "name" : "Mirror",
+            "scale" : [
+                0.0010000000474974513,
+                0.0010000000474974513,
+                0.0010000000474974513
+            ]
+        },
+        {
+            "mesh" : 2,
+            "name" : "Washbasin_wood_handle",
+            "scale" : [
+                0.0010000000474974513,
+                0.0010000000474974513,
+                0.0010000000474974513
+            ]
+        },
+        {
+            "mesh" : 3,
+            "name" : "Washbasin_feets",
+            "scale" : [
+                0.0010000000474974513,
+                0.0010000000474974513,
+                0.0010000000474974513
+            ]
+        },
+        {
+            "mesh" : 4,
+            "name" : "Washbasin.001",
+            "scale" : [
+                0.0010000000474974513,
+                0.0010000000474974513,
+                0.0010000000474974513
+            ]
+        },
+        {
+            "mesh" : 5,
+            "name" : "water_tap.001",
+            "scale" : [
+                0.0010000000474974513,
+                0.0010000000474974513,
+                0.0010000000474974513
+            ]
+        }
+    ],
+    "materials" : [
+        {
+            "doubleSided" : true,
+            "name" : "Ceramik",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.2506840229034424,
+                    0.2506840229034424,
+                    0.2506840229034424,
+                    1
+                ],
+                "metallicFactor" : 0.17834395170211792,
+                "roughnessFactor" : 0.40445858240127563
+            }
+        },
+        {
+            "doubleSided" : true,
+            "name" : "Mirror",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    1
+                ],
+                "metallicFactor" : 0.6815286874771118,
+                "roughnessFactor" : 0
+            }
+        },
+        {
+            "doubleSided" : true,
+            "name" : "Black_m",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.006108888890594244,
+                    0.006108888890594244,
+                    0.006108888890594244,
+                    1
+                ],
+                "metallicFactor" : 0.15286624431610107,
+                "roughnessFactor" : 0.831210196018219
+            }
+        },
+        {
+            "doubleSided" : true,
+            "extensions" : {
+                "KHR_materials_specular" : {
+                    "specularColorFactor" : [
+                        0.7098968407120234,
+                        0.7098968407120234,
+                        0.7098968407120234
+                    ]
+                },
+                "KHR_materials_ior" : {
+                    "ior" : 1.4500000476837158
+                }
+            },
+            "name" : "Watertap",
+            "pbrMetallicRoughness" : {
+                "baseColorFactor" : [
+                    0.11782001703977585,
+                    0.11782001703977585,
+                    0.11782001703977585,
+                    1
+                ],
+                "metallicFactor" : 0.8853503465652466,
+                "roughnessFactor" : 0.5
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Washbasin",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1
+                    },
+                    "indices" : 2,
+                    "material" : 0
+                }
+            ]
+        },
+        {
+            "name" : "Washbasin.001",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 3,
+                        "NORMAL" : 4
+                    },
+                    "indices" : 5,
+                    "material" : 1
+                }
+            ]
+        },
+        {
+            "name" : "Washbasin.003",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 6,
+                        "NORMAL" : 7
+                    },
+                    "indices" : 8,
+                    "material" : 2
+                }
+            ]
+        },
+        {
+            "name" : "Washbasin.004",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 9,
+                        "NORMAL" : 10
+                    },
+                    "indices" : 11,
+                    "material" : 2
+                }
+            ]
+        },
+        {
+            "name" : "Washbasin.005",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 12,
+                        "NORMAL" : 13
+                    },
+                    "indices" : 14,
+                    "material" : 3
+                }
+            ]
+        },
+        {
+            "name" : "Washbasin.006",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 15,
+                        "NORMAL" : 16
+                    },
+                    "indices" : 17,
+                    "material" : 3
+                }
+            ]
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 13598,
+            "max" : [
+                479.88262939453125,
+                976.5833740234375,
+                -4.836806649644032e-11
+            ],
+            "min" : [
+                0,
+                462.1133728027344,
+                -599.6420288085938
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 13598,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5123,
+            "count" : 14118,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5126,
+            "count" : 24,
+            "max" : [
+                479.88262939453125,
+                1798.925537109375,
+                -5.730171892537328e-11
+            ],
+            "min" : [
+                475.88262939453125,
+                1199.2838134765625,
+                -599.6420288085938
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 4,
+            "componentType" : 5126,
+            "count" : 24,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 5,
+            "componentType" : 5123,
+            "count" : 36,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 6,
+            "componentType" : 5126,
+            "count" : 201,
+            "max" : [
+                148.11196899414062,
+                628.41796875,
+                -44.010345458984375
+            ],
+            "min" : [
+                106.25491333007812,
+                610.6444091796875,
+                -113.83473205566406
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 7,
+            "componentType" : 5126,
+            "count" : 201,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 8,
+            "componentType" : 5123,
+            "count" : 264,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 9,
+            "componentType" : 5126,
+            "count" : 16795,
+            "max" : [
+                456.1850280761719,
+                26.660146713256836,
+                -15.869355201721191
+            ],
+            "min" : [
+                172.0213623046875,
+                0,
+                -583.9846801757812
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 10,
+            "componentType" : 5126,
+            "count" : 16795,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 11,
+            "componentType" : 5123,
+            "count" : 17076,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 12,
+            "componentType" : 5126,
+            "count" : 10986,
+            "max" : [
+                457.1814270019531,
+                976.5833740234375,
+                -277.82958984375
+            ],
+            "min" : [
+                325.148681640625,
+                839.5833740234375,
+                -321.81243896484375
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 13,
+            "componentType" : 5126,
+            "count" : 10986,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 14,
+            "componentType" : 5123,
+            "count" : 11544,
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 15,
+            "componentType" : 5126,
+            "count" : 749,
+            "max" : [
+                389.01666259765625,
+                816.5626220703125,
+                -271.0210266113281
+            ],
+            "min" : [
+                267.2462463378906,
+                728.3956909179688,
+                -328.62103271484375
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 16,
+            "componentType" : 5126,
+            "count" : 749,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 17,
+            "componentType" : 5123,
+            "count" : 852,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 163176,
+            "byteOffset" : 0,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 163176,
+            "byteOffset" : 163176,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 28236,
+            "byteOffset" : 326352,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 288,
+            "byteOffset" : 354588,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 288,
+            "byteOffset" : 354876,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 72,
+            "byteOffset" : 355164,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 2412,
+            "byteOffset" : 355236,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 2412,
+            "byteOffset" : 357648,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 528,
+            "byteOffset" : 360060,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 201540,
+            "byteOffset" : 360588,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 201540,
+            "byteOffset" : 562128,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 34152,
+            "byteOffset" : 763668,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 131832,
+            "byteOffset" : 797820,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 131832,
+            "byteOffset" : 929652,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 23088,
+            "byteOffset" : 1061484,
+            "target" : 34963
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 8988,
+            "byteOffset" : 1084572,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 8988,
+            "byteOffset" : 1093560,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 1704,
+            "byteOffset" : 1102548,
+            "target" : 34963
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 1104252,
+            "uri" : "washbasin_stuff.bin"
+        }
+    ]
+}
