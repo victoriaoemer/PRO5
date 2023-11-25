@@ -84,6 +84,15 @@ glTFLoader.load('/assets/gltf/Room/room_start.gltf', function (gltf) {
   fixedObjects.room = gltf.scene;
 });
 
+glTFLoader.load('/assets/gltf/Room/lights.gltf', function (gltf) {
+  gltf.scene.scale.set(50, 50, 50);
+  gltf.scene.position.set(-110, 0, 210);
+  gltf.scene.rotateY(0);
+  scene.add(gltf.scene);
+
+  fixedObjects.room = gltf.scene;
+});
+
 /*
 glTFLoader.load('/assets/gltf/Room/room_wire.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
@@ -311,12 +320,22 @@ camera2.position.set(-60, 80, 50);
 camera2.lookAt(object.position);
 
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 4);
-directionalLight.position.set(100, 100, 100);
-directionalLight.castShadow = true; // Enable shadow casting for the light
-scene.add(directionalLight);
+const AreaLight = new THREE.RectAreaLight(0xffffff, 1500);
+AreaLight.position.set(10, 150, 185);
+AreaLight.castShadow = true; // Enable shadow casting for the light
+scene.add(AreaLight);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // soft white light
+const AreaLight02 = new THREE.RectAreaLight(0xffffff, 500);
+AreaLight02.position.set(-100, 50, -100);
+AreaLight02.castShadow = true; // Enable shadow casting for the light
+scene.add(AreaLight02);
+
+const AreaLight03 = new THREE.RectAreaLight(0xffffff, 1500);
+AreaLight03.position.set(-100, 150, 120);
+AreaLight03.castShadow = true; // Enable shadow casting for the light
+scene.add(AreaLight03);
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.1); // soft white light
 ambientLight.position.y = 1000
 scene.add(ambientLight);
 
