@@ -170,8 +170,8 @@ glTFLoader.load('/assets/gltf/Bed_sep/bedwood.gltf', function (gltf) {
 });
 
 glTFLoader.load('/assets/gltf/Garderobe/garderobe.gltf', function (gltf) {
-  gltf.scene.scale.set(50, 50, 50);
-  gltf.scene.position.set(-35, 0, -142);
+  gltf.scene.scale.set(60, 60, 57);
+  gltf.scene.position.set(-35, 0, -143);
   gltf.scene.rotateY(0);
 
   loadedObjects.garderobe = gltf.scene;
@@ -345,8 +345,8 @@ function onClick() {
 }
 
   event.preventDefault();
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+  mouse.x = (event.clientX / (window.innerWidth)) * 2 - 1;
+  mouse.y = - (event.clientY / (window.innerHeight)) * 2 + 1;
 
   raycaster.setFromCamera(mouse, activeCamera);
 
