@@ -75,7 +75,7 @@ onMounted(() => {
 
 const glTFLoader = new GLTFLoader();
 
-glTFLoader.load('/assets/gltf/Room/room.gltf', function (gltf) {
+glTFLoader.load('/assets/gltf/Room/room_start.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
@@ -85,15 +85,15 @@ glTFLoader.load('/assets/gltf/Room/room.gltf', function (gltf) {
 });
 
 /*
-glTFLoader.load('/assets/gltf/Room/room_wireframe02.gltf', function (gltf) {
+glTFLoader.load('/assets/gltf/Room/room_wire.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
   scene.add(gltf.scene);
 
   fixedObjects.room_wireframe = gltf.scene;
-});
-*/
+});*/
+
 
 glTFLoader.load('/assets/gltf/Room/floor.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
