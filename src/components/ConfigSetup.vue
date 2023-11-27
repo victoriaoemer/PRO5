@@ -41,12 +41,12 @@ let activeCamera = camera;
 
 let textureIndex = 1;
 const textures = [
-  '/assets/gltf/text/Gold_wood.jpg',
-  '/assets/gltf/text/Birch_wood.jpg',
-  '/assets/gltf/text/ply_wood.jpg',
+  '/PRO5/assets/gltf/text/Gold_wood.jpg',
+  '/PRO5/assets/gltf/text/Birch_wood.jpg',
+  '/PRO5/assets/gltf/text/ply_wood.jpg',
   //'src/assets/gltf/text/adthe.jpg',
 ]
-const textureloader = new THREE.TextureLoader().load('/assets/gltf/text/Gold_wood.jpg');
+const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
 
 
 const scene = new THREE.Scene();
@@ -75,7 +75,7 @@ onMounted(() => {
 
 const glTFLoader = new GLTFLoader();
 
-glTFLoader.load('/assets/gltf/Room/room_start.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Room/room_start.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
@@ -84,7 +84,7 @@ glTFLoader.load('/assets/gltf/Room/room_start.gltf', function (gltf) {
   fixedObjects.room = gltf.scene;
 });
 
-glTFLoader.load('/assets/gltf/Room/lights.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Room/lights.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
@@ -104,7 +104,7 @@ glTFLoader.load('/assets/gltf/Room/room_wire.gltf', function (gltf) {
 });*/
 
 
-glTFLoader.load('/assets/gltf/Room/floor.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Room/floor.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
@@ -113,7 +113,7 @@ glTFLoader.load('/assets/gltf/Room/floor.gltf', function (gltf) {
   fixedObjects.floor = gltf.scene;
 });
 
-glTFLoader.load('/assets/gltf/Room/mirror_room.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Room/mirror_room.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
@@ -122,7 +122,7 @@ glTFLoader.load('/assets/gltf/Room/mirror_room.gltf', function (gltf) {
   //fixedObjects.mirror_room = gltf.scene;
 });
 
-glTFLoader.load('/assets/gltf/Room/doors.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Room/doors.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
@@ -131,7 +131,7 @@ glTFLoader.load('/assets/gltf/Room/doors.gltf', function (gltf) {
   fixedObjects.doors = gltf.scene;
 });
 
-glTFLoader.load('/assets/gltf/Closet_sep/closet.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Closet_sep/closet.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-70, 10, 165);
   gltf.scene.rotateY(1.55);
@@ -145,7 +145,7 @@ glTFLoader.load('/assets/gltf/Closet_sep/closet.gltf', function (gltf) {
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/assets/gltf/Closet_sep/closet_handle.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Closet_sep/closet_handle.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-70, 10, 165);
   gltf.scene.rotateY(1.55);
@@ -154,7 +154,7 @@ glTFLoader.load('/assets/gltf/Closet_sep/closet_handle.gltf', function (gltf) {
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/assets/gltf/Bed_sep/bed_stuff.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Bed_sep/bed_stuff.gltf', function (gltf) {
   gltf.scene.scale.set(0.5, 0.5, 0.5);
   gltf.scene.position.set(0, 10, 85);
   gltf.scene.rotateY(-1.55);
@@ -164,7 +164,7 @@ glTFLoader.load('/assets/gltf/Bed_sep/bed_stuff.gltf', function (gltf) {
   //no texture
 });
 
-glTFLoader.load('/assets/gltf/Bed_sep/bedwood.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Bed_sep/bedwood.gltf', function (gltf) {
   gltf.scene.scale.set(0.5, 0.5, 0.5);
   gltf.scene.position.set(0, 10, 85);
   gltf.scene.rotateY(-1.55);
@@ -178,7 +178,7 @@ glTFLoader.load('/assets/gltf/Bed_sep/bedwood.gltf', function (gltf) {
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/assets/gltf/Garderobe/garderobe.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Garderobe/garderobe.gltf', function (gltf) {
   gltf.scene.scale.set(60, 60, 57);
   gltf.scene.position.set(-35, 0, -143);
   gltf.scene.rotateY(0);
@@ -192,7 +192,7 @@ glTFLoader.load('/assets/gltf/Garderobe/garderobe.gltf', function (gltf) {
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/assets/gltf/LowChair_sep/lowChair_feet.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/LowChair_sep/lowChair_feet.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(10, 10, 160);
   gltf.scene.rotateY(1.55);
@@ -201,7 +201,7 @@ glTFLoader.load('/assets/gltf/LowChair_sep/lowChair_feet.gltf', function (gltf) 
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/assets/gltf/LowChair_sep/lowChair_wood.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/LowChair_sep/lowChair_wood.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(10, 10, 160);
   gltf.scene.rotateY(1.55);
@@ -215,7 +215,7 @@ glTFLoader.load('/assets/gltf/LowChair_sep/lowChair_wood.gltf', function (gltf) 
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/assets/gltf/HighChair_sep/highChair_wood.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/HighChair_sep/highChair_wood.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-40, 10, -5);
   gltf.scene.rotateY(1.5);
@@ -229,7 +229,7 @@ glTFLoader.load('/assets/gltf/HighChair_sep/highChair_wood.gltf', function (gltf
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/assets/gltf/HighChair_sep/highChair_feet.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/HighChair_sep/highChair_feet.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-40, 10, -5);
   gltf.scene.rotateY(1.5);
@@ -238,7 +238,7 @@ glTFLoader.load('/assets/gltf/HighChair_sep/highChair_feet.gltf', function (gltf
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/assets/gltf/Kitchen_sep/kitchen_wood.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchen_wood.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-35, 10, 16);
   gltf.scene.rotateY(0);
@@ -252,7 +252,7 @@ glTFLoader.load('/assets/gltf/Kitchen_sep/kitchen_wood.gltf', function (gltf) {
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/assets/gltf/Kitchen_sep/kitchen_stuff.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchen_stuff.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-35, 10, 16);
   gltf.scene.rotateY(0);
@@ -261,7 +261,7 @@ glTFLoader.load('/assets/gltf/Kitchen_sep/kitchen_stuff.gltf', function (gltf) {
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/assets/gltf/Washbasin_sep/washbasin_stuff.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_stuff.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(0, 10, -75);
   gltf.scene.rotateY(-1.55);
@@ -270,7 +270,7 @@ glTFLoader.load('/assets/gltf/Washbasin_sep/washbasin_stuff.gltf', function (glt
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/assets/gltf/Washbasin_sep/washbasin_wood.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_wood.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(0, 10, -75);
   gltf.scene.rotateY(-1.55);
@@ -284,7 +284,7 @@ glTFLoader.load('/assets/gltf/Washbasin_sep/washbasin_wood.gltf', function (gltf
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
   gltf.scene.scale.set(5, 5, 5);
   gltf.scene.position.set(37, 10, 160);
 
@@ -299,7 +299,7 @@ glTFLoader.load('/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
 
 //------------------------------------------Additional objects to toggle------------------------------------------//
 
-glTFLoader.load('/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
   gltf.scene.scale.set(5, 5, 5);
   gltf.scene.position.set(45, 47, 181);
   gltf.scene.rotateY(-2.5);
