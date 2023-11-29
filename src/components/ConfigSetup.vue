@@ -335,6 +335,7 @@ const raycastObjects = [];
 
 let INTERSECTED;
 function onClick() {
+  //only loaded objects are selectable
   for (const key in loadedObjects) {
   if (Object.hasOwnProperty.call(loadedObjects, key)) {
     const object = loadedObjects[key];
