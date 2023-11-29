@@ -93,7 +93,7 @@ glTFLoader.load('/PRO5/assets/gltf/Room/lights.gltf', function (gltf) {
   fixedObjects.room = gltf.scene;
 });
 
-/*
+
 glTFLoader.load('/assets/gltf/Room/room_wire.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
@@ -101,7 +101,7 @@ glTFLoader.load('/assets/gltf/Room/room_wire.gltf', function (gltf) {
   scene.add(gltf.scene);
 
   fixedObjects.room_wireframe = gltf.scene;
-});*/
+});
 
 
 glTFLoader.load('/PRO5/assets/gltf/Room/floor.gltf', function (gltf) {
