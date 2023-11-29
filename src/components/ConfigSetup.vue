@@ -320,22 +320,22 @@ camera2.position.set(-60, 80, 50);
 camera2.lookAt(object.position);
 
 
-const AreaLight = new THREE.RectAreaLight(0xffffff, 1500);
-AreaLight.position.set(10, 150, 185);
+const AreaLight = new THREE.RectAreaLight(0xffffff, 500);
+AreaLight.position.set(0, 100, 195); //(x,y,z)
 AreaLight.castShadow = true; // Enable shadow casting for the light
 scene.add(AreaLight);
 
 const AreaLight02 = new THREE.RectAreaLight(0xffffff, 500);
-AreaLight02.position.set(-100, 50, -100);
+AreaLight02.position.set(-100, 100, -20);
 AreaLight02.castShadow = true; // Enable shadow casting for the light
 scene.add(AreaLight02);
 
 const AreaLight03 = new THREE.RectAreaLight(0xffffff, 1500);
-AreaLight03.position.set(-100, 150, 120);
+AreaLight03.position.set(-100, 100, 120);
 AreaLight03.castShadow = true; // Enable shadow casting for the light
 scene.add(AreaLight03);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.1); // soft white light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // soft white light
 ambientLight.position.y = 1000
 scene.add(ambientLight);
 
