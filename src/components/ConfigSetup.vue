@@ -363,13 +363,12 @@ function onClick() {
     }
   }
 }
+var canvasPosition = renderer.domElement.getBoundingClientRect();
 
   event.preventDefault();
-  mouse.x = (event.clientX / (renderer.domElement.clientWidth)) * 2 - 1;
-  mouse.y = - (event.clientY / (renderer.domElement.clientHeight)) * 2 + 1;
+  mouse.x = ((event.clientX - canvasPosition.left)/ (renderer.domElement.clientWidth)) * 2 - 1;
+  mouse.y = - ((event.clientY - canvasPosition.top) / (renderer.domElement.clientHeight)) * 2 + 1;
   raycaster.setFromCamera(mouse, activeCamera);
-
-
   var intersects = raycaster.intersectObjects(raycastObjects);
 
   if (intersects.length > 0) {
