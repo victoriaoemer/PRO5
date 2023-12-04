@@ -265,10 +265,6 @@ glTFLoader.load('/PRO5/assets/gltf/HighChair_sep/highChair_wood.gltf', function 
     if (node instanceof THREE.Mesh) {
       node.material.map = textureloader;
       node.castShadow = true;
-      node.material.shading = THREE.SmoothShading;
-      
-
-
     }
   });
   scene.add(gltf.scene);
@@ -314,8 +310,6 @@ glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchen_stuff.gltf', function (gl
   gltf.scene.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
       node.castShadow = true;
-      node.material.shading = THREE.SmoothShading;
-
     }
   });
 });
