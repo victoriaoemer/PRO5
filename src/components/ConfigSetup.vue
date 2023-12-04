@@ -28,6 +28,13 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls'
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
+import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
+//Modules below are regarded to shader
+import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
+import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
+
 
 import { onMounted, render } from 'vue';
 const loadedObjects = {};
@@ -37,6 +44,8 @@ const fixedObjects = {};
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 const camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 let activeCamera = camera;
+
+
 
 
 let textureIndex = 1;
@@ -53,7 +62,9 @@ const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+const composer = new EffectComposer(renderer);
+
+
 let controls = new OrbitControls(activeCamera, renderer.domElement);
 
 
@@ -69,10 +80,27 @@ onMounted(() => {
   } else {
     console.error('Container-Element not found.');
   }
-
+  renderer.domElement.addEventListener('mousemove', onMouseMove, false);
+  renderer.domElement.addEventListener('mouseout', onMouseOut, false);
 });
 
+function onMouseMove(event) {
+  const canvasPosition = renderer.domElement.getBoundingClientRect();
+  mouse.x = ((event.clientX - canvasPosition.left) / (renderer.domElement.clientWidth)) * 2 - 1;
+  mouse.y = -((event.clientY - canvasPosition.top) / (renderer.domElement.clientHeight)) * 2 + 1;
+  raycaster.setFromCamera(mouse, activeCamera);
+  const intersects = raycaster.intersectObjects(raycastObjects);
 
+  if (intersects.length > 0) {
+    outlinePass.selectedObjects = [intersects[0].object];
+  } else {
+    outlinePass.selectedObjects = [];
+  }
+}
+
+function onMouseOut() {
+  outlinePass.selectedObjects = [];
+}
 //------------------------------------------Load Objects------------------------------------------//
 
 
@@ -451,10 +479,20 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 0.9); // soft white light
 ambientLight.position.y = 1000
 scene.add(ambientLight);
 
+const renderPass = new RenderPass( scene, camera );
+composer.addPass( renderPass );
+
+const outlinePass= new OutlinePass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight), //resolution parameter
+      scene,
+      camera
+);
+composer.addPass( outlinePass );
+
 
 const animate = () => {
   requestAnimationFrame(animate);
-  renderer.render(scene, activeCamera);
+  composer.render(); //If you don't put delta time to render function, it use default delta time parameter.
 }
 animate();
 
