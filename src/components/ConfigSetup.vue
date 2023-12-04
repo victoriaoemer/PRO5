@@ -419,7 +419,7 @@ camera2.lookAt(object.position);
 // AreaLight03.castShadow = true; // Enable shadow casting for the light
 // scene.add(AreaLight03);
 
-const pointLight = new THREE.PointLight(0xffffff, 10000);
+const pointLight = new THREE.PointLight(0xffffff, 18000);
 pointLight.position.set(-30, 120, 30);
 pointLight.castShadow = true; // Enable shadow casting for the light
 pointLight.shadow.mapSize.width = 512; // default
@@ -429,7 +429,7 @@ pointLight.shadow.camera.far = 300; // default
 
 scene.add(pointLight);
 
-const pointlight1 = new THREE.PointLight(0xffffff, 1000);
+const pointlight1 = new THREE.PointLight(0xffffff, 1400);
 pointlight1.position.set(0, 120, -100);
 pointlight1.castShadow = true; // Enable shadow casting for the light
 pointlight1.shadow.mapSize.width = 512; // default
@@ -438,7 +438,7 @@ pointlight1.shadow.camera.near = 0.5; // default
 pointlight1.shadow.camera.far = 300; // default
 scene.add(pointlight1);
 
-const pointlight2 = new THREE.PointLight(0xffffff, 1200);
+const pointlight2 = new THREE.PointLight(0xffffff, 3000);
 pointlight2.position.set(-80, 80, -120);
 pointlight2.castShadow = true; // Enable shadow casting for the light
 pointlight2.shadow.mapSize.width = 512; // default
@@ -447,7 +447,7 @@ pointlight2.shadow.camera.near = 0.5; // default
 pointlight2.shadow.camera.far = 300; // default
 scene.add(pointlight2);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // soft white light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.9); // soft white light
 ambientLight.position.y = 1000
 scene.add(ambientLight);
 
