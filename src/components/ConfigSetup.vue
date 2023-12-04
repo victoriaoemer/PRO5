@@ -29,7 +29,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls'
 
-import { onMounted } from 'vue';
+import { onMounted, render } from 'vue';
 const loadedObjects = {};
 const fixedObjects = {};
 
@@ -52,7 +52,10 @@ const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gol
 const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 let controls = new OrbitControls(activeCamera, renderer.domElement);
+
 
 
 let object = new THREE.Group();
@@ -82,6 +85,12 @@ glTFLoader.load('/PRO5/assets/gltf/Room/room_start.gltf', function (gltf) {
   scene.add(gltf.scene);
 
   fixedObjects.room = gltf.scene;
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
+
 });
 
 glTFLoader.load('/PRO5/assets/gltf/Room/lights.gltf', function (gltf) {
@@ -91,6 +100,11 @@ glTFLoader.load('/PRO5/assets/gltf/Room/lights.gltf', function (gltf) {
   scene.add(gltf.scene);
 
   fixedObjects.room = gltf.scene;
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
 });
 
 
@@ -111,6 +125,11 @@ glTFLoader.load('/PRO5/assets/gltf/Room/floor.gltf', function (gltf) {
   scene.add(gltf.scene);
 
   fixedObjects.floor = gltf.scene;
+  fixedObjects.floor.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.receiveShadow = true;
+    }
+  });
 });
 
 glTFLoader.load('/PRO5/assets/gltf/Room/mirror_room.gltf', function (gltf) {
@@ -140,6 +159,7 @@ glTFLoader.load('/PRO5/assets/gltf/Closet_sep/closet.gltf', function (gltf) {
   loadedObjects.closet.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
       node.material.map = textureloader;
+      node.castShadow = true;
     }
   });
   scene.add(gltf.scene);
@@ -152,6 +172,11 @@ glTFLoader.load('/PRO5/assets/gltf/Closet_sep/closet_handle.gltf', function (glt
 
   //loadedObjects.closethandle = gltf.scene;
   scene.add(gltf.scene);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
 });
 
 glTFLoader.load('/PRO5/assets/gltf/Bed_sep/bed_stuff.gltf', function (gltf) {
@@ -160,6 +185,12 @@ glTFLoader.load('/PRO5/assets/gltf/Bed_sep/bed_stuff.gltf', function (gltf) {
   gltf.scene.rotateY(-1.55);
   scene.add(gltf.scene);
 
+
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
   //loadedObjects.bedstuff = gltf.scene;
   //no texture
 });
@@ -173,6 +204,7 @@ glTFLoader.load('/PRO5/assets/gltf/Bed_sep/bedwood.gltf', function (gltf) {
   loadedObjects.bedwood.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
       node.material.map = textureloader;
+      node.castShadow = true;
     }
   });
   scene.add(gltf.scene);
@@ -187,6 +219,7 @@ glTFLoader.load('/PRO5/assets/gltf/Garderobe/garderobe.gltf', function (gltf) {
   loadedObjects.garderobe.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
       node.material.map = textureloader;
+      node.castShadow = true;
     }
   });
   scene.add(gltf.scene);
@@ -199,6 +232,11 @@ glTFLoader.load('/PRO5/assets/gltf/LowChair_sep/lowChair_feet.gltf', function (g
 
   //loadedObjects.lowchairfeets = gltf.scene;
   scene.add(gltf.scene);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
 });
 
 glTFLoader.load('/PRO5/assets/gltf/LowChair_sep/lowChair_wood.gltf', function (gltf) {
@@ -210,6 +248,7 @@ glTFLoader.load('/PRO5/assets/gltf/LowChair_sep/lowChair_wood.gltf', function (g
   loadedObjects.lowchairwood.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
       node.material.map = textureloader;
+      node.castShadow = true;
     }
   });
   scene.add(gltf.scene);
@@ -220,10 +259,16 @@ glTFLoader.load('/PRO5/assets/gltf/HighChair_sep/highChair_wood.gltf', function 
   gltf.scene.position.set(-40, 10, -5);
   gltf.scene.rotateY(1.5);
 
+  
   loadedObjects.highchairwood = gltf.scene;
   loadedObjects.highchairwood.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
       node.material.map = textureloader;
+      node.castShadow = true;
+      node.material.shading = THREE.SmoothShading;
+      
+
+
     }
   });
   scene.add(gltf.scene);
@@ -236,6 +281,11 @@ glTFLoader.load('/PRO5/assets/gltf/HighChair_sep/highChair_feet.gltf', function 
 
   //loadedObjects.highchairfeet = gltf.scene;
   scene.add(gltf.scene);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
 });
 
 glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchen_wood.gltf', function (gltf) {
@@ -247,6 +297,8 @@ glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchen_wood.gltf', function (glt
   loadedObjects.kitchen.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
       node.material.map = textureloader;
+      node.castShadow = true;
+      // node.receiveShadow = true;
     }
   });
   scene.add(gltf.scene);
@@ -259,6 +311,13 @@ glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchen_stuff.gltf', function (gl
 
   //loadedObjects.kitchenstuff = gltf.scene;
   scene.add(gltf.scene);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+      node.material.shading = THREE.SmoothShading;
+
+    }
+  });
 });
 
 glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_stuff.gltf', function (gltf) {
@@ -268,6 +327,11 @@ glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_stuff.gltf', function
 
   //loadedObjects.washbasinstuff = gltf.scene;
   scene.add(gltf.scene);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
 });
 
 glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_wood.gltf', function (gltf) {
@@ -279,6 +343,7 @@ glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_wood.gltf', function 
   loadedObjects.washbasin.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
       node.material.map = textureloader;
+      node.castShadow = true;
     }
   });
   scene.add(gltf.scene);
@@ -292,6 +357,7 @@ glTFLoader.load('/PRO5/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
   loadedObjects.desk.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
       node.material.map = textureloader;
+      node.castShadow = true;
     }
   });
   scene.add(gltf.scene);
@@ -304,9 +370,33 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
   gltf.scene.position.set(45, 47, 181);
   gltf.scene.rotateY(-2.5);
   scene.add(gltf.scene);
-
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
   fixedObjects.desklamp = gltf.scene;
+
 });
+
+// const floorGeometry = new THREE.PlaneGeometry(100, 100, 100, 1);
+// const floorMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 0 });
+// const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+// floor.rotation.x = -0.5 * Math.PI;
+// floor.translateZ(20);	
+// floor.receiveShadow = true;
+
+// scene.add(floor);
+
+// const floor11Geometry = new THREE.PlaneGeometry(100, 100, 100, 1);
+// const floor11Material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 0 });
+// const floor1 = new THREE.Mesh(floor11Geometry, floor11Material);
+// floor1.rotation.x = -0.5 * Math.PI;
+// floor1.translateZ(12);	
+// floor1.receiveShadow = true;
+
+// scene.add(floor1);
+
 
 
 
@@ -320,20 +410,48 @@ camera2.position.set(-60, 80, 50);
 camera2.lookAt(object.position);
 
 
-const AreaLight = new THREE.RectAreaLight(0xffffff, 500);
-AreaLight.position.set(0, 100, 195); //(x,y,z)
-AreaLight.castShadow = true; // Enable shadow casting for the light
-scene.add(AreaLight);
+// const AreaLight = new THREE.RectAreaLight(0xffffff, 500);
+// AreaLight.position.set(0, 100, 195); //(x,y,z)
+// AreaLight.castShadow = true; // Enable shadow casting for the light
+// scene.add(AreaLight);
 
-const AreaLight02 = new THREE.RectAreaLight(0xffffff, 500);
-AreaLight02.position.set(-100, 100, -20);
-AreaLight02.castShadow = true; // Enable shadow casting for the light
-scene.add(AreaLight02);
+// const AreaLight02 = new THREE.RectAreaLight(0xffffff, 500);
+// AreaLight02.position.set(-100, 100, -20);
+// AreaLight02.castShadow = true; // Enable shadow casting for the light
+// scene.add(AreaLight02);
 
-const AreaLight03 = new THREE.RectAreaLight(0xffffff, 1500);
-AreaLight03.position.set(-100, 100, 120);
-AreaLight03.castShadow = true; // Enable shadow casting for the light
-scene.add(AreaLight03);
+// const AreaLight03 = new THREE.RectAreaLight(0xffffff, 1500);
+// AreaLight03.position.set(-100, 100, 120);
+// AreaLight03.castShadow = true; // Enable shadow casting for the light
+// scene.add(AreaLight03);
+
+const pointLight = new THREE.PointLight(0xffffff, 10000);
+pointLight.position.set(-30, 120, 30);
+pointLight.castShadow = true; // Enable shadow casting for the light
+pointLight.shadow.mapSize.width = 512; // default
+pointLight.shadow.mapSize.height = 512; // default
+pointLight.shadow.camera.near = 0.5; // default
+pointLight.shadow.camera.far = 300; // default
+
+scene.add(pointLight);
+
+const pointlight1 = new THREE.PointLight(0xffffff, 1000);
+pointlight1.position.set(0, 120, -100);
+pointlight1.castShadow = true; // Enable shadow casting for the light
+pointlight1.shadow.mapSize.width = 512; // default
+pointlight1.shadow.mapSize.height = 512; // default
+pointlight1.shadow.camera.near = 0.5; // default
+pointlight1.shadow.camera.far = 300; // default
+scene.add(pointlight1);
+
+const pointlight2 = new THREE.PointLight(0xffffff, 1200);
+pointlight2.position.set(-80, 80, -120);
+pointlight2.castShadow = true; // Enable shadow casting for the light
+pointlight2.shadow.mapSize.width = 512; // default
+pointlight2.shadow.mapSize.height = 512; // default
+pointlight2.shadow.camera.near = 0.5; // default
+pointlight2.shadow.camera.far = 300; // default
+scene.add(pointlight2);
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // soft white light
 ambientLight.position.y = 1000
@@ -356,17 +474,17 @@ let INTERSECTED;
 function onClick() {
   //only loaded objects are selectable
   for (const key in loadedObjects) {
-  if (Object.hasOwnProperty.call(loadedObjects, key)) {
-    const object = loadedObjects[key];
-    if (object instanceof THREE.Object3D) {
-      raycastObjects.push(object);
+    if (Object.hasOwnProperty.call(loadedObjects, key)) {
+      const object = loadedObjects[key];
+      if (object instanceof THREE.Object3D) {
+        raycastObjects.push(object);
+      }
     }
   }
-}
-var canvasPosition = renderer.domElement.getBoundingClientRect();
+  var canvasPosition = renderer.domElement.getBoundingClientRect();
 
   event.preventDefault();
-  mouse.x = ((event.clientX - canvasPosition.left)/ (renderer.domElement.clientWidth)) * 2 - 1;
+  mouse.x = ((event.clientX - canvasPosition.left) / (renderer.domElement.clientWidth)) * 2 - 1;
   mouse.y = - ((event.clientY - canvasPosition.top) / (renderer.domElement.clientHeight)) * 2 + 1;
   raycaster.setFromCamera(mouse, activeCamera);
   var intersects = raycaster.intersectObjects(raycastObjects);
