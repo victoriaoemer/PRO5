@@ -108,7 +108,7 @@ glTFLoader.load('/PRO5/assets/gltf/Room/lights.gltf', function (gltf) {
 });
 
 
-glTFLoader.load('/assets/gltf/Room/room_wire.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Room/room_wire.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
@@ -533,6 +533,8 @@ function toggleCamera() {
     // Create PointerLockControls for camera2 (first-person)
     controls = new PointerLockControls(activeCamera, renderer.domElement);
     controls.enabled = true;
+
+    
 
     // Enable pointer lock on click for first-person controls
     const element = renderer.domElement;
