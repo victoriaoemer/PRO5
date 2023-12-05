@@ -62,7 +62,7 @@ const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
-const composer = new EffectComposer(renderer);
+// const composer = new EffectComposer(renderer);
 
 
 let controls = new OrbitControls(activeCamera, renderer.domElement);
@@ -80,27 +80,27 @@ onMounted(() => {
   } else {
     console.error('Container-Element not found.');
   }
-  renderer.domElement.addEventListener('mousemove', onMouseMove, false);
-  renderer.domElement.addEventListener('mouseout', onMouseOut, false);
+  // renderer.domElement.addEventListener('mousemove', onMouseMove, false);
+  // renderer.domElement.addEventListener('mouseout', onMouseOut, false);
 });
 
-function onMouseMove(event) {
-  const canvasPosition = renderer.domElement.getBoundingClientRect();
-  mouse.x = ((event.clientX - canvasPosition.left) / (renderer.domElement.clientWidth)) * 2 - 1;
-  mouse.y = -((event.clientY - canvasPosition.top) / (renderer.domElement.clientHeight)) * 2 + 1;
-  raycaster.setFromCamera(mouse, activeCamera);
-  const intersects = raycaster.intersectObjects(raycastObjects);
+// function onMouseMove(event) {
+//   const canvasPosition = renderer.domElement.getBoundingClientRect();
+//   mouse.x = ((event.clientX - canvasPosition.left) / (renderer.domElement.clientWidth)) * 2 - 1;
+//   mouse.y = -((event.clientY - canvasPosition.top) / (renderer.domElement.clientHeight)) * 2 + 1;
+//   raycaster.setFromCamera(mouse, activeCamera);
+//   const intersects = raycaster.intersectObjects(raycastObjects);
 
-  if (intersects.length > 0) {
-    outlinePass.selectedObjects = [intersects[0].object];
-  } else {
-    outlinePass.selectedObjects = [];
-  }
-}
+//   if (intersects.length > 0) {
+//     outlinePass.selectedObjects = [intersects[0].object];
+//   } else {
+//     outlinePass.selectedObjects = [];
+//   }
+// }
 
-function onMouseOut() {
-  outlinePass.selectedObjects = [];
-}
+// function onMouseOut() {
+//   outlinePass.selectedObjects = [];
+// }
 //------------------------------------------Load Objects------------------------------------------//
 
 
@@ -287,7 +287,7 @@ glTFLoader.load('/PRO5/assets/gltf/HighChair_sep/highChair_wood.gltf', function 
   gltf.scene.position.set(-40, 10, -5);
   gltf.scene.rotateY(1.5);
 
-  
+
   loadedObjects.highchairwood = gltf.scene;
   loadedObjects.highchairwood.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
@@ -479,20 +479,21 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 2); // soft white light
 ambientLight.position.y = 1000
 scene.add(ambientLight);
 
-const renderPass = new RenderPass( scene, camera );
-composer.addPass( renderPass );
+// const renderPass = new RenderPass(scene, camera);
+// composer.addPass(renderPass);
 
-const outlinePass= new OutlinePass(
-      new THREE.Vector2(window.innerWidth, window.innerHeight), //resolution parameter
-      scene,
-      camera
-);
-composer.addPass( outlinePass );
+// const outlinePass = new OutlinePass(
+//   new THREE.Vector2(window.innerWidth, window.innerHeight), //resolution parameter
+//   scene,
+//   camera
+// );
+// composer.addPass(outlinePass);
 
 
 const animate = () => {
   requestAnimationFrame(animate);
-  composer.render(); //If you don't put delta time to render function, it use default delta time parameter.
+  //composer.render();
+  renderer.render(scene, activeCamera)
 }
 animate();
 
@@ -566,7 +567,7 @@ function toggleCamera() {
     controls = new PointerLockControls(activeCamera, renderer.domElement);
     controls.enabled = true;
 
-    
+
 
     // Enable pointer lock on click for first-person controls
     const element = renderer.domElement;
