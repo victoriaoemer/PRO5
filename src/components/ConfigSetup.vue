@@ -4,6 +4,7 @@
     <div class="ui">
       <button @click="hideWalls">Toggle Walls</button>
       <button @click="hideDesklamp">Toggle Desk lamp</button>
+      <button @click="saveData">Save Data</button>
       <div class="buttonContainer">
         <p>change all textures</p>
         <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeAllTextures(index)">
@@ -34,6 +35,8 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 //Modules below are regarded to shader
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
+
+import jsPDF from 'jspdf';
 
 
 import { onMounted, render } from 'vue';
@@ -597,6 +600,26 @@ function hideWalls() {
   toggleVisibility('room');
 }
 
+function saveData() {
+  renderer.render(scene, activeCamera);
+  const canvas = document.getElementsByTagName("canvas", {preserveDrawingBuffer: true})[0];
+  //var context = canvas.getContext("experimental-webgl", );
+  //canvas.preserveDrawingBuffer = true;
+  const image = canvas.toDataURL("image/png");
+  /*const a = document.createElement("a");
+  a.href = image.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+  a.download="image.png"
+  a.click();*/
+
+  var pdf = new jsPDF();
+  pdf.addImage(image, 'PNG', 10, 0, 200, 180);
+  pdf.save("download.pdf");
+
+  
+
+
+}
+
 function hideDesklamp() {
   toggleVisibility('desklamp');
 }
@@ -698,4 +721,5 @@ canvas {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 10px;
 }
+
 </style>
