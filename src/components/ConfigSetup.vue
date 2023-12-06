@@ -54,8 +54,8 @@ let activeCamera = camera;
 let textureIndex = 1;
 const textures = [
   '/PRO5/assets/gltf/text/Gold_wood.jpg',
-  '/PRO5/assets/gltf/text/Birch_wood.jpg',
-  '/PRO5/assets/gltf/text/ply_wood.jpg',
+  '/PRO5/assets/gltf/text/plywood03.jpg',
+  '/PRO5/assets/gltf/text/walnut.jpg',
   //'src/assets/gltf/text/adthe.jpg',
 ]
 const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
@@ -612,7 +612,7 @@ function saveData() {
   a.click();*/
 
   var pdf = new jsPDF();
-  pdf.addImage(image, 'PNG', 10, 0, 200, 180);
+  pdf.addImage(image, 'PNG', 0, 0, 250, 200);
   pdf.save("download.pdf");
 
   
