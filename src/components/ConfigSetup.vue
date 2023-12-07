@@ -69,6 +69,8 @@ renderer.shadowMap.enabled = true;
 
 
 let controls = new OrbitControls(activeCamera, renderer.domElement);
+controls.autoRotate = true;
+controls.autoRotateSpeed = 3.0;
 
 
 
@@ -495,6 +497,7 @@ scene.add(ambientLight);
 
 const animate = () => {
   requestAnimationFrame(animate);
+  controls.update();
   //composer.render();
   renderer.render(scene, activeCamera)
 }
