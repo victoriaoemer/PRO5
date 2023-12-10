@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div id="container3D"></div>
+    <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"></div>
     <div class="ui">
       <button @click="hideWalls">Toggle Walls</button>
       <button @click="hideDesklamp">Toggle Desk lamp</button>
@@ -54,8 +54,8 @@ let activeCamera = camera;
 let textureIndex = 1;
 const textures = [
   '/PRO5/assets/gltf/text/Gold_wood.jpg',
-  '/PRO5/assets/gltf/text/plywood03.jpg',
-  '/PRO5/assets/gltf/text/walnut.jpg',
+  '/PRO5/assets/gltf/text/Birch_wood.jpg',
+  '/PRO5/assets/gltf/text/ply_wood.jpg',
   //'src/assets/gltf/text/adthe.jpg',
 ]
 const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
@@ -67,11 +67,29 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 // const composer = new EffectComposer(renderer);
 
+let isDragging = false;
+let previousMousePosition = { x: 0, y: 0 };
+
 
 let controls = new OrbitControls(activeCamera, renderer.domElement);
 controls.autoRotate = true;
 controls.autoRotateSpeed = 3.0;
 
+import { FlyControls } from 'three/addons/controls/FlyControls.js';
+
+
+// draw debug into for first time
+// change event
+
+//-------- ----------
+// WINDOW EVENTS
+//-------- ----------
+// supress up and down
+
+//-------- ----------
+// LOOP
+//-------- ----------
+let lt = new Date();
 
 
 let object = new THREE.Group();
@@ -89,7 +107,7 @@ onMounted(() => {
   // renderer.domElement.addEventListener('mouseout', onMouseOut, false);
 });
 
-// function onMouseMove(event) {
+// funct ion o  nMouseMove(event) {
 //   const canvasPosition = renderer.domElement.getBoundingClientRect();
 //   mouse.x = ((event.clientX - canvasPosition.left) / (renderer.domElement.clientWidth)) * 2 - 1;
 //   mouse.y = -((event.clientY - canvasPosition.top) / (renderer.domElement.clientHeight)) * 2 + 1;
@@ -431,11 +449,9 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
 
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
-camera.position.set(-120, 400, 100);
+camera.position.set(-100, 330, 80);
 camera.lookAt(object.position);
 camera2.position.set(-60, 80, 50);
-camera2.lookAt(object.position);
-
 
 // const AreaLight = new THREE.RectAreaLight(0xffffff, 500);
 // AreaLight.position.set(0, 100, 195); //(x,y,z)
@@ -497,8 +513,12 @@ scene.add(ambientLight);
 
 const animate = () => {
   requestAnimationFrame(animate);
-  controls.update();
+  const now = new Date(),
+    secs = (now - lt) / 1000;
+  lt = now;
   //composer.render();
+  controls.update(secs);
+
   renderer.render(scene, activeCamera)
 }
 animate();
@@ -552,50 +572,78 @@ function onClick() {
   }
 }
 
-
+const supressKeys = (evnt) => {
+  if (evnt.key === 'ArrowUp' || evnt.key === 'ArrowDown') {
+    evnt.preventDefault();
+  }
+};
+window.addEventListener('keyup', supressKeys);
+window.addEventListener('keydown', supressKeys);
 
 //------------------------------------------Functions------------------------------------------//
+
+const virtualCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+virtualCamera.rotation.copy(activeCamera.rotation); // Initialisiere virtuelle Kamera mit gleicher Rotation wie echte Kamera
+
+function onMouseDown(event) {
+  isDragging = true;
+  previousMousePosition = { x: event.clientX, y: event.clientY };
+}
+
+function onMouseMove(event) {
+  if (isDragging) {
+    const deltaX = event.clientX - previousMousePosition.x;
+
+    const sensitivity = 0.005;
+
+    // Rotiere die virtuelle Kamera nur um die y-Achse
+    virtualCamera.rotation.y -= deltaX * sensitivity;
+
+    const minRotation = 0;
+    const maxRotation = Math.PI;
+
+
+
+    // Setze die echte Kamera-Rotation auf die gespiegelte Rotation der virtuellen Kamera
+    activeCamera.rotation.y = -virtualCamera.rotation.y;
+
+    // Update die Steuerungen im Render-Loop
+    controls.update();
+
+    previousMousePosition = { x: event.clientX, y: event.clientY };
+  }
+}
+
+function onMouseUp() {
+  isDragging = false;
+}
 
 function toggleCamera() {
   activeCamera = (activeCamera === camera) ? camera2 : camera;
 
-  // Remove existing controls
+  // Dispose the existing controls
   controls.dispose();
 
   if (activeCamera === camera) {
     // Create OrbitControls for camera
     controls = new OrbitControls(activeCamera, renderer.domElement);
-
-    controls.update();
-
   } else {
-    // Create PointerLockControls for camera2 (first-person)
-    controls = new PointerLockControls(activeCamera, renderer.domElement);
-    controls.enabled = true;
-
-
-
-    // Enable pointer lock on click for first-person controls
-    const element = renderer.domElement;
-    element.addEventListener('click', function () {
-      controls.lock();
-    });
+    controls.dispose();
   }
 
   // Update the controls in the render loop
   controls.addEventListener('change', () => {
     renderer.render(scene, activeCamera);
   });
-
-
 }
 
 
-function toggleVisibility(id) {
-  const objectToToggleVisibility = fixedObjects[id];
-  console.log(objectToToggleVisibility.visible);
+
+function toggVisbility(id) {
+  const objectToToggleVisibility = fixedObjec
+  console.log(objectToTVisisity.vle);
   if (objectToToggleVisibility) {
-    objectToToggleVisibility.visible = (objectToToggleVisibility.visible) ? false : true; // Hide the object
+    objoToggleVisibility.visible = (objectToToggleVisibility.visible) ? false : true; // Hide the object
   }
 }
 
@@ -605,7 +653,7 @@ function hideWalls() {
 
 function saveData() {
   renderer.render(scene, activeCamera);
-  const canvas = document.getElementsByTagName("canvas", {preserveDrawingBuffer: true})[0];
+  const canvas = document.getElementsByTagName("canvas", { preserveDrawingBuffer: true })[0];
   //var context = canvas.getContext("experimental-webgl", );
   //canvas.preserveDrawingBuffer = true;
   const image = canvas.toDataURL("image/png");
@@ -615,10 +663,10 @@ function saveData() {
   a.click();*/
 
   var pdf = new jsPDF();
-  pdf.addImage(image, 'PNG', 0, 0, 250, 200);
+  pdf.addImage(image, 'PNG', 10, 0, 200, 180);
   pdf.save("download.pdf");
 
-  
+
 
 
 }
@@ -634,14 +682,14 @@ function changeAllTextures(index) {
     const textureUrl = textures[index];
     const newTexture = new THREE.TextureLoader().load(textureUrl);
 
-    object.traverse(function (node) {
-      if (node instanceof THREE.Mesh) {
-        node.material.map = newTexture;
-        node.material.needsUpdate = true;
-      }
-    });
-  }
-  textureIndex = index;
+    object.traverse(function(node) {
+      if(node instanceof THREE.Mesh) {
+      node.material.m = newTexture;
+      de.material.needsUpdate = true;
+    }
+  });
+}
+textureIndex = index;
 }
 function changeOneTexture(index, object) {
 
@@ -724,5 +772,4 @@ canvas {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 10px;
 }
-
 </style>
