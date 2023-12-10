@@ -75,22 +75,6 @@ let controls = new OrbitControls(activeCamera, renderer.domElement);
 //controls.autoRotate = true;
 //controls.autoRotateSpeed = 3.0;
 
-import { FlyControls } from 'three/addons/controls/FlyControls.js';
-
-
-// draw debug into for first time
-// change event
-
-//-------- ----------
-// WINDOW EVENTS
-//-------- ----------
-// supress up and down
-
-//-------- ----------
-// LOOP
-//-------- ----------
-let lt = new Date();
-
 
 let object = new THREE.Group();
 
@@ -424,26 +408,6 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
 
 });
 
-// const floorGeometry = new THREE.PlaneGeometry(100, 100, 100, 1);
-// const floorMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 0 });
-// const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-// floor.rotation.x = -0.5 * Math.PI;
-// floor.translateZ(20);	
-// floor.receiveShadow = true;
-
-// scene.add(floor);
-
-// const floor11Geometry = new THREE.PlaneGeometry(100, 100, 100, 1);
-// const floor11Material = new THREE.MeshPhongMaterial({ color: 0xffffff, shininess: 0 });
-// const floor1 = new THREE.Mesh(floor11Geometry, floor11Material);
-// floor1.rotation.x = -0.5 * Math.PI;
-// floor1.translateZ(12);	
-// floor1.receiveShadow = true;
-
-// scene.add(floor1);
-
-
-
 
 //------------------------------------------Axis and Lights------------------------------------------//
 
@@ -452,21 +416,6 @@ scene.add(axesHelper);
 camera.position.set(-100, 330, 80);
 camera.lookAt(object.position);
 camera2.position.set(-60, 80, 50);
-
-// const AreaLight = new THREE.RectAreaLight(0xffffff, 500);
-// AreaLight.position.set(0, 100, 195); //(x,y,z)
-// AreaLight.castShadow = true; // Enable shadow casting for the light
-// scene.add(AreaLight);
-
-// const AreaLight02 = new THREE.RectAreaLight(0xffffff, 500);
-// AreaLight02.position.set(-100, 100, -20);
-// AreaLight02.castShadow = true; // Enable shadow casting for the light
-// scene.add(AreaLight02);
-
-// const AreaLight03 = new THREE.RectAreaLight(0xffffff, 1500);
-// AreaLight03.position.set(-100, 100, 120);
-// AreaLight03.castShadow = true; // Enable shadow casting for the light
-// scene.add(AreaLight03);
 
 const pointLight = new THREE.PointLight(0xffffff, 18000);
 pointLight.position.set(-30, 120, 30);
@@ -513,12 +462,8 @@ scene.add(ambientLight);
 
 const animate = () => {
   requestAnimationFrame(animate);
-  const now = new Date(),
-    secs = (now - lt) / 1000;
-  lt = now;
   //composer.render();
-  controls.update(secs);
-
+  controls.update();
   renderer.render(scene, activeCamera)
 }
 animate();
@@ -560,15 +505,10 @@ function onClick() {
       INTERSECTED = intersects[0].object;
       INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
       INTERSECTED.material.emissive.setHex(0xff0000);
-
     }
-
   } else {
-
     if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-
     INTERSECTED = null;
-
   }
 }
 
@@ -583,10 +523,11 @@ window.addEventListener('keydown', supressKeys);
 //------------------------------------------Functions------------------------------------------//
 
 const virtualCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-virtualCamera.rotation.copy(activeCamera.rotation); // Initialisiere virtuelle Kamera mit gleicher Rotation wie echte Kamera
+virtualCamera.rotation.copy(activeCamera.rotation);
 
 function onMouseDown(event) {
   isDragging = true;
+  window.addEventListener('mouseup', onMouseUp);
   previousMousePosition = { x: event.clientX, y: event.clientY };
 }
 
@@ -602,13 +543,13 @@ function onMouseMove(event) {
     // activeCamera.rotation.x = -virtualCamera.rotation.x;
 
     controls.update();
-
     previousMousePosition = { x: event.clientX, y: event.clientY };
   }
 }
 
 function onMouseUp() {
   isDragging = false;
+  window.removeEventListener('mouseup', onMouseUp);
 }
 
 function toggleCamera() {
@@ -617,13 +558,10 @@ function toggleCamera() {
   controls.dispose();
 
   if (activeCamera === camera) {
-    // Create OrbitControls for camera
     controls = new OrbitControls(activeCamera, renderer.domElement);
   } else {
     controls.dispose();
   }
-
-  // Update the controls in the render loop
   controls.addEventListener('change', () => {
     renderer.render(scene, activeCamera);
   });
@@ -657,10 +595,6 @@ function saveData() {
   var pdf = new jsPDF();
   pdf.addImage(image, 'PNG', 10, 0, 200, 180);
   pdf.save("download.pdf");
-
-
-
-
 }
 
 function hideDesklamp() {
@@ -674,14 +608,14 @@ function changeAllTextures(index) {
     const textureUrl = textures[index];
     const newTexture = new THREE.TextureLoader().load(textureUrl);
 
-    object.traverse(function(node) {
-      if(node instanceof THREE.Mesh) {
-      node.material.map = newTexture;
-      node.material.needsUpdate = true;
-    }
-  });
-}
-textureIndex = index;
+    object.traverse(function (node) {
+      if (node instanceof THREE.Mesh) {
+        node.material.map = newTexture;
+        node.material.needsUpdate = true;
+      }
+    });
+  }
+  textureIndex = index;
 }
 function changeOneTexture(index, object) {
 
