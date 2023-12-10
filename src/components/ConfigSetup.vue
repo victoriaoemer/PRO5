@@ -639,11 +639,11 @@ function toggleCamera() {
 
 
 
-function toggVisbility(id) {
-  const objectToToggleVisibility = fixedObjec
-  console.log(objectToTVisisity.vle);
+function toggleVisibility(id) {
+  const objectToToggleVisibility = fixedObjects[id];
+  console.log(objectToToggleVisibility.visible);
   if (objectToToggleVisibility) {
-    objoToggleVisibility.visible = (objectToToggleVisibility.visible) ? false : true; // Hide the object
+    objectToToggleVisibility.visible = (objectToToggleVisibility.visible) ? false : true; // Hide the object
   }
 }
 
