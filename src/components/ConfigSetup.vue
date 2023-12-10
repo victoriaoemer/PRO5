@@ -593,19 +593,16 @@ function onMouseDown(event) {
 function onMouseMove(event) {
   if (isDragging) {
     const deltaX = event.clientX - previousMousePosition.x;
+    const deltaY = event.clientY - previousMousePosition.y;
 
-    const sensitivity = 0.005;
+    const sensitivity = 0.005; // Du kannst diese Sensitivität anpassen
 
-    // Rotiere die virtuelle Kamera nur um die y-Achse
-    virtualCamera.rotation.y -= deltaX * sensitivity;
+    // Rotiere die Kamera um den Punkt (0, 0, 0) in der Szene
+    activeCamera.rotation.y -= deltaX * sensitivity;
+    activeCamera.rotation.x -= deltaY * sensitivity;
 
-    const minRotation = 0;
-    const maxRotation = Math.PI;
-
-
-
-    // Setze die echte Kamera-Rotation auf die gespiegelte Rotation der virtuellen Kamera
-    activeCamera.rotation.y = -virtualCamera.rotation.y;
+    // Begrenze die vertikale Rotation, um die Kamera nicht zu überdrehen
+    activeCamera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, activeCamera.rotation.x));
 
     // Update die Steuerungen im Render-Loop
     controls.update();
