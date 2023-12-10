@@ -54,8 +54,8 @@ let activeCamera = camera;
 let textureIndex = 1;
 const textures = [
   '/PRO5/assets/gltf/text/Gold_wood.jpg',
-  '/PRO5/assets/gltf/text/Birch_wood.jpg',
-  '/PRO5/assets/gltf/text/ply_wood.jpg',
+  '/PRO5/assets/gltf/text/plywood03.jpg',
+  '/PRO5/assets/gltf/text/walnut.jpg',
   //'src/assets/gltf/text/adthe.jpg',
 ]
 const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
