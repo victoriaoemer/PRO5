@@ -72,8 +72,8 @@ let previousMousePosition = { x: 0, y: 0 };
 
 
 let controls = new OrbitControls(activeCamera, renderer.domElement);
-controls.autoRotate = true;
-controls.autoRotateSpeed = 3.0;
+//controls.autoRotate = true;
+//controls.autoRotateSpeed = 3.0;
 
 import { FlyControls } from 'three/addons/controls/FlyControls.js';
 
@@ -684,8 +684,8 @@ function changeAllTextures(index) {
 
     object.traverse(function(node) {
       if(node instanceof THREE.Mesh) {
-      node.material.m = newTexture;
-      de.material.needsUpdate = true;
+      node.material.map = newTexture;
+      node.material.needsUpdate = true;
     }
   });
 }
