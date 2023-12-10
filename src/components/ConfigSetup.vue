@@ -593,18 +593,14 @@ function onMouseDown(event) {
 function onMouseMove(event) {
   if (isDragging) {
     const deltaX = event.clientX - previousMousePosition.x;
-    const deltaY = event.clientY - previousMousePosition.y;
+    // const deltaY = event.clientY - previousMousePosition.y;
+    const sensitivity = 0.0025;
 
-    const sensitivity = 0.005; // Du kannst diese Sensitivität anpassen
+    // virtualCamera.rotation.x -= deltaY * sensitivity;
+    virtualCamera.rotation.y -= deltaX * sensitivity;
+    activeCamera.rotation.y = -virtualCamera.rotation.y;
+    // activeCamera.rotation.x = -virtualCamera.rotation.x;
 
-    // Rotiere die Kamera um den Punkt (0, 0, 0) in der Szene
-    activeCamera.rotation.y -= deltaX * sensitivity;
-    activeCamera.rotation.x -= deltaY * sensitivity;
-
-    // Begrenze die vertikale Rotation, um die Kamera nicht zu überdrehen
-    activeCamera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, activeCamera.rotation.x));
-
-    // Update die Steuerungen im Render-Loop
     controls.update();
 
     previousMousePosition = { x: event.clientX, y: event.clientY };
@@ -618,7 +614,6 @@ function onMouseUp() {
 function toggleCamera() {
   activeCamera = (activeCamera === camera) ? camera2 : camera;
 
-  // Dispose the existing controls
   controls.dispose();
 
   if (activeCamera === camera) {
