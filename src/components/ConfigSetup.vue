@@ -4,7 +4,7 @@
     <div class="ui">
       <button @click="hideWalls">Wände ausblenden</button>
       <button @click="hideDesklamp">Tischlampe ausblenden</button>
-      <button @click="saveData">Daten speichern</button>
+      <button @click="saveData">Daten als PDF speichern</button>
       <div>
         <p>Material aller Möbelstücke ändern</p>
         <div class="buttonContainer">
@@ -635,12 +635,18 @@ function hideWalls() {
 function saveData() {
   renderer.render(scene, activeCamera);
   const canvas = document.getElementsByTagName("canvas", { preserveDrawingBuffer: true })[0];
-  const image = canvas.toDataURL("image/png");
+  const mainImage = canvas.toDataURL("image/png");
+
+  renderer.render(scene, camera2);
+  const secondImage = canvas.toDataURL("image/png");
+
+  renderer.render(scene, camera3);
+  const thirdImage = canvas.toDataURL("image/png");
 
   var pdf = new jsPDF();
 
   // Füge den Titel über dem Bild hinzu
-  pdf.text("KitzConfig Daten", pdf.internal.pageSize.getWidth() / 2, 10, { align: 'center' });
+  pdf.text("KitzConfig - Datenblatt", pdf.internal.pageSize.getWidth() / 2, 10, { align: 'center' });
 
   // Skaliere das Bild basierend auf der Größe des Canvas und des Bildes
   const canvasWidth = pdf.internal.pageSize.getWidth();
@@ -649,12 +655,15 @@ function saveData() {
   const imageHeight = (imageWidth / canvas.width) * canvas.height;
 
   // Füge das Bild hinzu
-  pdf.addImage(image, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth, imageHeight);
+  pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth / 2 , imageHeight / 2);
+  pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2 + 70, 20, imageWidth / 2, imageHeight / 2);
+  pdf.addImage(thirdImage, 'PNG', (canvasWidth - imageWidth) / 2 + 110, 90, imageWidth / 2, imageHeight / 2);
 
   // Füge eine nummerierte Liste der Materialinformationen hinzu
-  let listPositionY = 20 + imageHeight + 5; // Verringere den Abstand zwischen dem Bild und der Liste
+  let listPositionY = 0 + imageHeight + 5; // Verringere den Abstand zwischen dem Bild und der Liste
   let listItemNumber = 1;
 
+  pdf.text("Materialliste: ", 10, 100);
   for (let key in objectTextures) {
     const textureShortInfo = textureShortInfos[objectTextures[key]] || objectTextures[key];
     const listItemText = `${objectNamesMapping[key] || key}: ${textureShortInfo}`;
@@ -665,7 +674,7 @@ function saveData() {
 
 
 
-  pdf.save("download.pdf");
+  pdf.save("KitzConfig - Datenblatt.pdf");
 }
 
 function hideDesklamp() {
