@@ -633,7 +633,7 @@ function hideWalls() {
 }
 
 function saveData() {
-  renderer.render(scene, activeCamera);
+  renderer.render(scene, camera);
   const canvas = document.getElementsByTagName("canvas", { preserveDrawingBuffer: true })[0];
   const mainImage = canvas.toDataURL("image/png");
 
@@ -655,9 +655,9 @@ function saveData() {
   const imageHeight = (imageWidth / canvas.width) * canvas.height;
 
   // Füge das Bild hinzu
-  pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth / 2 , imageHeight / 2);
-  pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2 + 70, 20, imageWidth / 2, imageHeight / 2);
-  pdf.addImage(thirdImage, 'PNG', (canvasWidth - imageWidth) / 2 + 110, 90, imageWidth / 2, imageHeight / 2);
+  pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth / 2.5 , imageHeight / 2.5);
+  pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2 + 100, 30, imageWidth / 2.5, imageHeight / 2.5);
+  pdf.addImage(thirdImage, 'PNG', (canvasWidth - imageWidth) / 2 + 100, 90, imageWidth / 2.5, imageHeight / 2.5);
 
   // Füge eine nummerierte Liste der Materialinformationen hinzu
   let listPositionY = 0 + imageHeight + 5; // Verringere den Abstand zwischen dem Bild und der Liste
