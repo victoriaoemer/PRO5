@@ -2,25 +2,26 @@
   <div class="container">
     <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"></div>
     <div class="ui">
-      <button @click="hideWalls">Toggle Walls</button>
-      <button @click="hideDesklamp">Toggle Desk lamp</button>
-      <button @click="saveData">Save Data</button>
+      <button @click="hideWalls">Wände ausblenden</button>
+      <button @click="hideDesklamp">Tischlampe ausblenden</button>
+      <button @click="saveData">Daten speichern</button>
       <div>
-        <p>change all textures</p>
+        <p>Material aller Möbelstücke ändern</p>
         <div class="buttonContainer">
         <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeAllTextures(index)">
           <img :src="texture" alt="Texture Image">
         </div></div>
       </div>
       <div>
-        <p>change one texture</p>
-        <p>Selected Object: {{ selectedObjectName }}</p> <!-- Hier wird der Name angezeigt -->
+        <p>Material einzelner Möbelstücke ändern</p>
+        <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p> <!-- Hier wird der Name angezeigt -->
         <div class="buttonContainer">
         <div  v-for="(texture, index) in textures" :key="index" class="textureButton"
           @click="changeOneTexture(index, selectedObjectName)">
           <img :src="texture" alt="Texture Image">
         </div></div>
       </div>
+      <p>Kameraansichten ändern</p>
       <button @click="toggleCameraToWide"> Totale </button>
       <button @click="toggleCameraToKitchen"> Küche </button>
       <button @click="toggleCameraToCloset"> Kasten </button>
@@ -55,7 +56,18 @@ const camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.inner
 const camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 let activeCamera = camera;
 
-
+const objectNamesMapping = {
+  'room': 'Zimmer',
+  'closet': 'Schrank',
+  'bedwood': 'Bett',
+  'garderobe': 'Garderobe',
+  'lowchairwood': 'Stuhl',
+  'highchairwood': 'Stuhl',
+  'kitchen': 'Küche',
+  'Washbasin_wood': 'Waschbecken',
+  'desk': 'Schreibtisch'
+  // Füge hier alle gewünschten Zuordnungen hinzu
+};
 
 
 let textureIndex = 1;
@@ -507,9 +519,11 @@ function onClick() {
     // console.log('Intersection:', intersects[0]);
     
     const objectName = intersects[0].object.name;
-    selectedObjectName.value = objectName;
+    //selectedObjectName.value = objectName;
     const cleanedObjectName = objectName.replace(/_[0-9]/g, '');
     console.log(cleanedObjectName);
+
+    selectedObjectName.value = objectNamesMapping[cleanedObjectName] || cleanedObjectName;
 
     if (INTERSECTED != intersects[0].object) {
 
@@ -647,19 +661,23 @@ function changeAllTextures(index) {
 }
 function changeOneTexture(index, object) {
 
-  object = loadedObjects[object];
-  const textureUrl = textures[index];
-  const newTexture = new THREE.TextureLoader().load(textureUrl);
+  const originalObjectName = Object.keys(objectNamesMapping).find(key => objectNamesMapping[key] === object);
+  const loadedObject = loadedObjects[originalObjectName];
 
-  object.traverse(function (node) {
-    if (node instanceof THREE.Mesh) {
-      node.material.map = newTexture;
-      node.material.needsUpdate = true;
-    }
-  });
+  if (loadedObject) {
+    const textureUrl = textures[index];
+    const newTexture = new THREE.TextureLoader().load(textureUrl);
 
-  textureIndex = index;
-}
+    loadedObject.traverse(function (node) {
+      if (node instanceof THREE.Mesh) {
+        node.material.map = newTexture;
+        node.material.needsUpdate = true;
+      }
+    });
+
+    textureIndex = index;
+
+}}
 
 
 </script>
