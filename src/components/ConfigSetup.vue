@@ -18,7 +18,9 @@
           <img :src="texture" alt="Texture Image">
         </div>
       </div>
-      <button @click="toggleCamera">Toggle Camera</button>
+      <button @click="toggleCameraToWide"> Totale </button>
+      <button @click="toggleCameraToKitchen"> Küche </button>
+      <button @click="toggleCameraToCloset"> Kasten </button>
     </div>
   </div>
 </template>
@@ -46,6 +48,7 @@ const fixedObjects = {};
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 const camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+const camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 let activeCamera = camera;
 
 
@@ -415,7 +418,8 @@ const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 camera.position.set(-100, 330, 80);
 camera.lookAt(object.position);
-camera2.position.set(-80, 80, 60);
+camera2.position.set(-90, 80, -20);
+camera3.position.set(30, 80, 60);
 
 const pointLight = new THREE.PointLight(0xffffff, 18000);
 pointLight.position.set(-30, 120, 30);
@@ -552,16 +556,30 @@ function onMouseUp() {
   window.removeEventListener('mouseup', onMouseUp);
 }
 
-function toggleCamera() {
-  activeCamera = (activeCamera === camera) ? camera2 : camera;
+function toggleCameraToWide() {
+  activeCamera = camera;
 
   controls.dispose();
+  controls = new OrbitControls(activeCamera, renderer.domElement);
+  controls.addEventListener('change', () => {
+    renderer.render(scene, activeCamera);
+  });
+}
 
-  if (activeCamera === camera) {
-    controls = new OrbitControls(activeCamera, renderer.domElement);
-  } else {
-    controls.dispose();
-  }
+function toggleCameraToKitchen() {
+  activeCamera = camera2;
+
+  controls.dispose();
+  controls.addEventListener('change', () => {
+    renderer.render(scene, activeCamera);
+  });
+}
+
+
+function toggleCameraToCloset() {
+  activeCamera = camera3;
+
+  controls.dispose();
   controls.addEventListener('change', () => {
     renderer.render(scene, activeCamera);
   });
