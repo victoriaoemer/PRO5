@@ -5,18 +5,21 @@
       <button @click="hideWalls">Toggle Walls</button>
       <button @click="hideDesklamp">Toggle Desk lamp</button>
       <button @click="saveData">Save Data</button>
-      <div class="buttonContainer">
+      <div>
         <p>change all textures</p>
+        <div class="buttonContainer">
         <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeAllTextures(index)">
           <img :src="texture" alt="Texture Image">
-        </div>
+        </div></div>
       </div>
-      <div class="buttonContainer">
+      <div>
         <p>change one texture</p>
-        <div v-for="(texture, index) in textures" :key="index" class="textureButton"
+        <p>Selected Object: {{ selectedObjectName }}</p> <!-- Hier wird der Name angezeigt -->
+        <div class="buttonContainer">
+        <div  v-for="(texture, index) in textures" :key="index" class="textureButton"
           @click="changeOneTexture(index, selectedObjectName)">
           <img :src="texture" alt="Texture Image">
-        </div>
+        </div></div>
       </div>
       <button @click="toggleCameraToWide"> Totale </button>
       <button @click="toggleCameraToKitchen"> Küche </button>
@@ -28,6 +31,7 @@
 
 <script setup>
 import * as THREE from 'three';
+import { ref } from 'vue';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls'
@@ -81,7 +85,7 @@ let controls = new OrbitControls(activeCamera, renderer.domElement);
 
 let object = new THREE.Group();
 
-let selectedObjectName = null;
+let selectedObjectName = ref(null)  ;
 onMounted(() => {
   const container = document.getElementById('container3D');
   if (container) {
@@ -497,11 +501,16 @@ function onClick() {
   raycaster.setFromCamera(mouse, activeCamera);
   var intersects = raycaster.intersectObjects(raycastObjects);
 
+  let objectName = null;
+
   if (intersects.length > 0) {
     // console.log('Intersection:', intersects[0]);
-    selectedObjectName = intersects[0].object.name;
-    selectedObjectName = selectedObjectName.replace(/_[0-9]/g, '');
-    console.log(selectedObjectName);
+    
+    const objectName = intersects[0].object.name;
+    selectedObjectName.value = objectName;
+    const cleanedObjectName = objectName.replace(/_[0-9]/g, '');
+    console.log(cleanedObjectName);
+
     if (INTERSECTED != intersects[0].object) {
 
       if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
@@ -528,6 +537,7 @@ window.addEventListener('keydown', supressKeys);
 
 const virtualCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 virtualCamera.rotation.copy(activeCamera.rotation);
+
 
 function onMouseDown(event) {
   isDragging = true;
