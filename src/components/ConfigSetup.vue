@@ -49,6 +49,7 @@ import jsPDF from 'jspdf';
 import { onMounted, render } from 'vue';
 const loadedObjects = {};
 const fixedObjects = {};
+const objectTextures = {};
 
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -62,11 +63,19 @@ const objectNamesMapping = {
   'bedwood': 'Bett',
   'garderobe': 'Garderobe',
   'lowchairwood': 'Stuhl',
-  'highchairwood': 'Stuhl',
+  'highchairwood': 'Hoher Stuhl',
   'kitchen': 'Küche',
+  'washbasin_wood': 'Waschbecken',
   'Washbasin_wood': 'Waschbecken',
   'desk': 'Schreibtisch'
   // Füge hier alle gewünschten Zuordnungen hinzu
+};
+
+const textureShortInfos = {
+  '/PRO5/assets/gltf/text/Gold_wood.jpg': 'Eichenholz',
+  '/PRO5/assets/gltf/text/plywood03.jpg': 'Birkenholz',
+  '/PRO5/assets/gltf/text/walnut.jpg': 'Walnussholz',
+  // Füge hier weitere Texturen hinzu
 };
 
 
@@ -626,16 +635,36 @@ function hideWalls() {
 function saveData() {
   renderer.render(scene, activeCamera);
   const canvas = document.getElementsByTagName("canvas", { preserveDrawingBuffer: true })[0];
-  //var context = canvas.getContext("experimental-webgl", );
-  //canvas.preserveDrawingBuffer = true;
   const image = canvas.toDataURL("image/png");
-  /*const a = document.createElement("a");
-  a.href = image.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
-  a.download="image.png"
-  a.click();*/
 
   var pdf = new jsPDF();
-  pdf.addImage(image, 'PNG', 10, 0, 200, 180);
+
+  // Füge den Titel über dem Bild hinzu
+  pdf.text("KitzConfig Daten", pdf.internal.pageSize.getWidth() / 2, 10, { align: 'center' });
+
+  // Skaliere das Bild basierend auf der Größe des Canvas und des Bildes
+  const canvasWidth = pdf.internal.pageSize.getWidth();
+  const canvasHeight = pdf.internal.pageSize.getHeight();
+  const imageWidth = 200; // Definiere die Breite des Bildes im PDF
+  const imageHeight = (imageWidth / canvas.width) * canvas.height;
+
+  // Füge das Bild hinzu
+  pdf.addImage(image, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth, imageHeight);
+
+  // Füge eine nummerierte Liste der Materialinformationen hinzu
+  let listPositionY = 20 + imageHeight + 5; // Verringere den Abstand zwischen dem Bild und der Liste
+  let listItemNumber = 1;
+
+  for (let key in objectTextures) {
+    const textureShortInfo = textureShortInfos[objectTextures[key]] || objectTextures[key];
+    const listItemText = `${objectNamesMapping[key] || key}: ${textureShortInfo}`;
+    pdf.text(`${listItemNumber}. ${listItemText}`, 10, listPositionY);
+    listPositionY += 8; // Verringere den Abstand zwischen den Listenelementen
+    listItemNumber++;
+  }
+
+
+
   pdf.save("download.pdf");
 }
 
@@ -657,6 +686,7 @@ function changeAllTextures(index) {
         console.log(`Changed texture of ${key} to ${textureUrl}`);
       }
     });
+    objectTextures[key] = textureUrl; // Speichere die aktuelle Textur für das Objekt
   }
   textureIndex = index;
 }
@@ -676,7 +706,7 @@ function changeOneTexture(index, object) {
         console.log(`Changed texture of ${originalObjectName} to ${textureUrl}`);
       }
     });
-
+    objectTextures[originalObjectName] = textureUrl; // Speichere die aktuelle Textur für das Objekt
     textureIndex = index;
 
 }}
