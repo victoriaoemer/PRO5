@@ -415,7 +415,7 @@ const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 camera.position.set(-100, 330, 80);
 camera.lookAt(object.position);
-camera2.position.set(-60, 80, 50);
+camera2.position.set(-80, 80, 60);
 
 const pointLight = new THREE.PointLight(0xffffff, 18000);
 pointLight.position.set(-30, 120, 30);
@@ -445,7 +445,7 @@ pointlight2.shadow.camera.near = 0.5; // default
 pointlight2.shadow.camera.far = 300; // default
 scene.add(pointlight2);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 2); // soft white light
+const ambientLight = new THREE.AmbientLight(0xffffff, 1); // soft white light
 ambientLight.position.y = 1000
 scene.add(ambientLight);
 
