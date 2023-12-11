@@ -648,12 +648,13 @@ function changeAllTextures(index) {
     //if (key === 'room' || key === 'lowchairfeets' || key === 'doors' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
     const object = loadedObjects[key];
     const textureUrl = textures[index];
-    const newTexture = new THREE.TextureLoader().load(textureUrl);
+    //const newTexture = new THREE.TextureLoader().load(textureUrl);
 
     object.traverse(function (node) {
       if (node instanceof THREE.Mesh) {
-        node.material.map = newTexture;
+        node.material.map = new THREE.TextureLoader().load(textureUrl);
         node.material.needsUpdate = true;
+        console.log(`Changed texture of ${key} to ${textureUrl}`);
       }
     });
   }
@@ -666,12 +667,13 @@ function changeOneTexture(index, object) {
 
   if (loadedObject) {
     const textureUrl = textures[index];
-    const newTexture = new THREE.TextureLoader().load(textureUrl);
+    ///const newTexture = new THREE.TextureLoader().load(textureUrl);
 
     loadedObject.traverse(function (node) {
       if (node instanceof THREE.Mesh) {
-        node.material.map = newTexture;
+        node.material.map = new THREE.TextureLoader().load(textureUrl);
         node.material.needsUpdate = true;
+        console.log(`Changed texture of ${originalObjectName} to ${textureUrl}`);
       }
     });
 
