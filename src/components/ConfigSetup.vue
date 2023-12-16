@@ -71,9 +71,7 @@ const camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.inner
 camera3.name = 'camera3';
 
 let activeCamera = camera;
-console.log(activeCamera.name, 'cameraaaa');
-
-let selectedCameraView = ref(null);
+let selectedCameraView = ref('totale');
 
 
 let mirror, bathrommMirror;
@@ -658,8 +656,11 @@ function onMouseUp() {
 
 function toggleCameraToWide() {
   activeCamera = camera;
-  selectedCameraView = 'totale';
 
+  fixedObjects.room.visible = true;
+  fixedObjects.room_complete.visible = false;
+
+  selectedCameraView.value = 'totale';
   controls.dispose();
   controls = new OrbitControls(activeCamera, renderer.domElement);
   controls.addEventListener('change', () => {
@@ -669,11 +670,16 @@ function toggleCameraToWide() {
 
 function toggleCameraToGardarobe() {
   activeCamera = camera2;
-  selectedCameraView = 'gardarobe';
+
+  fixedObjects.room.visible = false;
+  fixedObjects.room_complete.visible = true;
+
+
+  selectedCameraView.value = 'gardarobe';
   
   toggleVisibility('room') == true; //hide it
   toggleVisibility('room_complete') == false; //hide it
- 
+
 
   controls.dispose();
   controls.addEventListener('change', () => {
@@ -684,9 +690,13 @@ function toggleCameraToGardarobe() {
 
 function toggleCameraToKueche() {
   activeCamera = camera3;
+
+  fixedObjects.room.visible = false;
+  fixedObjects.room_complete.visible = true;
+  selectedCameraView = 'kueche'; selectedCameraView.value = 'kueche';
+  
   toggleVisibility('room') == true; //hide it
-  toggleVisibility('room_complete') == false; //hide it
-  selectedCameraView = 'kueche';
+
 
   controls.dispose();
   controls.addEventListener('change', () => {
