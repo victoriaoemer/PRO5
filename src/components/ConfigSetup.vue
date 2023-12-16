@@ -668,7 +668,6 @@ function toggleCameraToWide() {
 function toggleCameraToGardarobe() {
   activeCamera = camera2;
   selectedCameraView.value = 'gardarobe';
-  selectedCameraView = 'gardarobe';
   
   toggleVisibility('room') == true; //hide it
   toggleVisibility('room_complete') == false; //hide it
@@ -684,9 +683,9 @@ function toggleCameraToGardarobe() {
 function toggleCameraToKueche() {
   activeCamera = camera3;
   selectedCameraView.value = 'kueche';
+  
   toggleVisibility('room') == true; //hide it
   toggleVisibility('room_complete') == false; //hide it
-  selectedCameraView = 'kueche';
 
   controls.dispose();
   controls.addEventListener('change', () => {
