@@ -677,8 +677,8 @@ function toggleCameraToGardarobe() {
 
   selectedCameraView.value = 'gardarobe';
   
-  toggleVisibility('room') == true; //hide it
-  toggleVisibility('room_complete') == false; //hide it
+  fixedObjects.room.visible = false;
+  fixedObjects.room_complete.visible = true;
 
 
   controls.dispose();
@@ -693,8 +693,7 @@ function toggleCameraToKueche() {
 
   fixedObjects.room.visible = false;
   fixedObjects.room_complete.visible = true;
-  selectedCameraView = 'kueche'; selectedCameraView.value = 'kueche';
-  
+  selectedCameraView.value = 'kueche';
   toggleVisibility('room') == true; //hide it
 
 
