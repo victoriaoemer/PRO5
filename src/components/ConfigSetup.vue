@@ -112,6 +112,17 @@ const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 // const composer = new EffectComposer(renderer);
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+window.addEventListener("resize", onWindowResize());
+  
+    function onWindowResize(){
+      activeCamera.aspect = window.innerWidth / window.innerHeight;
+      activeCamera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+
 
 let isDragging = false;
 let previousMousePosition = { x: 0, y: 0 };
@@ -694,7 +705,6 @@ function toggleCameraToKueche() {
   fixedObjects.room.visible = false;
   fixedObjects.room_complete.visible = true;
   selectedCameraView.value = 'kueche';
-  toggleVisibility('room') == true; //hide it
 
 
   controls.dispose();
@@ -714,9 +724,10 @@ function toggleVisibility(id) {
 }
 
 function hideWalls() {
-  toggleVisibility('room') == true;
-  toggleVisibility('room_wireframe') == false; //enable it
-  //console.log(room_wireframe.visible);
+  
+  if (selectedCameraView.value==='totale') {  toggleVisibility('room');
+  toggleVisibility('room_wireframe');}
+  
 }
 
 function toggleWireframe() {
@@ -881,9 +892,8 @@ button {
 
 canvas {
 
-  width: 1024px !important;
-  height: 546px !important;
-  ;
+  width: 100%;
+  height: 100%;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 10px;
 }
