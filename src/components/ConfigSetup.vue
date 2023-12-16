@@ -65,8 +65,7 @@ const objectNamesMapping = {
   'lowchairwood': 'Stuhl',
   'highchairwood': 'Hoher Stuhl',
   'kitchen': 'Küche',
-  'washbasin_wood': 'Waschbecken',
-  'Washbasin_wood': 'Waschbecken',
+  'washbasin': 'Waschbecken',
   'desk': 'Schreibtisch'
   // Füge hier alle gewünschten Zuordnungen hinzu
 };
@@ -391,7 +390,7 @@ glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_stuff.gltf', function
   });
 });
 
-glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_wood.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(0, 10, -75);
   gltf.scene.rotateY(-1.55);
