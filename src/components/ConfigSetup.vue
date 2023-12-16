@@ -5,9 +5,9 @@
       <p>Wähle deine Ansicht:</p>
       <div style="display: flex; gap: 8px; margin-bottom: 20px; margin: 4px;">
         <!-- <button @click="toggleCameraToWide" id="totaleButton"> Totale </button> -->
-        <img src="/PRO5/assets/totale.png" height="80" alt="Totale" class="button" @click="toggleCameraToWide">
-        <img src="/PRO5/assets/gardarobe.png" height="80" alt="Gardarobe" class="button" @click="toggleCameraToGardarobe">
-        <img src="/PRO5/assets/kueche.png" height="80" alt="Küche" class="button" @click="toggleCameraToKueche">
+        <img src="/PRO5/assets/totale.png" height="80" alt="Totale" class="button" :class="{selected: selectedCameraView === 'totale'}" @click="toggleCameraToWide">
+        <img src="/PRO5/assets/gardarobe.png" height="80" alt="Gardarobe" class="button" :class="{selected: selectedCameraView === 'gardarobe'}" @click="toggleCameraToGardarobe">
+        <img src="/PRO5/assets/kueche.png" height="80" alt="Küche" class="button" :class="{selected: selectedCameraView === 'kueche'}" @click="toggleCameraToKueche">
       </div>
       
 
@@ -42,7 +42,7 @@
 
 <script setup>
 import * as THREE from 'three';
-import { ref } from 'vue';
+import { ref, computed, reactive } from 'vue';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls'
@@ -64,9 +64,17 @@ const objectTextures = {};
 
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+camera.name = 'camera';
 const camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+camera2.name = 'camera2';
 const camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+camera3.name = 'camera3';
+
 let activeCamera = camera;
+console.log(activeCamera.name, 'cameraaaa');
+
+let selectedCameraView = ref(null);
+
 
 let mirror, bathrommMirror;
 
@@ -650,6 +658,7 @@ function onMouseUp() {
 
 function toggleCameraToWide() {
   activeCamera = camera;
+  selectedCameraView = 'totale';
 
   controls.dispose();
   controls = new OrbitControls(activeCamera, renderer.domElement);
@@ -660,6 +669,7 @@ function toggleCameraToWide() {
 
 function toggleCameraToGardarobe() {
   activeCamera = camera2;
+  selectedCameraView = 'gardarobe';
 
   controls.dispose();
   controls.addEventListener('change', () => {
@@ -670,6 +680,7 @@ function toggleCameraToGardarobe() {
 
 function toggleCameraToKueche() {
   activeCamera = camera3;
+  selectedCameraView = 'kueche';
 
   controls.dispose();
   controls.addEventListener('change', () => {
@@ -839,6 +850,10 @@ button {
 .button {
   border-radius: 4px;
   box-shadow: rgba(91, 91, 97, 0.2) 0px 7px 29px 0px;
+}
+
+.button.selected {
+  border: 2px solid #f48cb3;
 }
 
 #container3D {
