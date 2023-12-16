@@ -15,7 +15,7 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Washbasin_wood",
+            "name" : "washbasin",
             "scale" : [
                 0.0010000000474974513,
                 0.0010000000474974513,
@@ -38,7 +38,7 @@
     ],
     "meshes" : [
         {
-            "name" : "Washbasin.002",
+            "name" : "Washbasin",
             "primitives" : [
                 {
                     "attributes" : {
@@ -136,7 +136,7 @@
     "buffers" : [
         {
             "byteLength" : 20512,
-            "uri" : "washbasin_wood.bin"
+            "uri" : "washbasin.bin"
         }
     ]
 }

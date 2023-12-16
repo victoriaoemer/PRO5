@@ -74,8 +74,7 @@ const objectNamesMapping = {
   'lowchairwood': 'Stuhl',
   'highchairwood': 'Hoher Stuhl',
   'kitchen': 'Küche',
-  'washbasin_wood': 'Waschbecken',
-  'Washbasin_wood': 'Waschbecken',
+  'washbasin': 'Waschbecken',
   'desk': 'Schreibtisch'
   // Füge hier alle gewünschten Zuordnungen hinzu
 };
@@ -93,7 +92,7 @@ const textures = [
   '/PRO5/assets/gltf/text/Gold_wood.jpg',
   '/PRO5/assets/gltf/text/plywood03.jpg',
   '/PRO5/assets/gltf/text/walnut.jpg',
-  //'src/assets/gltf/text/adthe.jpg',
+  '/PRO5/assets/gltf/text/adthe.jpg',
 ]
 const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
 
@@ -123,6 +122,7 @@ onMounted(() => {
   } else {
     console.error('Container-Element not found.');
   }
+
   // renderer.domElement.addEventListener('mousemove', onMouseMove, false);
   // renderer.domElement.addEventListener('mouseout', onMouseOut, false);
 });
@@ -399,7 +399,7 @@ glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_stuff.gltf', function
   });
 });
 
-glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_wood.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(0, 10, -75);
   gltf.scene.rotateY(-1.55);
@@ -441,7 +441,6 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
     }
   });
   fixedObjects.desklamp = gltf.scene;
-
 });
 
 
@@ -564,6 +563,7 @@ const supressKeys = (evnt) => {
 window.addEventListener('keyup', supressKeys);
 window.addEventListener('keydown', supressKeys);
 
+
 //------------------------------------------Functions------------------------------------------//
 
 const virtualCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -571,6 +571,7 @@ virtualCamera.rotation.copy(activeCamera.rotation);
 
 
 function onMouseDown(event) {
+
   isDragging = true;
   window.addEventListener('mouseup', onMouseUp);
   previousMousePosition = { x: event.clientX, y: event.clientY };
@@ -690,6 +691,7 @@ function hideDesklamp() {
 }
 
 function changeAllTextures(index) {
+  console.log(index);
   for (let key in loadedObjects) {
     //if (key === 'room' || key === 'lowchairfeets' || key === 'doors' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
     const object = loadedObjects[key];
@@ -700,7 +702,7 @@ function changeAllTextures(index) {
       if (node instanceof THREE.Mesh) {
         node.material.map = new THREE.TextureLoader().load(textureUrl);
         node.material.needsUpdate = true;
-        console.log(`Changed texture of ${key} to ${textureUrl}`);
+        //console.log(`Changed texture of ${key} to ${textureUrl}`);
       }
     });
     objectTextures[key] = textureUrl; // Speichere die aktuelle Textur für das Objekt
