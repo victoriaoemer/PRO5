@@ -165,23 +165,23 @@ glTFLoader.load('/PRO5/assets/gltf/Room/room_start.gltf', function (gltf) {
       node.castShadow = true;
     }
   });
-
 });
 
-glTFLoader.load('/PRO5/assets/gltf/Room/lights.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Room/room_complete.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
   scene.add(gltf.scene);
 
-  fixedObjects.room = gltf.scene;
+  fixedObjects.room_complete = gltf.scene;
+ 
   gltf.scene.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
       node.castShadow = true;
     }
   });
+  toggleVisibility('room_complete') == true; //hide it
 });
-
 
 glTFLoader.load('/PRO5/assets/gltf/Room/room_wire.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
@@ -190,7 +190,7 @@ glTFLoader.load('/PRO5/assets/gltf/Room/room_wire.gltf', function (gltf) {
   scene.add(gltf.scene);
 
   fixedObjects.room_wireframe = gltf.scene;
-  toggleVisibility('room_wireframe'); //hide it
+  toggleVisibility('room_wireframe') == true; //hide it
 });
 
 
@@ -401,7 +401,7 @@ glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_stuff.gltf', function
       // Verwende MeshStandardMaterial für realistische Reflexionen
       const standardMaterial = new THREE.MeshStandardMaterial({
         color: node.material.color,
-        metalness: 0.5, // Stelle den Metalness-Wert auf 1 für metallische Reflexionen
+        metalness: 0, // Stelle den Metalness-Wert auf 1 für metallische Reflexionen
         roughness: 0 // Experimentiere mit dem Roughness-Wert für die Glätte des Materials
       });
 
@@ -455,7 +455,7 @@ mirror = new Reflector( geometry, {
 					textureHeight: window.innerHeight * window.devicePixelRatio,
 					color: 0xb5b5b5
 				} );
-        mirror.position.x = -100;
+        mirror.position.x = -95;
 				mirror.position.y = 65;
         mirror.position.z = -115;
 
@@ -660,6 +660,8 @@ function toggleCameraToWide() {
 
 function toggleCameraToGardarobe() {
   activeCamera = camera2;
+  toggleVisibility('room') == true; //hide it
+  toggleVisibility('room_complete') == false; //hide it
 
   controls.dispose();
   controls.addEventListener('change', () => {
@@ -670,6 +672,8 @@ function toggleCameraToGardarobe() {
 
 function toggleCameraToKueche() {
   activeCamera = camera3;
+  toggleVisibility('room') == true; //hide it
+  toggleVisibility('room_complete') == false; //hide it
 
   controls.dispose();
   controls.addEventListener('change', () => {
@@ -688,8 +692,9 @@ function toggleVisibility(id) {
 }
 
 function hideWalls() {
-  toggleVisibility('room');
-  toggleVisibility('room_wireframe') == true; //enable it
+  toggleVisibility('room') == true;
+  toggleVisibility('room_wireframe') == false; //enable it
+  //console.log(room_wireframe.visible);
 }
 
 function toggleWireframe() {
