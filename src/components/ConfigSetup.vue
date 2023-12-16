@@ -71,9 +71,7 @@ const camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.inner
 camera3.name = 'camera3';
 
 let activeCamera = camera;
-console.log(activeCamera.name, 'cameraaaa');
-
-let selectedCameraView = ref(null);
+let selectedCameraView = ref('totale');
 
 
 let mirror, bathrommMirror;
@@ -658,7 +656,7 @@ function onMouseUp() {
 
 function toggleCameraToWide() {
   activeCamera = camera;
-  selectedCameraView = 'totale';
+  selectedCameraView.value = 'totale';
 
   controls.dispose();
   controls = new OrbitControls(activeCamera, renderer.domElement);
@@ -669,7 +667,7 @@ function toggleCameraToWide() {
 
 function toggleCameraToGardarobe() {
   activeCamera = camera2;
-  selectedCameraView = 'gardarobe';
+  selectedCameraView.value = 'gardarobe';
 
   controls.dispose();
   controls.addEventListener('change', () => {
@@ -680,7 +678,7 @@ function toggleCameraToGardarobe() {
 
 function toggleCameraToKueche() {
   activeCamera = camera3;
-  selectedCameraView = 'kueche';
+  selectedCameraView.value = 'kueche';
 
   controls.dispose();
   controls.addEventListener('change', () => {
