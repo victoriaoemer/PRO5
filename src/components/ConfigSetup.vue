@@ -2,6 +2,15 @@
   <div class="container">
     <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"></div>
     <div class="ui">
+      <p>Wähle deine Ansicht:</p>
+      <div style="display: flex; gap: 8px; margin-bottom: 20px; margin: 4px;">
+        <!-- <button @click="toggleCameraToWide" id="totaleButton"> Totale </button> -->
+        <img src="/PRO5/assets/totale.png" height="80" alt="Totale" class="button" @click="toggleCameraToWide">
+        <img src="/PRO5/assets/gardarobe.png" height="80" alt="Gardarobe" class="button" @click="toggleCameraToGardarobe">
+        <img src="/PRO5/assets/kueche.png" height="80" alt="Küche" class="button" @click="toggleCameraToKueche">
+      </div>
+      
+
       <button @click="hideWalls">Wände ausblenden</button>
       <button @click="hideDesklamp">Tischlampe ausblenden</button>
       <button @click="toggleWireframe">Drahtgestell aktivieren</button>
@@ -9,23 +18,23 @@
       <div>
         <p>Material aller Möbelstücke ändern</p>
         <div class="buttonContainer">
-        <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeAllTextures(index)">
-          <img :src="texture" alt="Texture Image">
-        </div></div>
+          <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeAllTextures(index)">
+            <img :src="texture" alt="Texture Image">
+          </div>
+        </div>
       </div>
       <div>
         <p>Material einzelner Möbelstücke ändern</p>
         <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p> <!-- Hier wird der Name angezeigt -->
         <div class="buttonContainer">
-        <div  v-for="(texture, index) in textures" :key="index" class="textureButton"
-          @click="changeOneTexture(index, selectedObjectName)">
-          <img :src="texture" alt="Texture Image">
-        </div></div>
+          <div v-for="(texture, index) in textures" :key="index" class="textureButton"
+            @click="changeOneTexture(index, selectedObjectName)">
+            <img :src="texture" alt="Texture Image">
+          </div>
+        </div>
       </div>
-      <p>Kameraansichten ändern</p>
-      <button @click="toggleCameraToWide"> Totale </button>
-      <button @click="toggleCameraToKitchen"> Küche </button>
-      <button @click="toggleCameraToCloset"> Kasten </button>
+
+
     </div>
   </div>
 </template>
@@ -69,8 +78,7 @@ const objectNamesMapping = {
   'lowchairwood': 'Stuhl',
   'highchairwood': 'Hoher Stuhl',
   'kitchen': 'Küche',
-  'washbasin_wood': 'Waschbecken',
-  'Washbasin_wood': 'Waschbecken',
+  'washbasin': 'Waschbecken',
   'desk': 'Schreibtisch'
   // Füge hier alle gewünschten Zuordnungen hinzu
 };
@@ -88,7 +96,7 @@ const textures = [
   '/PRO5/assets/gltf/text/Gold_wood.jpg',
   '/PRO5/assets/gltf/text/plywood03.jpg',
   '/PRO5/assets/gltf/text/walnut.jpg',
-  //'src/assets/gltf/text/adthe.jpg',
+  '/PRO5/assets/gltf/text/adthe.jpg',
 ]
 const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
 
@@ -110,15 +118,15 @@ let controls = new OrbitControls(activeCamera, renderer.domElement);
 
 let object = new THREE.Group();
 
-let selectedObjectName = ref(null)  ;
+let selectedObjectName = ref(null);
 onMounted(() => {
   const container = document.getElementById('container3D');
   if (container) {
     container.appendChild(renderer.domElement);
-
   } else {
     console.error('Container-Element not found.');
   }
+
   // renderer.domElement.addEventListener('mousemove', onMouseMove, false);
   // renderer.domElement.addEventListener('mouseout', onMouseOut, false);
 });
@@ -409,7 +417,7 @@ glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_stuff.gltf', function
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_wood.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(0, 10, -75);
   gltf.scene.rotateY(-1.55);
@@ -483,7 +491,6 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
     }
   });
   fixedObjects.desklamp = gltf.scene;
-
 });
 
 
@@ -576,7 +583,7 @@ function onClick() {
 
   if (intersects.length > 0) {
     // console.log('Intersection:', intersects[0]);
-    
+
     const objectName = intersects[0].object.name;
     //selectedObjectName.value = objectName;
     const cleanedObjectName = objectName.replace(/_[0-9]/g, '');
@@ -606,6 +613,7 @@ const supressKeys = (evnt) => {
 window.addEventListener('keyup', supressKeys);
 window.addEventListener('keydown', supressKeys);
 
+
 //------------------------------------------Functions------------------------------------------//
 
 const virtualCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -613,6 +621,7 @@ virtualCamera.rotation.copy(activeCamera.rotation);
 
 
 function onMouseDown(event) {
+
   isDragging = true;
   window.addEventListener('mouseup', onMouseUp);
   previousMousePosition = { x: event.clientX, y: event.clientY };
@@ -649,7 +658,7 @@ function toggleCameraToWide() {
   });
 }
 
-function toggleCameraToKitchen() {
+function toggleCameraToGardarobe() {
   activeCamera = camera2;
 
   controls.dispose();
@@ -659,7 +668,7 @@ function toggleCameraToKitchen() {
 }
 
 
-function toggleCameraToCloset() {
+function toggleCameraToKueche() {
   activeCamera = camera3;
 
   controls.dispose();
@@ -710,7 +719,7 @@ function saveData() {
   const imageHeight = (imageWidth / canvas.width) * canvas.height;
 
   // Füge das Bild hinzu
-  pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth / 2.5 , imageHeight / 2.5);
+  pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth / 2.5, imageHeight / 2.5);
   pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2 + 100, 30, imageWidth / 2.5, imageHeight / 2.5);
   pdf.addImage(thirdImage, 'PNG', (canvasWidth - imageWidth) / 2 + 100, 90, imageWidth / 2.5, imageHeight / 2.5);
 
@@ -737,6 +746,7 @@ function hideDesklamp() {
 }
 
 function changeAllTextures(index) {
+  console.log(index);
   for (let key in loadedObjects) {
     //if (key === 'room' || key === 'lowchairfeets' || key === 'doors' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
     const object = loadedObjects[key];
@@ -747,7 +757,7 @@ function changeAllTextures(index) {
       if (node instanceof THREE.Mesh) {
         node.material.map = new THREE.TextureLoader().load(textureUrl);
         node.material.needsUpdate = true;
-        console.log(`Changed texture of ${key} to ${textureUrl}`);
+        //console.log(`Changed texture of ${key} to ${textureUrl}`);
       }
     });
     objectTextures[key] = textureUrl; // Speichere die aktuelle Textur für das Objekt
@@ -773,7 +783,8 @@ function changeOneTexture(index, object) {
     objectTextures[originalObjectName] = textureUrl; // Speichere die aktuelle Textur für das Objekt
     textureIndex = index;
 
-}}
+  }
+}
 
 
 </script>
@@ -823,6 +834,11 @@ button {
   box-shadow: rgba(91, 91, 97, 0.2) 0px 7px 29px 0px;
   padding-block: 20px;
   padding-inline: 12px
+}
+
+.button {
+  border-radius: 4px;
+  box-shadow: rgba(91, 91, 97, 0.2) 0px 7px 29px 0px;
 }
 
 #container3D {
