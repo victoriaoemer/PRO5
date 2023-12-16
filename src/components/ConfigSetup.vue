@@ -659,7 +659,8 @@ function onMouseUp() {
 function toggleCameraToWide() {
   activeCamera = camera;
   selectedCameraView = 'totale';
-
+  fixedObjects.room.visible = true;
+  fixedObjects.room_complete.visible = false;
   controls.dispose();
   controls = new OrbitControls(activeCamera, renderer.domElement);
   controls.addEventListener('change', () => {
@@ -670,10 +671,9 @@ function toggleCameraToWide() {
 function toggleCameraToGardarobe() {
   activeCamera = camera2;
   selectedCameraView = 'gardarobe';
-  
-  toggleVisibility('room') == true; //hide it
-  toggleVisibility('room_complete') == false; //hide it
- 
+  fixedObjects.room.visible = false;
+  fixedObjects.room_complete.visible = true;
+
 
   controls.dispose();
   controls.addEventListener('change', () => {
@@ -684,8 +684,8 @@ function toggleCameraToGardarobe() {
 
 function toggleCameraToKueche() {
   activeCamera = camera3;
-  toggleVisibility('room') == true; //hide it
-  toggleVisibility('room_complete') == false; //hide it
+  fixedObjects.room.visible = false;
+  fixedObjects.room_complete.visible = true;
   selectedCameraView = 'kueche';
 
   controls.dispose();
