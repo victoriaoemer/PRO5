@@ -4,6 +4,7 @@
     <div class="ui">
       <button @click="hideWalls">Wände ausblenden</button>
       <button @click="hideDesklamp">Tischlampe ausblenden</button>
+      <button @click="toggleWireframe">Drahtgestell aktivieren</button>
       <button @click="saveData">Daten als PDF speichern</button>
       <div>
         <p>Material aller Möbelstücke ändern</p>
@@ -42,6 +43,7 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 //Modules below are regarded to shader
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
+import { Reflector } from 'three/addons/objects/Reflector.js';
 
 import jsPDF from 'jspdf';
 
@@ -56,6 +58,8 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 const camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 const camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 let activeCamera = camera;
+
+let mirror, bathrommMirror;
 
 const objectNamesMapping = {
   'room': 'Zimmer',
@@ -178,6 +182,7 @@ glTFLoader.load('/PRO5/assets/gltf/Room/room_wire.gltf', function (gltf) {
   scene.add(gltf.scene);
 
   fixedObjects.room_wireframe = gltf.scene;
+  toggleVisibility('room_wireframe'); //hide it
 });
 
 
@@ -195,14 +200,14 @@ glTFLoader.load('/PRO5/assets/gltf/Room/floor.gltf', function (gltf) {
   });
 });
 
-glTFLoader.load('/PRO5/assets/gltf/Room/mirror_room.gltf', function (gltf) {
+/*glTFLoader.load('/PRO5/assets/gltf/Room/mirror_room.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
   gltf.scene.rotateY(0);
   scene.add(gltf.scene);
 
   //fixedObjects.mirror_room = gltf.scene;
-});
+});*/
 
 glTFLoader.load('/PRO5/assets/gltf/Room/doors.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
@@ -382,13 +387,26 @@ glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_stuff.gltf', function
   gltf.scene.position.set(0, 10, -75);
   gltf.scene.rotateY(-1.55);
 
-  //loadedObjects.washbasinstuff = gltf.scene;
-  scene.add(gltf.scene);
+  // Durchlaufe alle Materialien im glTF-Modell
   gltf.scene.traverse(function (node) {
-    if (node instanceof THREE.Mesh) {
+    if (node.isMesh) {
+      // Verwende MeshStandardMaterial für realistische Reflexionen
+      const standardMaterial = new THREE.MeshStandardMaterial({
+        color: node.material.color,
+        metalness: 0.5, // Stelle den Metalness-Wert auf 1 für metallische Reflexionen
+        roughness: 0 // Experimentiere mit dem Roughness-Wert für die Glätte des Materials
+      });
+
+      // Ersetze das Material des Meshes
+      node.material = standardMaterial;
+
+      // Aktiviere Schattenwurf für das Mesh
       node.castShadow = true;
     }
   });
+
+  // Füge das glTF-Modell zur Szene hinzu
+  scene.add(gltf.scene);
 });
 
 glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_wood.gltf', function (gltf) {
@@ -419,6 +437,38 @@ glTFLoader.load('/PRO5/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
   });
   scene.add(gltf.scene);
 });
+
+let geometry;
+
+geometry = new THREE.PlaneGeometry( 20, 85 );
+mirror = new Reflector( geometry, {
+					clipBias: 0.003,
+					textureWidth: window.innerWidth * window.devicePixelRatio,
+					textureHeight: window.innerHeight * window.devicePixelRatio,
+					color: 0xb5b5b5
+				} );
+        mirror.position.x = -100;
+				mirror.position.y = 65;
+        mirror.position.z = -115;
+
+				mirror.rotateY(Math.PI / 2 );
+        
+				scene.add( mirror );
+
+geometry = new THREE.PlaneGeometry( 35, 45 );
+bathrommMirror = new Reflector( geometry, {
+					clipBias: 0.003,
+					textureWidth: window.innerWidth * window.devicePixelRatio,
+					textureHeight: window.innerHeight * window.devicePixelRatio,
+					color: 0xb5b5b5
+				} );
+        bathrommMirror.position.x = 16;
+				bathrommMirror.position.y = 85;
+        bathrommMirror.position.z = -52;
+
+				bathrommMirror.rotateY(Math.PI);
+        
+				scene.add( bathrommMirror );
 
 //------------------------------------------Additional objects to toggle------------------------------------------//
 
@@ -630,6 +680,11 @@ function toggleVisibility(id) {
 
 function hideWalls() {
   toggleVisibility('room');
+  toggleVisibility('room_wireframe') == true; //enable it
+}
+
+function toggleWireframe() {
+  toggleVisibility('room_wireframe'); //enable it
 }
 
 function saveData() {
