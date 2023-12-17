@@ -54,8 +54,11 @@
         <br>
         <div>
           <p>Zusatsshit</p>
-          <button @click="hideDesklamp">Tischlampe ausblenden</button>
-
+          <div class="buttonContainer">
+            <div class="textureButton" @click="hideDesklamp" :class="{selected: selectedAdd}">
+              <img src="/PRO5/assets/tischlampe.png" alt="Lampe">
+            </div>
+          </div>
         </div>
         <br>
 
@@ -134,6 +137,8 @@ const textures = [
 const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
 let selectedTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
 let selectedOneTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
+
+let selectedAdditionalObjects = ref(null);
 
 console.log(textures[textureIndex]);
 ///PRO5/assets/gltf/text/plywood03.jpg
@@ -822,6 +827,7 @@ function saveData() {
 
 function hideDesklamp() {
   toggleVisibility('desklamp');
+  
 }
 
 function changeAllTextures(index) {
