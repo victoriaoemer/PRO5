@@ -15,7 +15,7 @@
       <button @click="hideWalls">Wände ausblenden</button>
       <button @click="hideDesklamp">Tischlampe ausblenden</button>
       <button @click="toggleWireframe">Drahtgestell aktivieren</button>
-      <button @click="saveData">Daten als PDF speichern</button>
+     
       <div>
         <p>Material aller Möbelstücke ändern</p>
         <div class="buttonContainer">
@@ -35,7 +35,7 @@
         </div>
       </div>
 
-
+      <button class="saveButton" @click="saveData"> <font-awesome-icon class="icon" icon="fa-solid fa-download"/> Daten als PDF speichern</button>
     </div>
   </div>
 </template>
@@ -890,7 +890,7 @@ button {
 }
 
 .button.selected {
-  border: 2px solid #f48cb3;
+  border: 2px solid #191644;
 }
 
 #container3D {
@@ -899,7 +899,16 @@ button {
   margin-right: 2rem;
   background-color: rgb(249, 249, 249)
 }
-
+.saveButton{
+  color: white;
+  background-color: #191644;
+  cursor: pointer;
+}
+.icon {
+  margin-left: 2px;
+  margin-right: 4px;
+  font-size: 18px;
+}
 canvas {
 
   width: 100%;
