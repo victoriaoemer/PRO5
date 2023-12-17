@@ -3,22 +3,34 @@
     <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"></div>
     <div class="ui">
       <p>Wähle deine Ansicht:</p>
-      <div style="display: flex; gap: 8px; margin-bottom: 20px; margin: 4px;">
+      <div style="display: flex; gap: 15px; margin-bottom: 20px; margin: 4px;">
         <!-- <button @click="toggleCameraToWide" id="totaleButton"> Totale </button> -->
-        <img src="/PRO5/assets/totale.png" height="80" alt="Totale" class="button" :class="{selected: selectedCameraView === 'totale'}" @click="toggleCameraToWide">
-        <img src="/PRO5/assets/gardarobe.png" height="80" alt="Gardarobe" class="button" :class="{selected: selectedCameraView === 'gardarobe'}" @click="toggleCameraToGardarobe">
-        <img src="/PRO5/assets/kueche.png" height="80" alt="Küche" class="button" :class="{selected: selectedCameraView === 'kueche'}" @click="toggleCameraToKueche">
+        <button alt="Totale" class="button" :class="{ selected: selectedCameraView === 'totale' }"
+          @click="toggleCameraToWide">
+          <div style="content: url('/PRO5/assets/totale.png'); height: 80px;"></div>
+        </button>
+        <button alt="Gardarobe" class="button" :class="{ selected: selectedCameraView === 'gardarobe' }"
+          @click="toggleCameraToGardarobe">
+          <div style="content: url('/PRO5/assets/gardarobe.png'); height: 80px;"></div>
+        </button>
+        <button alt="Küche" class="button" :class="{ selected: selectedCameraView === 'kueche' }"
+          @click="toggleCameraToKueche">
+          <div style="content: url('/PRO5/assets/kueche.png'); height: 80px;"></div>
+        </button>
       </div>
-      
+
 
       <button @click="hideWalls">Wände ausblenden</button>
-      <button @click="hideDesklamp">Tischlampe ausblenden</button>
       <button @click="toggleWireframe">Drahtgestell aktivieren</button>
-      <button @click="saveData">Daten als PDF speichern</button>
+
+      <br>
+      <br>
+
       <div>
-        <p>Material aller Möbelstücke ändern</p>
+        <p>Generelle Einstellungen</p>
+        <p>Material für alle Möbel wählen:</p>
         <div class="buttonContainer">
-          <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeAllTextures(index)">
+          <div v-for="(texture, index) in textures" :key="index" class="textureButton" :class="{selected: selectedTexture === texture}" @click="changeAllTextures(index)">
             <img :src="texture" alt="Texture Image">
           </div>
         </div>
@@ -28,11 +40,24 @@
         <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p> <!-- Hier wird der Name angezeigt -->
         <div class="buttonContainer">
           <div v-for="(texture, index) in textures" :key="index" class="textureButton"
-            @click="changeOneTexture(index, selectedObjectName)">
+            @click="changeOneTexture(index, selectedObjectName)" :class="{selected: selectedOneTexture === texture}">
             <img :src="texture" alt="Texture Image">
           </div>
         </div>
       </div>
+
+      <div>
+        <p>Zusatsshit</p>
+        <button @click="hideDesklamp">Tischlampe ausblenden</button>
+
+      </div>
+
+      <div>
+        <p>Alles konfiguriert?</p>
+        <button @click="saveData">Daten als PDF speichern</button>
+
+      </div>
+
 
 
     </div>
@@ -105,6 +130,12 @@ const textures = [
   '/PRO5/assets/gltf/text/adthe.jpg',
 ]
 const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
+let selectedTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
+let selectedOneTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
+
+console.log(textures[textureIndex]);
+///PRO5/assets/gltf/text/plywood03.jpg
+console.log(selectedTexture.value)
 
 
 const scene = new THREE.Scene();
@@ -116,12 +147,12 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 window.addEventListener("resize", onWindowResize());
-  
-    function onWindowResize(){
-      activeCamera.aspect = window.innerWidth / window.innerHeight;
-      activeCamera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    };
+
+function onWindowResize() {
+  activeCamera.aspect = window.innerWidth / window.innerHeight;
+  activeCamera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+};
 
 
 let isDragging = false;
@@ -191,7 +222,7 @@ glTFLoader.load('/PRO5/assets/gltf/Room/room_complete.gltf', function (gltf) {
   scene.add(gltf.scene);
 
   fixedObjects.room_complete = gltf.scene;
- 
+
   gltf.scene.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
       node.castShadow = true;
@@ -465,35 +496,35 @@ glTFLoader.load('/PRO5/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
 
 let geometry;
 
-geometry = new THREE.PlaneGeometry( 20, 85 );
-mirror = new Reflector( geometry, {
-					clipBias: 0.003,
-					textureWidth: window.innerWidth * window.devicePixelRatio,
-					textureHeight: window.innerHeight * window.devicePixelRatio,
-					color: 0xb5b5b5
-				} );
-        mirror.position.x = -95;
-				mirror.position.y = 65;
-        mirror.position.z = -115;
+geometry = new THREE.PlaneGeometry(20, 85);
+mirror = new Reflector(geometry, {
+  clipBias: 0.003,
+  textureWidth: window.innerWidth * window.devicePixelRatio,
+  textureHeight: window.innerHeight * window.devicePixelRatio,
+  color: 0xb5b5b5
+});
+mirror.position.x = -95;
+mirror.position.y = 65;
+mirror.position.z = -115;
 
-				mirror.rotateY(Math.PI / 2 );
-        
-				scene.add( mirror );
+mirror.rotateY(Math.PI / 2);
 
-geometry = new THREE.PlaneGeometry( 35, 45 );
-bathrommMirror = new Reflector( geometry, {
-					clipBias: 0.003,
-					textureWidth: window.innerWidth * window.devicePixelRatio,
-					textureHeight: window.innerHeight * window.devicePixelRatio,
-					color: 0xb5b5b5
-				} );
-        bathrommMirror.position.x = 16;
-				bathrommMirror.position.y = 85;
-        bathrommMirror.position.z = -52;
+scene.add(mirror);
 
-				bathrommMirror.rotateY(Math.PI);
-        
-				scene.add( bathrommMirror );
+geometry = new THREE.PlaneGeometry(35, 45);
+bathrommMirror = new Reflector(geometry, {
+  clipBias: 0.003,
+  textureWidth: window.innerWidth * window.devicePixelRatio,
+  textureHeight: window.innerHeight * window.devicePixelRatio,
+  color: 0xb5b5b5
+});
+bathrommMirror.position.x = 16;
+bathrommMirror.position.y = 85;
+bathrommMirror.position.z = -52;
+
+bathrommMirror.rotateY(Math.PI);
+
+scene.add(bathrommMirror);
 
 //------------------------------------------Additional objects to toggle------------------------------------------//
 
@@ -687,7 +718,7 @@ function toggleCameraToGardarobe() {
 
 
   selectedCameraView.value = 'gardarobe';
-  
+
   fixedObjects.room.visible = false;
   fixedObjects.room_complete.visible = true;
 
@@ -724,10 +755,12 @@ function toggleVisibility(id) {
 }
 
 function hideWalls() {
-  
-  if (selectedCameraView.value==='totale') {  toggleVisibility('room');
-  toggleVisibility('room_wireframe');}
-  
+
+  if (selectedCameraView.value === 'totale') {
+    toggleVisibility('room');
+    toggleVisibility('room_wireframe');
+  }
+
 }
 
 function toggleWireframe() {
@@ -801,15 +834,19 @@ function changeAllTextures(index) {
     objectTextures[key] = textureUrl; // Speichere die aktuelle Textur für das Objekt
   }
   textureIndex = index;
+  selectedTexture.value = textures[textureIndex];
+  selectedOneTexture.value = textures[textureIndex];
 }
 function changeOneTexture(index, object) {
 
   const originalObjectName = Object.keys(objectNamesMapping).find(key => objectNamesMapping[key] === object);
   const loadedObject = loadedObjects[originalObjectName];
 
+
   if (loadedObject) {
     const textureUrl = textures[index];
     ///const newTexture = new THREE.TextureLoader().load(textureUrl);
+    console.log(loadedObject)
 
     loadedObject.traverse(function (node) {
       if (node instanceof THREE.Mesh) {
@@ -820,6 +857,7 @@ function changeOneTexture(index, object) {
     });
     objectTextures[originalObjectName] = textureUrl; // Speichere die aktuelle Textur für das Objekt
     textureIndex = index;
+    selectedOneTexture.value = textures[textureIndex];
 
   }
 }
@@ -838,6 +876,19 @@ function changeOneTexture(index, object) {
   border-radius: 10px;
   flex-direction: row;
 
+}
+
+.textureButton.selected {
+  position: relative;
+}
+
+.textureButton.selected::after {
+  /* content: '✓'; */
+  content: url('/PRO5/assets/check.svg');
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  color: #f48cb3;
 }
 
 .textureButton img {
@@ -874,13 +925,30 @@ button {
   padding-inline: 12px
 }
 
+
+
 .button {
   border-radius: 4px;
   box-shadow: rgba(91, 91, 97, 0.2) 0px 7px 29px 0px;
+  padding: 0;
+  margin: 0;
+}
+
+.button div{
+  border-radius: 4px;
 }
 
 .button.selected {
-  border: 2px solid #f48cb3;
+  position: relative;
+}
+
+.button.selected::after {
+  /* content: '✓'; */
+  content: url('/PRO5/assets/check.svg');
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  color: #f48cb3;
 }
 
 #container3D {
