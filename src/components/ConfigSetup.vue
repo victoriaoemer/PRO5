@@ -12,12 +12,12 @@
       </div>
       
 
-      <button @click="hideWalls">Wände ausblenden</button>
+      <button v-if="selectedCameraView==='totale'" @click="hideWalls">Wände ausblenden</button>
       <button @click="hideDesklamp">Tischlampe ausblenden</button>
-      <button @click="toggleWireframe">Drahtgestell aktivieren</button>
+      <button v-if="selectedCameraView==='totale'" @click="toggleWireframe">Drahtgestell aktivieren</button>
      
       <div>
-        <p>Material aller Möbelstücke ändern</p>
+        <h4>Material aller Möbelstücke ändern</h4>
         <div class="buttonContainer">
           <div v-for="(texture, index) in textures" :key="index" class="textureButton" @click="changeAllTextures(index)">
             <img :src="texture" alt="Texture Image">
@@ -25,8 +25,9 @@
         </div>
       </div>
       <div>
-        <p>Material einzelner Möbelstücke ändern</p>
-        <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p> <!-- Hier wird der Name angezeigt -->
+        <h4>Material einzelner Möbelstücke ändern</h4>
+        <p v-if="selectedObjectName==null"> Wählen Sie ein Möbelstück aus indem Sie darauf klicken!</p>
+        <p v-else >Ausgewähltes Möbelstück: {{ selectedObjectName }}</p> <!-- Hier wird der Name angezeigt -->
         <div class="buttonContainer">
           <div v-for="(texture, index) in textures" :key="index" class="textureButton"
             @click="changeOneTexture(index, selectedObjectName)">
@@ -908,6 +909,9 @@ button {
   margin-left: 2px;
   margin-right: 4px;
   font-size: 18px;
+}
+h4{
+  font-weight: 500;
 }
 canvas {
 
