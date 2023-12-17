@@ -2,6 +2,7 @@
   <div class="container">
     <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"></div>
     <div class="ui">
+      <h1>Einzelzimmer</h1>
       <p>Wähle deine Ansicht:</p>
       <div style="display: flex; gap: 8px; margin-bottom: 20px; margin: 4px;">
         <!-- <button @click="toggleCameraToWide" id="totaleButton"> Totale </button> -->
@@ -58,6 +59,7 @@ import jsPDF from 'jspdf';
 
 
 import { onMounted, render } from 'vue';
+
 const loadedObjects = {};
 const fixedObjects = {};
 const objectTextures = {};
@@ -95,7 +97,6 @@ const textureShortInfos = {
   '/PRO5/assets/gltf/text/walnut.jpg': 'Walnussholz',
   // Füge hier weitere Texturen hinzu
 };
-
 
 let textureIndex = 1;
 const textures = [
@@ -137,6 +138,7 @@ let object = new THREE.Group();
 
 let selectedObjectName = ref(null);
 onMounted(() => {
+  
   const container = document.getElementById('container3D');
   if (container) {
     container.appendChild(renderer.domElement);
@@ -461,6 +463,7 @@ glTFLoader.load('/PRO5/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
     }
   });
   scene.add(gltf.scene);
+  changeAllTextures(0); //changing all textures when last object loads (for PDF material list)
 });
 
 let geometry;
@@ -645,6 +648,7 @@ function onMouseDown(event) {
 }
 
 function onMouseMove(event) {
+
   if (isDragging) {
     const deltaX = event.clientX - previousMousePosition.x;
     // const deltaY = event.clientY - previousMousePosition.y;
@@ -735,6 +739,8 @@ function toggleWireframe() {
 }
 
 function saveData() {
+
+  
   renderer.render(scene, camera);
   const canvas = document.getElementsByTagName("canvas", { preserveDrawingBuffer: true })[0];
   const mainImage = canvas.toDataURL("image/png");
@@ -766,6 +772,8 @@ function saveData() {
   let listItemNumber = 1;
 
   pdf.text("Materialliste: ", 10, 100);
+
+  
   for (let key in objectTextures) {
     const textureShortInfo = textureShortInfos[objectTextures[key]] || objectTextures[key];
     const listItemText = `${objectNamesMapping[key] || key}: ${textureShortInfo}`;
@@ -773,8 +781,7 @@ function saveData() {
     listPositionY += 8; // Verringere den Abstand zwischen den Listenelementen
     listItemNumber++;
   }
-
-
+  
 
   pdf.save("KitzConfig - Datenblatt.pdf");
 }
@@ -830,6 +837,9 @@ function changeOneTexture(index, object) {
 
 
 <style scoped>
+h1{
+font-weight: 600;
+}
 .buttonContainer {
   display: flex;
 }
