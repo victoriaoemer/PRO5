@@ -524,8 +524,8 @@ camera.lookAt(object.position);
 camera2.position.set(-90, 80, -20);
 camera3.position.set(30, 80, 60);
 
-const pointLight = new THREE.PointLight(0xffffff, 18000);
-pointLight.position.set(-30, 120, 30);
+const pointLight = new THREE.PointLight(0xffffff, 20000); //mitte vom raum
+pointLight.position.set(20, 120, 40);
 pointLight.castShadow = true; // Enable shadow casting for the light
 pointLight.shadow.mapSize.width = 512; // default
 pointLight.shadow.mapSize.height = 512; // default
@@ -534,7 +534,7 @@ pointLight.shadow.camera.far = 300; // default
 
 scene.add(pointLight);
 
-const pointlight1 = new THREE.PointLight(0xffffff, 1400);
+const pointlight1 = new THREE.PointLight(0xffffff, 1400); //bad
 pointlight1.position.set(0, 120, -100);
 pointlight1.castShadow = true; // Enable shadow casting for the light
 pointlight1.shadow.mapSize.width = 512; // default
@@ -543,8 +543,8 @@ pointlight1.shadow.camera.near = 0.5; // default
 pointlight1.shadow.camera.far = 300; // default
 scene.add(pointlight1);
 
-const pointlight2 = new THREE.PointLight(0xffffff, 3000);
-pointlight2.position.set(-80, 80, -120);
+const pointlight2 = new THREE.PointLight(0xffffff, 2200); //gardArobe
+pointlight2.position.set(-65, 80, -120);
 pointlight2.castShadow = true; // Enable shadow casting for the light
 pointlight2.shadow.mapSize.width = 512; // default
 pointlight2.shadow.mapSize.height = 512; // default
