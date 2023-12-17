@@ -19,9 +19,9 @@
           <div style="content: url('/PRO5/assets/kueche.png'); height: 80px;"></div>
         </button>
       </div>
-        <button v-if="selectedCameraView === 'totale'" @click="hideWalls">Wände ausblenden</button>
-        <button @click="hideDesklamp">Tischlampe ausblenden</button>
-        <button v-if="selectedCameraView === 'totale'" @click="toggleWireframe">Drahtgestell aktivieren</button>
+      <button v-if="selectedCameraView === 'totale'" @click="hideWalls">Wände ausblenden</button>
+      <button @click="hideDesklamp">Tischlampe ausblenden</button>
+      <button v-if="selectedCameraView === 'totale'" @click="toggleWireframe">Drahtgestell aktivieren</button>
 
       <br>
       <br>
@@ -992,4 +992,5 @@ canvas {
   height: 100%;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 10px;
-}</style>
+}
+</style>
