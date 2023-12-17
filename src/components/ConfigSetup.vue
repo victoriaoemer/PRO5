@@ -124,6 +124,7 @@ const textureShortInfos = {
   '/PRO5/assets/gltf/text/Gold_wood.jpg': 'Eichenholz',
   '/PRO5/assets/gltf/text/plywood03.jpg': 'Birkenholz',
   '/PRO5/assets/gltf/text/walnut.jpg': 'Walnussholz',
+  '/PRO5/assets/gltf/text/adthe.jpg': 'Nuhiu',
   // Füge hier weitere Texturen hinzu
 };
 
@@ -810,7 +811,7 @@ function saveData() {
   let listPositionY = 0 + imageHeight + 5; // Verringere den Abstand zwischen dem Bild und der Liste
   let listItemNumber = 1;
 
-  pdf.text("Materialliste: ", 10, 100);
+  pdf.text("Materialliste: ", 10, 90);
 
 
   for (let key in objectTextures) {
