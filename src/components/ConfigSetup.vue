@@ -2,6 +2,7 @@
   <div class="container">
     <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"></div>
     <div class="ui">
+      <h1>Einzelzimmer</h1>
       <p>Wähle deine Ansicht:</p>
       <div style="display: flex; gap: 15px; margin-bottom: 20px; margin: 4px;">
         <!-- <button @click="toggleCameraToWide" id="totaleButton"> Totale </button> -->
@@ -18,48 +19,49 @@
           <div style="content: url('/PRO5/assets/kueche.png'); height: 80px;"></div>
         </button>
       </div>
-
-
-      <button @click="hideWalls">Wände ausblenden</button>
-      <button @click="toggleWireframe">Drahtgestell aktivieren</button>
+        <button v-if="selectedCameraView === 'totale'" @click="hideWalls">Wände ausblenden</button>
+        <button @click="hideDesklamp">Tischlampe ausblenden</button>
+        <button v-if="selectedCameraView === 'totale'" @click="toggleWireframe">Drahtgestell aktivieren</button>
 
       <br>
       <br>
 
       <div>
         <p>Generelle Einstellungen</p>
-        <p>Material für alle Möbel wählen:</p>
-        <div class="buttonContainer">
-          <div v-for="(texture, index) in textures" :key="index" class="textureButton" :class="{selected: selectedTexture === texture}" @click="changeAllTextures(index)">
-            <img :src="texture" alt="Texture Image">
+
+        <div>
+          <h4>Material aller Möbelstücke ändern</h4>
+
+          <div class="buttonContainer">
+            <div v-for="(texture, index) in textures" :key="index" class="textureButton"
+              :class="{ selected: selectedTexture === texture }" @click="changeAllTextures(index)">
+              <img :src="texture" alt="Texture Image">
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <p>Material einzelner Möbelstücke ändern</p>
-        <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p> <!-- Hier wird der Name angezeigt -->
-        <div class="buttonContainer">
-          <div v-for="(texture, index) in textures" :key="index" class="textureButton"
-            @click="changeOneTexture(index, selectedObjectName)" :class="{selected: selectedOneTexture === texture}">
-            <img :src="texture" alt="Texture Image">
+        <br>
+        <div>
+          <h4>Material einzelner Möbelstücke ändern</h4>
+          <p v-if="selectedObjectName == null"> Wählen Sie ein Möbelstück aus indem Sie darauf klicken!</p>
+          <p v-else>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p> <!-- Hier wird der Name angezeigt -->
+          <div class="buttonContainer">
+            <div v-for="(texture, index) in textures" :key="index" class="textureButton"
+              @click="changeOneTexture(index, selectedObjectName)" :class="{ selected: selectedOneTexture === texture }">
+              <img :src="texture" alt="Texture Image">
+            </div>
           </div>
         </div>
+        <br>
+        <div>
+          <p>Zusatsshit</p>
+          <button @click="hideDesklamp">Tischlampe ausblenden</button>
+
+        </div>
+        <br>
+
+        <button class="saveButton" @click="saveData"> <font-awesome-icon class="icon" icon="fa-solid fa-download" /> Daten
+          als PDF speichern</button>
       </div>
-
-      <div>
-        <p>Zusatsshit</p>
-        <button @click="hideDesklamp">Tischlampe ausblenden</button>
-
-      </div>
-
-      <div>
-        <p>Alles konfiguriert?</p>
-        <button @click="saveData">Daten als PDF speichern</button>
-
-      </div>
-
-
-
     </div>
   </div>
 </template>
@@ -83,6 +85,7 @@ import jsPDF from 'jspdf';
 
 
 import { onMounted, render } from 'vue';
+
 const loadedObjects = {};
 const fixedObjects = {};
 const objectTextures = {};
@@ -120,7 +123,6 @@ const textureShortInfos = {
   '/PRO5/assets/gltf/text/walnut.jpg': 'Walnussholz',
   // Füge hier weitere Texturen hinzu
 };
-
 
 let textureIndex = 1;
 const textures = [
@@ -168,6 +170,7 @@ let object = new THREE.Group();
 
 let selectedObjectName = ref(null);
 onMounted(() => {
+
   const container = document.getElementById('container3D');
   if (container) {
     container.appendChild(renderer.domElement);
@@ -492,6 +495,7 @@ glTFLoader.load('/PRO5/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
     }
   });
   scene.add(gltf.scene);
+  changeAllTextures(0); //changing all textures when last object loads (for PDF material list)
 });
 
 let geometry;
@@ -551,8 +555,8 @@ camera.lookAt(object.position);
 camera2.position.set(-90, 80, -20);
 camera3.position.set(30, 80, 60);
 
-const pointLight = new THREE.PointLight(0xffffff, 18000);
-pointLight.position.set(-30, 120, 30);
+const pointLight = new THREE.PointLight(0xffffff, 20000); //mitte vom raum
+pointLight.position.set(20, 120, 40);
 pointLight.castShadow = true; // Enable shadow casting for the light
 pointLight.shadow.mapSize.width = 512; // default
 pointLight.shadow.mapSize.height = 512; // default
@@ -561,7 +565,7 @@ pointLight.shadow.camera.far = 300; // default
 
 scene.add(pointLight);
 
-const pointlight1 = new THREE.PointLight(0xffffff, 1400);
+const pointlight1 = new THREE.PointLight(0xffffff, 1400); //bad
 pointlight1.position.set(0, 120, -100);
 pointlight1.castShadow = true; // Enable shadow casting for the light
 pointlight1.shadow.mapSize.width = 512; // default
@@ -570,8 +574,8 @@ pointlight1.shadow.camera.near = 0.5; // default
 pointlight1.shadow.camera.far = 300; // default
 scene.add(pointlight1);
 
-const pointlight2 = new THREE.PointLight(0xffffff, 3000);
-pointlight2.position.set(-80, 80, -120);
+const pointlight2 = new THREE.PointLight(0xffffff, 2200); //gardArobe
+pointlight2.position.set(-65, 80, -120);
 pointlight2.castShadow = true; // Enable shadow casting for the light
 pointlight2.shadow.mapSize.width = 512; // default
 pointlight2.shadow.mapSize.height = 512; // default
@@ -676,6 +680,7 @@ function onMouseDown(event) {
 }
 
 function onMouseMove(event) {
+
   if (isDragging) {
     const deltaX = event.clientX - previousMousePosition.x;
     // const deltaY = event.clientY - previousMousePosition.y;
@@ -768,6 +773,8 @@ function toggleWireframe() {
 }
 
 function saveData() {
+
+
   renderer.render(scene, camera);
   const canvas = document.getElementsByTagName("canvas", { preserveDrawingBuffer: true })[0];
   const mainImage = canvas.toDataURL("image/png");
@@ -799,6 +806,8 @@ function saveData() {
   let listItemNumber = 1;
 
   pdf.text("Materialliste: ", 10, 100);
+
+
   for (let key in objectTextures) {
     const textureShortInfo = textureShortInfos[objectTextures[key]] || objectTextures[key];
     const listItemText = `${objectNamesMapping[key] || key}: ${textureShortInfo}`;
@@ -806,7 +815,6 @@ function saveData() {
     listPositionY += 8; // Verringere den Abstand zwischen den Listenelementen
     listItemNumber++;
   }
-
 
 
   pdf.save("KitzConfig - Datenblatt.pdf");
@@ -868,6 +876,10 @@ function changeOneTexture(index, object) {
 
 
 <style scoped>
+h1 {
+  font-weight: 600;
+}
+
 .buttonContainer {
   display: flex;
 }
@@ -934,7 +946,7 @@ button {
   margin: 0;
 }
 
-.button div{
+.button div {
   border-radius: 4px;
 }
 
@@ -958,11 +970,26 @@ button {
   background-color: rgb(249, 249, 249)
 }
 
+.saveButton {
+  color: white;
+  background-color: #191644;
+  cursor: pointer;
+}
+
+.icon {
+  margin-left: 2px;
+  margin-right: 4px;
+  font-size: 18px;
+}
+
+h4 {
+  font-weight: 500;
+}
+
 canvas {
 
   width: 100%;
   height: 100%;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 10px;
-}
-</style>
+}</style>
