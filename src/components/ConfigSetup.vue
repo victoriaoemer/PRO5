@@ -81,6 +81,10 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { Reflector } from 'three/addons/objects/Reflector.js';
+import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
+
+// ...
+
 
 import jsPDF from 'jspdf';
 
@@ -175,6 +179,9 @@ let object = new THREE.Group();
 let selectedObjectName = ref(null);
 onMounted(() => {
 
+
+
+
   const container = document.getElementById('container3D');
   if (container) {
     container.appendChild(renderer.domElement);
@@ -184,6 +191,7 @@ onMounted(() => {
 
   // renderer.domElement.addEventListener('mousemove', onMouseMove, false);
   // renderer.domElement.addEventListener('mouseout', onMouseOut, false);
+  
 });
 
 // funct ion o  nMouseMove(event) {
@@ -602,13 +610,7 @@ scene.add(ambientLight);
 // composer.addPass(outlinePass);
 
 
-const animate = () => {
-  requestAnimationFrame(animate);
-  //composer.render();
-  controls.update();
-  renderer.render(scene, activeCamera)
-}
-animate();
+
 
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
@@ -617,6 +619,31 @@ renderer.domElement.addEventListener('click', onClick, false);
 const raycastObjects = [];
 
 let INTERSECTED;
+
+let composer;
+let outlinePass;
+
+function init() {
+  outlinePass = new OutlinePass(
+   new THREE.Vector2(window.innerWidth, window.innerHeight), //resolution parameter
+  scene,
+   activeCamera
+ );
+ outlinePass.visibleEdgeColor.set(0xff0000);
+outlinePass.edgeStrength = 3.0;
+//outlinePass.edgeGlow = 0.2;
+outlinePass.edgeThickness = 2.0;
+  composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, activeCamera));
+
+  composer.addPass(outlinePass);
+  const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);  
+  composer.addPass(gammaCorrectionPass);
+  
+}
+init();
+
+
 function onClick() {
   //only loaded objects are selectable
   for (const key in loadedObjects) {
@@ -638,10 +665,7 @@ function onClick() {
   let objectName = null;
 
   if (intersects.length > 0) {
-    // console.log('Intersection:', intersects[0]);
-
     const objectName = intersects[0].object.name;
-    //selectedObjectName.value = objectName;
     const cleanedObjectName = objectName.replace(/_[0-9]/g, '');
     console.log(cleanedObjectName);
 
@@ -649,17 +673,38 @@ function onClick() {
 
     if (INTERSECTED != intersects[0].object) {
 
-      if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+      if (INTERSECTED) {
+        // Reset the outline effect on the previously selected object
+        outlinePass.selectedObjects = [];
+      }
 
       INTERSECTED = intersects[0].object;
-      INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-      INTERSECTED.material.emissive.setHex(0xff0000);
+
+      // Set the outline effect on the newly selected object
+      outlinePass.selectedObjects = [INTERSECTED];
     }
   } else {
-    if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+    if (INTERSECTED) {
+      // Reset the outline effect on the previously selected object
+      outlinePass.selectedObjects = [];
+    }
     INTERSECTED = null;
   }
 }
+
+const animate = () => {
+  requestAnimationFrame(animate);
+  //composer.render();
+  controls.update();
+  composer.render(scene, activeCamera)
+}
+animate();
+
+// Add an event listener for the resize event to update the outline pass
+window.addEventListener('resize', function () {
+  const canvasPosition = renderer.domElement.getBoundingClientRect();
+
+});
 
 const supressKeys = (evnt) => {
   if (evnt.key === 'ArrowUp' || evnt.key === 'ArrowDown') {
@@ -706,22 +751,24 @@ function onMouseUp() {
 }
 
 function toggleCameraToWide() {
-  activeCamera = camera;
 
+  activeCamera = camera;
+  init();
   fixedObjects.room.visible = true;
   fixedObjects.room_complete.visible = false;
 
   selectedCameraView.value = 'totale';
   controls.dispose();
   controls = new OrbitControls(activeCamera, renderer.domElement);
+ 
   controls.addEventListener('change', () => {
-    renderer.render(scene, activeCamera);
+  composer.render(scene, activeCamera);
   });
 }
 
 function toggleCameraToGardarobe() {
   activeCamera = camera2;
-
+  init();
   fixedObjects.room.visible = false;
   fixedObjects.room_complete.visible = true;
 
@@ -731,25 +778,24 @@ function toggleCameraToGardarobe() {
   fixedObjects.room.visible = false;
   fixedObjects.room_complete.visible = true;
 
-
+ 
   controls.dispose();
   controls.addEventListener('change', () => {
-    renderer.render(scene, activeCamera);
+  composer.render(scene, activeCamera);
   });
 }
 
 
 function toggleCameraToKueche() {
   activeCamera = camera3;
-
+  init();
   fixedObjects.room.visible = false;
   fixedObjects.room_complete.visible = true;
   selectedCameraView.value = 'kueche';
 
-
   controls.dispose();
   controls.addEventListener('change', () => {
-    renderer.render(scene, activeCamera);
+  composer.render(scene, activeCamera);
   });
 }
 
