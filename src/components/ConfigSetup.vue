@@ -149,6 +149,7 @@ console.log(selectedTexture.value)
 
 
 const scene = new THREE.Scene();
+scene.background = new THREE.Color( 0xffffff );
 const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
