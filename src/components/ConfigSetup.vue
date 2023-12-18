@@ -53,11 +53,11 @@
         </div>
         <br>
         <div>
-          <p>Zusatsshit</p>
+          <p>Zusatsobjekte</p>
           <div class="buttonContainer">
-            <div class="textureButton" @click="hideDesklamp" :class="{selected: selectedAdd}">
-              <img src="/PRO5/assets/tischlampe.png" alt="Lampe">
-            </div>
+            <button class="textureButton" @click="hideDesklamp" :class="{selected: selectedAdd}">
+              Tischlampe ausblenden
+            </button>
           </div>
         </div>
         <br>
