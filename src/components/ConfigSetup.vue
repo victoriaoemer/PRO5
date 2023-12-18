@@ -527,7 +527,7 @@ mirror.rotateY(Math.PI / 2);
 
 scene.add(mirror);
 
-geometry = new THREE.PlaneGeometry(70, 100);
+geometry = new THREE.PlaneGeometry(70, 102);
 windowrefl = new Reflector(geometry, {
   clipBias: 0.003,
   textureWidth: window.innerWidth * window.devicePixelRatio,
@@ -535,7 +535,7 @@ windowrefl = new Reflector(geometry, {
   color: 0xb5b5b5 
 });
 windowrefl.position.x = -20;
-windowrefl.position.y = 65;
+windowrefl.position.y = 64.5;
 windowrefl.position.z = 200;
 
 windowrefl.rotateY(Math.PI);
