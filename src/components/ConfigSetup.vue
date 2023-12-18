@@ -320,7 +320,7 @@ glTFLoader.load('/PRO5/assets/gltf/Closet_sep/closet_handle.gltf', function (glt
 
 glTFLoader.load('/PRO5/assets/gltf/Bed_sep/bed_stuff.gltf', function (gltf) {
   gltf.scene.scale.set(0.5, 0.5, 0.5);
-  gltf.scene.position.set(0, 10, 85);
+  gltf.scene.position.set(0, 10, 80);
   gltf.scene.rotateY(-1.55);
   scene.add(gltf.scene);
 
@@ -336,7 +336,7 @@ glTFLoader.load('/PRO5/assets/gltf/Bed_sep/bed_stuff.gltf', function (gltf) {
 
 glTFLoader.load('/PRO5/assets/gltf/Bed_sep/bedwood.gltf', function (gltf) {
   gltf.scene.scale.set(0.5, 0.5, 0.5);
-  gltf.scene.position.set(0, 10, 85);
+  gltf.scene.position.set(0, 10, 80);
   gltf.scene.rotateY(-1.55);
 
   loadedObjects.bedwood = gltf.scene;
@@ -366,7 +366,7 @@ glTFLoader.load('/PRO5/assets/gltf/Garderobe/garderobe.gltf', function (gltf) {
 
 glTFLoader.load('/PRO5/assets/gltf/LowChair_sep/lowChair_feet.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
-  gltf.scene.position.set(10, 10, 160);
+  gltf.scene.position.set(10, 10, 150);
   gltf.scene.rotateY(1.55);
 
   //loadedObjects.lowchairfeets = gltf.scene;
@@ -380,7 +380,7 @@ glTFLoader.load('/PRO5/assets/gltf/LowChair_sep/lowChair_feet.gltf', function (g
 
 glTFLoader.load('/PRO5/assets/gltf/LowChair_sep/lowChair_wood.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
-  gltf.scene.position.set(10, 10, 160);
+  gltf.scene.position.set(10, 10, 150);
   gltf.scene.rotateY(1.55);
 
   loadedObjects.lowchairwood = gltf.scene;
@@ -497,7 +497,7 @@ glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin.gltf', function (gltf
 
 glTFLoader.load('/PRO5/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
   gltf.scene.scale.set(5, 5, 5);
-  gltf.scene.position.set(37, 10, 160);
+  gltf.scene.position.set(37, 10, 150);
 
   loadedObjects.desk = gltf.scene;
   loadedObjects.desk.traverse(function (node) {
@@ -546,7 +546,7 @@ scene.add(bathrommMirror);
 
 glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
   gltf.scene.scale.set(5, 5, 5);
-  gltf.scene.position.set(45, 47, 181);
+  gltf.scene.position.set(45, 47, 170);
   gltf.scene.rotateY(-2.5);
   scene.add(gltf.scene);
   gltf.scene.traverse(function (node) {
@@ -558,6 +558,15 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
 });
 
 
+glTFLoader.load('/PRO5/assets/gltf/Objects/curtains.gltf', function (gltf) {
+  gltf.scene.scale.set(50, 50, 50);
+  gltf.scene.position.set(-110, 0, 200);
+  gltf.scene.rotateY(0);
+  scene.add(gltf.scene);
+
+  fixedObjects.curtains = gltf.scene;
+});
+
 //------------------------------------------Axis and Lights------------------------------------------//
 
 const axesHelper = new THREE.AxesHelper(5);
@@ -567,8 +576,8 @@ camera.lookAt(object.position);
 camera2.position.set(-90, 80, -20);
 camera3.position.set(30, 80, 60);
 
-const pointLight = new THREE.PointLight(0xffffff, 20000); //mitte vom raum
-pointLight.position.set(20, 120, 40);
+const pointLight = new THREE.PointLight(0xffffff, 14000); //mitte vom raum
+pointLight.position.set(-20, 120, 40);
 pointLight.castShadow = true; // Enable shadow casting for the light
 pointLight.shadow.mapSize.width = 512; // default
 pointLight.shadow.mapSize.height = 512; // default
