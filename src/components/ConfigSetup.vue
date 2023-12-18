@@ -973,7 +973,7 @@ button {
   flex-direction: row;
   margin-left: 2rem;
   margin-right: 2rem;
-  background-color: rgb(249, 249, 249)
+  background-color: rgb(255, 255, 255)
 }
 
 .saveButton {
