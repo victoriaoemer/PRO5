@@ -107,7 +107,7 @@ let activeCamera = camera;
 let selectedCameraView = ref('totale');
 
 
-let mirror, bathrommMirror;
+let mirror, bathrommMirror, windowrefl;
 
 const objectNamesMapping = {
   'room': 'Zimmer',
@@ -526,6 +526,21 @@ mirror.position.z = -115;
 mirror.rotateY(Math.PI / 2);
 
 scene.add(mirror);
+
+geometry = new THREE.PlaneGeometry(70, 100);
+windowrefl = new Reflector(geometry, {
+  clipBias: 0.003,
+  textureWidth: window.innerWidth * window.devicePixelRatio,
+  textureHeight: window.innerHeight * window.devicePixelRatio,
+  color: 0xb5b5b5 
+});
+windowrefl.position.x = -20;
+windowrefl.position.y = 65;
+windowrefl.position.z = 200;
+
+windowrefl.rotateY(Math.PI);
+
+scene.add(windowrefl);
 
 geometry = new THREE.PlaneGeometry(35, 45);
 bathrommMirror = new Reflector(geometry, {
