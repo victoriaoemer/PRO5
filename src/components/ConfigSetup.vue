@@ -3,7 +3,7 @@
     <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"></div>
     <div class="ui">
       <h1>Einzelzimmer</h1>
-      <p>Wähle deine Ansicht:</p>
+      <h4>Wähle deine Ansicht</h4>
       <div style="display: flex; gap: 15px; margin-bottom: 20px; margin: 4px;">
         <!-- <button @click="toggleCameraToWide" id="totaleButton"> Totale </button> -->
         <button alt="Totale" class="button" :class="{ selected: selectedCameraView === 'totale' }"
@@ -26,7 +26,6 @@
       <br>
 
       <div>
-        <p>Generelle Einstellungen</p>
 
         <div>
           <h4>Material aller Möbelstücke ändern</h4>
@@ -52,7 +51,7 @@
         </div>
         <br>
         <div>
-          <p>Zusatzobjekte</p>
+          <h4>Zusatzobjekte</h4>
           <div class="buttonContainer">
             <button class="textureButton" @click="hideDesklamp" :class="{selected: selectedAdd}">
               Tischlampe ausblenden
@@ -882,8 +881,9 @@ function changeOneTexture(index, object) {
 
 
 <style scoped>
+
 h1 {
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .buttonContainer {
@@ -906,7 +906,7 @@ h1 {
   position: absolute;
   bottom: -10px;
   right: -10px;
-  color: #f48cb3;
+  color: #3C4F64;
 }
 
 .textureButton img {
@@ -966,7 +966,7 @@ button {
   position: absolute;
   bottom: -10px;
   right: -10px;
-  color: #f48cb3;
+  color: #3C4F64;
 }
 
 #container3D {
@@ -978,7 +978,7 @@ button {
 
 .saveButton {
   color: white;
-  background-color: #191644;
+  background-color: var(--vt-c-text-light-1);
   cursor: pointer;
 }
 
@@ -989,7 +989,7 @@ button {
 }
 
 h4 {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 canvas {

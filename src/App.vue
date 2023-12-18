@@ -2,11 +2,13 @@
 import ConfigSetup from './components/ConfigSetup.vue';
 import Configurator from './components/Configurator.vue';
 
+
+
 </script>
 
 <template>
+  <title>KitzConfig</title>
   <main>
-    <h1>KitzConfig</h1>
     <ConfigSetup />
   </main>
 </template>
