@@ -20,7 +20,6 @@
         </button>
       </div>
       <button v-if="selectedCameraView === 'totale'" @click="hideWalls">Wände ausblenden</button>
-      <button @click="hideDesklamp">Tischlampe ausblenden</button>
       <button v-if="selectedCameraView === 'totale'" @click="toggleWireframe">Drahtgestell aktivieren</button>
 
       <br>
@@ -53,7 +52,7 @@
         </div>
         <br>
         <div>
-          <p>Zusatsobjekte</p>
+          <p>Zusatzobjekte</p>
           <div class="buttonContainer">
             <button class="textureButton" @click="hideDesklamp" :class="{selected: selectedAdd}">
               Tischlampe ausblenden
