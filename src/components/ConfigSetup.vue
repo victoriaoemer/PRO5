@@ -621,6 +621,8 @@ const raycastObjects = [];
 let INTERSECTED;
 
 let composer;
+const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);  
+
 let outlinePass;
 
 function init() {
@@ -629,16 +631,15 @@ function init() {
   scene,
    activeCamera
  );
- outlinePass.visibleEdgeColor.set(0xff0000);
+ outlinePass.visibleEdgeColor.set(0xffffff);
 outlinePass.edgeStrength = 3.0;
-//outlinePass.edgeGlow = 0.2;
+outlinePass.edgeGlow = 0.2;
 outlinePass.edgeThickness = 2.0;
   composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, activeCamera));
-
-  composer.addPass(outlinePass);
-  const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);  
   composer.addPass(gammaCorrectionPass);
+  composer.addPass(outlinePass);
+
   
 }
 init();
