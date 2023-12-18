@@ -476,6 +476,43 @@ glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_stuff.gltf', function
     }
   });
 
+  glTFLoader.load('/PRO5/assets/gltf/Objects/toilet.gltf', function (gltf) {
+    gltf.scene.scale.set(15, 15, 15);
+  gltf.scene.position.set(30, 7, -165);
+  gltf.scene.rotateY(0);
+  scene.add(gltf.scene);
+
+  fixedObjects.doors = gltf.scene;
+});
+
+glTFLoader.load('/PRO5/assets/gltf/Objects/plant01.gltf', function (gltf) {
+    gltf.scene.scale.set(45, 45, 45);
+  gltf.scene.position.set(-90, 10, 120);
+  gltf.scene.rotateY(0);
+  scene.add(gltf.scene);
+
+  fixedObjects.doors = gltf.scene;
+});
+
+glTFLoader.load('/PRO5/assets/gltf/Objects/plant02.gltf', function (gltf) {
+    gltf.scene.scale.set(75, 75, 75);
+  gltf.scene.position.set(45, 47, 130);
+  gltf.scene.rotateY(0);
+  scene.add(gltf.scene);
+
+  fixedObjects.doors = gltf.scene;
+});
+
+glTFLoader.load('/PRO5/assets/gltf/Garderobe/coathanger.gltf', function (gltf) {
+  gltf.scene.scale.set(60, 60, 57);
+  gltf.scene.position.set(-35, 0, -143);
+  gltf.scene.rotateY(0);
+
+  scene.add(gltf.scene);
+});
+
+
+
   // Füge das glTF-Modell zur Szene hinzu
   scene.add(gltf.scene);
 });
