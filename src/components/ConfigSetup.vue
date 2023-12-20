@@ -53,15 +53,22 @@
         <div>
           <h4>Zusatzobjekte</h4>
           <div class="buttonContainer">
-            <button class="textureButton" @click="hideDesklamp" :class="{selected: selectedAdd}">
+            <button class="textureButton" @click="hideDesklamp">
               Tischlampe ausblenden
             </button>
           </div>
-        </div>
-        <br>
+          <div class="buttonContainer">
+            <div v-for="(object, index) in additionalObjects" :key="object" class="textureButton"
+              @click="toggleAdditionalObjects(object, index)" >
+              <img src="/PRO5/assets/tischlampe.png" alt="Texture Image">
+          </div>
+          </div>
+          <br>
 
-        <button class="saveButton" @click="saveData"> <font-awesome-icon class="icon" icon="fa-solid fa-download" /> Daten
-          als PDF speichern</button>
+          <button class="saveButton" @click="saveData"> <font-awesome-icon class="icon" icon="fa-solid fa-download" />
+            Daten
+            als PDF speichern</button>
+        </div>
       </div>
     </div>
   </div>
@@ -94,6 +101,7 @@ import { onMounted, render } from 'vue';
 const loadedObjects = {};
 const fixedObjects = {};
 const objectTextures = {};
+const additionalObjects = {};
 
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -149,7 +157,7 @@ console.log(selectedTexture.value)
 
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color( 0xffffff );
+scene.background = new THREE.Color(0xffffff);
 const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
@@ -179,39 +187,14 @@ let object = new THREE.Group();
 
 let selectedObjectName = ref(null);
 onMounted(() => {
-
-
-
-
   const container = document.getElementById('container3D');
   if (container) {
     container.appendChild(renderer.domElement);
   } else {
     console.error('Container-Element not found.');
   }
-
-  // renderer.domElement.addEventListener('mousemove', onMouseMove, false);
-  // renderer.domElement.addEventListener('mouseout', onMouseOut, false);
-  
 });
 
-// funct ion o  nMouseMove(event) {
-//   const canvasPosition = renderer.domElement.getBoundingClientRect();
-//   mouse.x = ((event.clientX - canvasPosition.left) / (renderer.domElement.clientWidth)) * 2 - 1;
-//   mouse.y = -((event.clientY - canvasPosition.top) / (renderer.domElement.clientHeight)) * 2 + 1;
-//   raycaster.setFromCamera(mouse, activeCamera);
-//   const intersects = raycaster.intersectObjects(raycastObjects);
-
-//   if (intersects.length > 0) {
-//     outlinePass.selectedObjects = [intersects[0].object];
-//   } else {
-//     outlinePass.selectedObjects = [];
-//   }
-// }
-
-// function onMouseOut() {
-//   outlinePass.selectedObjects = [];
-// }
 //------------------------------------------Load Objects------------------------------------------//
 
 
@@ -476,44 +459,6 @@ glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin_stuff.gltf', function
       node.castShadow = true;
     }
   });
-
-  glTFLoader.load('/PRO5/assets/gltf/Objects/toilet.gltf', function (gltf) {
-    gltf.scene.scale.set(15, 15, 15);
-  gltf.scene.position.set(30, 7, -165);
-  gltf.scene.rotateY(0);
-  scene.add(gltf.scene);
-
-  fixedObjects.doors = gltf.scene;
-});
-
-glTFLoader.load('/PRO5/assets/gltf/Objects/plant01.gltf', function (gltf) {
-    gltf.scene.scale.set(45, 45, 45);
-  gltf.scene.position.set(-90, 10, 120);
-  gltf.scene.rotateY(0);
-  scene.add(gltf.scene);
-
-  fixedObjects.doors = gltf.scene;
-});
-
-glTFLoader.load('/PRO5/assets/gltf/Objects/plant02.gltf', function (gltf) {
-    gltf.scene.scale.set(75, 75, 75);
-  gltf.scene.position.set(45, 47, 130);
-  gltf.scene.rotateY(0);
-  scene.add(gltf.scene);
-
-  fixedObjects.doors = gltf.scene;
-});
-
-glTFLoader.load('/PRO5/assets/gltf/Garderobe/coathanger.gltf', function (gltf) {
-  gltf.scene.scale.set(60, 60, 57);
-  gltf.scene.position.set(-35, 0, -143);
-  gltf.scene.rotateY(0);
-
-  scene.add(gltf.scene);
-});
-
-
-
   // Füge das glTF-Modell zur Szene hinzu
   scene.add(gltf.scene);
 });
@@ -548,6 +493,15 @@ glTFLoader.load('/PRO5/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
   changeAllTextures(0); //changing all textures when last object loads (for PDF material list)
 });
 
+glTFLoader.load('/PRO5/assets/gltf/Objects/toilet.gltf', function (gltf) {
+  gltf.scene.scale.set(15, 15, 15);
+  gltf.scene.position.set(30, 7, -165);
+  gltf.scene.rotateY(0);
+  scene.add(gltf.scene);
+
+  fixedObjects.doors = gltf.scene;
+});
+
 let geometry;
 
 geometry = new THREE.PlaneGeometry(20, 85);
@@ -570,7 +524,7 @@ windowrefl = new Reflector(geometry, {
   clipBias: 0.003,
   textureWidth: window.innerWidth * window.devicePixelRatio,
   textureHeight: window.innerHeight * window.devicePixelRatio,
-  color: 0xb5b5b5 
+  color: 0xb5b5b5
 });
 windowrefl.position.x = -20;
 windowrefl.position.y = 64.5;
@@ -607,7 +561,7 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
       node.castShadow = true;
     }
   });
-  fixedObjects.desklamp = gltf.scene;
+  additionalObjects.desklamp = gltf.scene;
 });
 
 
@@ -615,10 +569,62 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/curtains.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 200);
   gltf.scene.rotateY(0);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
   scene.add(gltf.scene);
 
-  fixedObjects.curtains = gltf.scene;
+  additionalObjects.curtains = gltf.scene;
 });
+
+
+
+glTFLoader.load('/PRO5/assets/gltf/Objects/plant01.gltf', function (gltf) {
+  gltf.scene.scale.set(45, 45, 45);
+  gltf.scene.position.set(-90, 10, 120);
+  gltf.scene.rotateY(0);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
+  scene.add(gltf.scene);
+
+  additionalObjects.plant01 = gltf.scene;
+});
+
+glTFLoader.load('/PRO5/assets/gltf/Objects/plant02.gltf', function (gltf) {
+  gltf.scene.scale.set(75, 75, 75);
+  gltf.scene.position.set(45, 47, 130);
+  gltf.scene.rotateY(0);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
+  scene.add(gltf.scene);
+
+  additionalObjects.plant02 = gltf.scene;
+});
+
+glTFLoader.load('/PRO5/assets/gltf/Garderobe/coathanger.gltf', function (gltf) {
+  gltf.scene.scale.set(60, 60, 57);
+  gltf.scene.position.set(-35, 0, -143);
+  gltf.scene.rotateY(0);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
+
+  scene.add(gltf.scene);
+  additionalObjects.coathanger = gltf.scene;
+});
+
+
+console.log(additionalObjects);
 
 //------------------------------------------Axis and Lights------------------------------------------//
 
@@ -683,26 +689,26 @@ const raycastObjects = [];
 let INTERSECTED;
 
 let composer;
-const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);  
+const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
 
 let outlinePass;
 
 function init() {
   outlinePass = new OutlinePass(
-   new THREE.Vector2(window.innerWidth, window.innerHeight), //resolution parameter
-  scene,
-   activeCamera
- );
- outlinePass.visibleEdgeColor.set(0xffffff);
-outlinePass.edgeStrength = 3.0;
-outlinePass.edgeGlow = 0.2;
-outlinePass.edgeThickness = 2.0;
+    new THREE.Vector2(window.innerWidth, window.innerHeight), //resolution parameter
+    scene,
+    activeCamera
+  );
+  outlinePass.visibleEdgeColor.set(0xffffff);
+  outlinePass.edgeStrength = 3.0;
+  outlinePass.edgeGlow = 0.2;
+  outlinePass.edgeThickness = 2.0;
   composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, activeCamera));
   composer.addPass(gammaCorrectionPass);
   composer.addPass(outlinePass);
 
-  
+
 }
 init();
 
@@ -784,6 +790,7 @@ const virtualCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window
 virtualCamera.rotation.copy(activeCamera.rotation);
 
 
+
 function onMouseDown(event) {
 
   isDragging = true;
@@ -823,9 +830,9 @@ function toggleCameraToWide() {
   selectedCameraView.value = 'totale';
   controls.dispose();
   controls = new OrbitControls(activeCamera, renderer.domElement);
- 
+
   controls.addEventListener('change', () => {
-  composer.render(scene, activeCamera);
+    composer.render(scene, activeCamera);
   });
 }
 
@@ -841,10 +848,10 @@ function toggleCameraToGardarobe() {
   fixedObjects.room.visible = false;
   fixedObjects.room_complete.visible = true;
 
- 
+
   controls.dispose();
   controls.addEventListener('change', () => {
-  composer.render(scene, activeCamera);
+    composer.render(scene, activeCamera);
   });
 }
 
@@ -858,7 +865,7 @@ function toggleCameraToKueche() {
 
   controls.dispose();
   controls.addEventListener('change', () => {
-  composer.render(scene, activeCamera);
+    composer.render(scene, activeCamera);
   });
 }
 
@@ -935,6 +942,29 @@ function saveData() {
 
 function hideDesklamp() {
   toggleVisibility('desklamp');
+
+}
+
+// function hideAdditionalObjects() {
+//   for (const key in additionalObjects) {
+//     if (Object.hasOwnProperty.call(additionalObjects, key)) {
+//       const object = additionalObjects[key];
+//       if (object instanceof THREE.Object3D) {
+//         object.visible = false;
+//       }
+//     }
+//   }
+// }
+
+function toggleAdditionalObjects(object, index){
+  console.log(object);
+  console.log(index);
+ 
+  if (object.visible) {
+    object.visible = false;
+  } else {
+    object.visible = true;
+  }
   
 }
 
@@ -990,7 +1020,6 @@ function changeOneTexture(index, object) {
 
 
 <style scoped>
-
 h1 {
   font-weight: 800;
 }
