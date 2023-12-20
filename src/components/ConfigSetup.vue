@@ -52,16 +52,12 @@
         <br>
         <div>
           <h4>Zusatzobjekte</h4>
-          <div class="buttonContainer">
-            <button class="textureButton" @click="hideDesklamp">
-              Tischlampe ausblenden
-            </button>
-          </div>
+          <p>Wähle die Objekte aus, die du hinzufügen möchtest</p>
           <div class="buttonContainer">
             <div v-for="(object, index) in additionalObjects" :key="object" class="textureButton"
-              @click="toggleAdditionalObjects(object, index)" >
-              <img src="/PRO5/assets/tischlampe.png" alt="Texture Image">
-          </div>
+              @click="toggleAdditionalObjects(object, index)" :class="{ selected: selectedAdditionalObjects[index] }">
+              <img :src="setImagePath(index)" alt="Texture Image" />
+            </div>
           </div>
           <br>
 
@@ -149,7 +145,15 @@ const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gol
 let selectedTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
 let selectedOneTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
 
-let selectedAdditionalObjects = ref(null);
+// const selectedAdditionalObjects = reactive({}); // Verwende ein Reactive-Objekt
+const selectedAdditionalObjects = reactive({
+  desklamp: true,
+  curtains: true,
+  plant01: true,
+  plant02: true,
+  coathanger: true
+  // Add more objects as needed
+});
 
 console.log(textures[textureIndex]);
 ///PRO5/assets/gltf/text/plywood03.jpg
@@ -789,7 +793,9 @@ window.addEventListener('keydown', supressKeys);
 const virtualCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 virtualCamera.rotation.copy(activeCamera.rotation);
 
-
+function setImagePath(index) {
+  return '/PRO5/assets/additionalObjects/' + index + '.png';
+}
 
 function onMouseDown(event) {
 
@@ -940,32 +946,9 @@ function saveData() {
   pdf.save("KitzConfig - Datenblatt.pdf");
 }
 
-function hideDesklamp() {
-  toggleVisibility('desklamp');
-
-}
-
-// function hideAdditionalObjects() {
-//   for (const key in additionalObjects) {
-//     if (Object.hasOwnProperty.call(additionalObjects, key)) {
-//       const object = additionalObjects[key];
-//       if (object instanceof THREE.Object3D) {
-//         object.visible = false;
-//       }
-//     }
-//   }
-// }
-
-function toggleAdditionalObjects(object, index){
-  console.log(object);
-  console.log(index);
- 
-  if (object.visible) {
-    object.visible = false;
-  } else {
-    object.visible = true;
-  }
-  
+function toggleAdditionalObjects(object, index) {
+  object.visible = !object.visible;
+  selectedAdditionalObjects[index] = object.visible;
 }
 
 function changeAllTextures(index) {
