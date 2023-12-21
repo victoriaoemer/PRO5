@@ -899,6 +899,8 @@ function saveData() {
   const originalWidth = renderer.domElement.width;
   const originalHeight = renderer.domElement.height;
 
+  console.log(originalWidth, originalHeight);
+
    // Setze die gewünschte Auflösung für das Rendern
     const renderWidth = 1920;
     const renderHeight = 1080;
