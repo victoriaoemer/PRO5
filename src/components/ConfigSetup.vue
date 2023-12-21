@@ -931,6 +931,8 @@ function saveData() {
   const imageWidth = 200; // Definiere die Breite des Bildes im PDF
   const imageHeight = (imageWidth / canvas.width) * canvas.height;
 
+  console.log(canvasWidth, canvasHeight, imageWidth, imageHeight);
+
   // Definiere das feste Format für die Bilder im PDF
   const pdfImageWidth = 1920 / 4;
   const pdfImageHeight = 1080 / 4;
