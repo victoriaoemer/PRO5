@@ -900,6 +900,16 @@ function toggleWireframe() {
 
 function saveData() {
 
+  const originalWidth = renderer.domElement.width;
+  const originalHeight = renderer.domElement.height;
+
+   // Setze die gewünschte Auflösung für das Rendern
+    const renderWidth = 1920;
+    const renderHeight = 1080;
+
+    
+  // Ändere die Größe des Renderers
+  renderer.setSize(renderWidth, renderHeight);
 
   renderer.render(scene, camera);
   const canvas = document.getElementsByTagName("canvas", { preserveDrawingBuffer: true })[0];
@@ -910,6 +920,9 @@ function saveData() {
 
   renderer.render(scene, camera3);
   const thirdImage = canvas.toDataURL("image/png");
+
+  // Ändere die Größe des Renderers
+  renderer.setSize(originalWidth, originalHeight);
 
   var pdf = new jsPDF();
 
@@ -922,23 +935,33 @@ function saveData() {
   const imageWidth = 200; // Definiere die Breite des Bildes im PDF
   const imageHeight = (imageWidth / canvas.width) * canvas.height;
 
+  // Definiere das feste Format für die Bilder im PDF
+  const pdfImageWidth = 1920 / 4;
+  const pdfImageHeight = 1080 / 4;
+
   // Füge das Bild hinzu
-  pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth / 2.5, imageHeight / 2.5);
-  pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2 + 100, 30, imageWidth / 2.5, imageHeight / 2.5);
-  pdf.addImage(thirdImage, 'PNG', (canvasWidth - imageWidth) / 2 + 100, 90, imageWidth / 2.5, imageHeight / 2.5);
+  pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth , imageHeight / 1);
+  pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2 , 200, imageWidth / 2.5, imageHeight / 2.5);
+  pdf.addImage(thirdImage, 'PNG', (canvasWidth - imageWidth) / 2 + 100, 200, imageWidth / 2.5, imageHeight / 2.5);
+
+// Füge das Bild hinzu und skaliere es auf das feste Format
+  //pdf.addImage(mainImage, 'PNG', 10, 20, pdfImageWidth, pdfImageHeight);
+  //pdf.addImage(secondImage, 'PNG', 220, 20, pdfImageWidth, pdfImageHeight);
+  //pdf.addImage(thirdImage, 'PNG', 430, 20, pdfImageWidth , pdfImageHeight);
+
 
   // Füge eine nummerierte Liste der Materialinformationen hinzu
-  let listPositionY = 0 + imageHeight + 5; // Verringere den Abstand zwischen dem Bild und der Liste
+  let listPositionY = 0 + imageHeight + 20; // Verringere den Abstand zwischen dem Bild und der Liste
   let listItemNumber = 1;
 
-  pdf.text("Materialliste: ", 10, 90);
+  pdf.text("Materialliste: ", 10, listPositionY);
 
 
   for (let key in objectTextures) {
     const textureShortInfo = textureShortInfos[objectTextures[key]] || objectTextures[key];
     const listItemText = `${objectNamesMapping[key] || key}: ${textureShortInfo}`;
-    pdf.text(`${listItemNumber}. ${listItemText}`, 10, listPositionY);
-    listPositionY += 8; // Verringere den Abstand zwischen den Listenelementen
+    pdf.text(`${listItemNumber}. ${listItemText}`, 10, listPositionY+6);
+    listPositionY += 6; // Verringere den Abstand zwischen den Listenelementen
     listItemNumber++;
   }
 
