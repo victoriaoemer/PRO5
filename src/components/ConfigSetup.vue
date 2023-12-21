@@ -896,8 +896,8 @@ function toggleWireframe() {
 
 function saveData() {
 
-  const originalWidth = renderer.domElement.width;
-  const originalHeight = renderer.domElement.height;
+  const originalWidth = 1920//renderer.domElement.width;
+  const originalHeight = 1080//renderer.domElement.height;
 
   console.log(originalWidth, originalHeight);
 
