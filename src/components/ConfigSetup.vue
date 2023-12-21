@@ -926,10 +926,10 @@ function saveData() {
   pdf.text("KitzConfig - Datenblatt", pdf.internal.pageSize.getWidth() / 2, 10, { align: 'center' });
 
   // Skaliere das Bild basierend auf der Größe des Canvas und des Bildes
-  const canvasWidth = pdf.internal.pageSize.getWidth();
-  const canvasHeight = pdf.internal.pageSize.getHeight();
+  const canvasWidth = 210//pdf.internal.pageSize.getWidth();
+  const canvasHeight = 297//pdf.internal.pageSize.getHeight();
   const imageWidth = 200; // Definiere die Breite des Bildes im PDF
-  const imageHeight = (imageWidth / canvas.width) * canvas.height;
+  const imageHeight = 105//(imageWidth / canvas.width) * canvas.height;
 
   console.log(canvasWidth, canvasHeight, imageWidth, imageHeight);
 
