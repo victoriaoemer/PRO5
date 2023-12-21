@@ -913,19 +913,19 @@ function saveData() {
   const canvas = document.getElementsByTagName("canvas", { preserveDrawingBuffer: true })[0];
   const mainImage = canvas.toDataURL("image/png", 0.5);
 
-  console.log("Main Image Data URL:", mainImage);
+  //console.log("Main Image Data URL:", mainImage);
   console.log("Main Image Size (bytes):", mainImage.length);
 
   renderer.render(scene, camera2);
   const secondImage = canvas.toDataURL("image/png");
 
-  console.log("Second Image Data URL:", secondImage);
+  //console.log("Second Image Data URL:", secondImage);
   console.log("Second Image Size (bytes):", secondImage.length);
 
   renderer.render(scene, camera3);
   const thirdImage = canvas.toDataURL("image/png");
 
-  console.log("Third Image Data URL:", thirdImage);
+  //console.log("Third Image Data URL:", thirdImage);
   console.log("Third Image Size (bytes):", thirdImage.length);
 
 
