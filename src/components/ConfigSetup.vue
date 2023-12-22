@@ -5,6 +5,7 @@
           class="canvas-icon" icon="fa-solid fa-cube" /> <font-awesome-icon v-if="selectedCameraView === 'totale'"
           @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square" /></div>
     </div>
+    <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"><div class="canvas-menu"><font-awesome-icon v-if="selectedCameraView === 'totale'" title="Wände ein- und ausblenden"  @click="hideWalls" class="canvas-icon" icon="fa-solid fa-cube" /> <font-awesome-icon v-if="selectedCameraView === 'totale'" title="DRAHTGESTELL anzeigen"  @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square"/></div></div>
     <div class="ui">
       <h1>Einzelzimmer</h1>
       <h4>Wähle deine Ansicht</h4>
@@ -623,14 +624,19 @@ mirror.position.z = -115;
 mirror.rotateY(Math.PI / 2);
 
 scene.add(mirror);
-
+const material = new THREE.MeshPhysicalMaterial({  
+  roughness: 0.4,   
+  transmission: 1,  
+  thickness: 1
+});
 geometry = new THREE.PlaneGeometry(70, 102);
-windowrefl = new Reflector(geometry, {
+/*windowrefl = new Reflector(geometry, {
   clipBias: 0.003,
   textureWidth: window.innerWidth * window.devicePixelRatio,
   textureHeight: window.innerHeight * window.devicePixelRatio,
   color: 0xb5b5b5
-});
+});*/
+windowrefl = new THREE.Mesh(geometry, material)
 windowrefl.position.x = -20;
 windowrefl.position.y = 64.5;
 windowrefl.position.z = 200;
@@ -1220,4 +1226,5 @@ canvas {
 .canvas-icon:hover {
   color: grey;
   transition: 0.1s ease-in;
-}</style>
+}
+</style>
