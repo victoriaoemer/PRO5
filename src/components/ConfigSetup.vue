@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"></div>
+    <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"><div class="canvas-menu"><font-awesome-icon v-if="selectedCameraView === 'totale'" @click="hideWalls" class="canvas-icon" icon="fa-solid fa-cube" /> <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square"/></div></div>
     <div class="ui">
       <h1>Einzelzimmer</h1>
       <h4>Wähle deine Ansicht</h4>
@@ -19,9 +19,6 @@
           <div style="content: url('/PRO5/assets/kueche.png'); height: 80px;"></div>
         </button>
       </div>
-      <button v-if="selectedCameraView === 'totale'" @click="hideWalls">Wände ausblenden</button>
-      <button v-if="selectedCameraView === 'totale'" @click="toggleWireframe">Drahtgestell aktivieren</button>
-
       <br>
       <br>
 
@@ -1000,7 +997,7 @@ function changeAllTextures(index) {
   for (let key in loadedObjects) {
     //if (key === 'room' || key === 'lowchairfeets' || key === 'doors' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
     const object = loadedObjects[key];
-    const textureUrl = textures[index];
+    const textureUrl = textures[index];0
     //const newTexture = new THREE.TextureLoader().load(textureUrl);
 
     object.traverse(function (node) {
@@ -1164,5 +1161,28 @@ canvas {
   height: 100%;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 10px;
+}
+.canvas-menu{
+  margin: 8px;
+  position: absolute;
+  background-color: rgb(236, 236, 236);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  height: 40px;
+  width: 80px;
+  z-index: 100;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+}
+.canvas-icon:first-child{
+ padding-right: 16px;
+  border-right: 1px solid rgb(192, 192, 192);
+ 
+
+}
+.canvas-icon:hover{
+  color: grey;
 }
 </style>

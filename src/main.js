@@ -12,9 +12,12 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
-
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import { faCube } from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
 library.add(faDownload)
+library.add(faPenToSquare)
+library.add(faCube)
 
 createApp(App)
 .component('font-awesome-icon', FontAwesomeIcon)
