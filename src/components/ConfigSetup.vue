@@ -163,7 +163,7 @@ const textures = [
 ]
 const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
 let selectedTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
-let selectedOneTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
+let selectedOneTexture = ref(null);
 
 
 
@@ -784,6 +784,9 @@ function onClick() {
 
       // Set the outline effect on the newly selected object
       outlinePass.selectedObjects = [INTERSECTED];
+
+      const originalObjectName = Object.keys(objectNamesMapping).find(key => objectNamesMapping[key] === selectedObjectName.value);
+      selectedOneTexture.value = objectTextures[originalObjectName] || '/PRO5/assets/gltf/text/Gold_wood.jpg';
     }
   } else {
     if (INTERSECTED) {
@@ -1045,8 +1048,10 @@ function changeAllTextures(index) {
   selectedOneTexture.value = textures[textureIndex];
 }
 function changeOneTexture(index, object) {
-
+  selectedTexture.value = null;
+  
   const originalObjectName = Object.keys(objectNamesMapping).find(key => objectNamesMapping[key] === object);
+  console.log(objectTextures[originalObjectName]); //bereits gespeicherte texture
   const loadedObject = loadedObjects[originalObjectName];
 
 
@@ -1064,6 +1069,8 @@ function changeOneTexture(index, object) {
     objectTextures[originalObjectName] = textureUrl; // Speichere die aktuelle Textur für das Objekt
     textureIndex = index;
     selectedOneTexture.value = textures[textureIndex];
+    console.log(objectTextures[originalObjectName]);
+
 
   }
 }
