@@ -5,7 +5,6 @@
           class="canvas-icon" icon="fa-solid fa-cube" /> <font-awesome-icon v-if="selectedCameraView === 'totale'"
           @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square" /></div>
     </div>
-    <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"><div class="canvas-menu"><font-awesome-icon v-if="selectedCameraView === 'totale'" title="Wände ein- und ausblenden"  @click="hideWalls" class="canvas-icon" icon="fa-solid fa-cube" /> <font-awesome-icon v-if="selectedCameraView === 'totale'" title="DRAHTGESTELL anzeigen"  @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square"/></div></div>
     <div class="ui">
       <h1>Einzelzimmer</h1>
       <h4>Wähle deine Ansicht</h4>
@@ -132,10 +131,7 @@ const selectedAdditionalObjects = reactive({
   // Add more objects as needed
 });
 
-const storedSelectedAdditionalObjects = localStorage.getItem('selectedAdditionalObjects');
-if (storedSelectedAdditionalObjects) {
-  Object.assign(selectedAdditionalObjects, JSON.parse(storedSelectedAdditionalObjects));
-}
+
 
 const objectNamesMapping = {
   'room': 'Zimmer',
@@ -1025,8 +1021,6 @@ function saveData() {
 function toggleAdditionalObjects(object, index) {
   object.visible = !object.visible;
   selectedAdditionalObjects[index] = object.visible;
-
-  localStorage.setItem('selectedAdditionalObjects', JSON.stringify(selectedAdditionalObjects));
 
 }
 
