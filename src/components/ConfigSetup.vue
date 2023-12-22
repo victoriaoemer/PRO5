@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"><div class="canvas-menu"><font-awesome-icon v-if="selectedCameraView === 'totale'" @click="hideWalls" class="canvas-icon" icon="fa-solid fa-cube" /> <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square"/></div></div>
+    <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp">
+      <div class="canvas-menu"><font-awesome-icon v-if="selectedCameraView === 'totale'" @click="hideWalls"
+          class="canvas-icon" icon="fa-solid fa-cube" /> <font-awesome-icon v-if="selectedCameraView === 'totale'"
+          @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square" /></div>
+    </div>
     <div class="ui">
       <h1>Einzelzimmer</h1>
       <h4>Wähle deine Ansicht</h4>
@@ -50,11 +54,18 @@
         <div>
           <h4>Zusatzobjekte</h4>
           <p>Wähle die Objekte aus, die du hinzufügen möchtest</p>
-          <div class="buttonContainer">
-            <div v-for="(object, index) in additionalObjects" :key="index"
-              @click="toggleAdditionalObjects(object, index)" :class="{  textureButton: true ,selected: selectedAdditionalObjects[index] }"> 
-              <img :src="`${'/PRO5/assets/additionalObjects/' + index + '.png'}`" alt="Texture Image" />
-          </div>
+          <div >
+            <div v-if="additionalObjectsLoaded" class="buttonContainer">
+              <!-- Hier kommt dein HTML-Code mit v-for -->
+              <div v-for="(object, index) in additionalObjects" :key="index"
+                @click="toggleAdditionalObjects(object, index)" class="textureButton" :class="{selected: selectedAdditionalObjects[index]}">
+                <img :src="`${'/PRO5/assets/additionalObjects/' + index + '.png'}`" alt="Texture Image" />
+            </div>
+            </div>
+            <div v-else>
+              <!-- Hier kannst du einen Ladeindikator oder eine Meldung anzeigen, während die Objekte geladen werden -->
+              Lade zusätzliche Objekte...
+            </div>
           </div>
           <br>
 
@@ -109,6 +120,8 @@ let selectedCameraView = ref('totale');
 
 
 let mirror, bathrommMirror, windowrefl;
+const additionalObjectsLoaded = ref(false);
+
 const selectedAdditionalObjects = reactive({
   desklamp: true,
   curtains: true,
@@ -117,6 +130,11 @@ const selectedAdditionalObjects = reactive({
   coathanger: true
   // Add more objects as needed
 });
+
+const storedSelectedAdditionalObjects = localStorage.getItem('selectedAdditionalObjects');
+if (storedSelectedAdditionalObjects) {
+  Object.assign(selectedAdditionalObjects, JSON.parse(storedSelectedAdditionalObjects));
+}
 
 const objectNamesMapping = {
   'room': 'Zimmer',
@@ -150,11 +168,6 @@ const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gol
 let selectedTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
 let selectedOneTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
 
-
-
-console.log(textures[textureIndex]);
-///PRO5/assets/gltf/text/plywood03.jpg
-console.log(selectedTexture.value)
 
 
 const scene = new THREE.Scene();
@@ -207,13 +220,16 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
   gltf.scene.scale.set(5, 5, 5);
   gltf.scene.position.set(45, 47, 170);
   gltf.scene.rotateY(-2.5);
-  scene.add(gltf.scene);
   gltf.scene.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
       node.castShadow = true;
     }
   });
   additionalObjects.desklamp = gltf.scene;
+  if (alleZusatzObjekteGeladen()) {
+    additionalObjectsLoaded.value = true;
+  }
+  scene.add(gltf.scene);
 });
 
 
@@ -226,9 +242,12 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/curtains.gltf', function (gltf) {
       node.castShadow = true;
     }
   });
-  scene.add(gltf.scene);
 
   additionalObjects.curtains = gltf.scene;
+  if (alleZusatzObjekteGeladen()) {
+    additionalObjectsLoaded.value = true;
+  }
+  scene.add(gltf.scene);
 });
 
 
@@ -242,9 +261,12 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/plant01.gltf', function (gltf) {
       node.castShadow = true;
     }
   });
-  scene.add(gltf.scene);
 
   additionalObjects.plant01 = gltf.scene;
+  if (alleZusatzObjekteGeladen()) {
+    additionalObjectsLoaded.value = true;
+  }
+  scene.add(gltf.scene);
 });
 
 glTFLoader.load('/PRO5/assets/gltf/Objects/plant02.gltf', function (gltf) {
@@ -256,9 +278,12 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/plant02.gltf', function (gltf) {
       node.castShadow = true;
     }
   });
-  scene.add(gltf.scene);
 
   additionalObjects.plant02 = gltf.scene;
+  if (alleZusatzObjekteGeladen()) {
+    additionalObjectsLoaded.value = true;
+  }
+  scene.add(gltf.scene);
 });
 
 glTFLoader.load('/PRO5/assets/gltf/Garderobe/coathanger.gltf', function (gltf) {
@@ -271,8 +296,11 @@ glTFLoader.load('/PRO5/assets/gltf/Garderobe/coathanger.gltf', function (gltf) {
     }
   });
 
-  scene.add(gltf.scene);
   additionalObjects.coathanger = gltf.scene;
+  if (alleZusatzObjekteGeladen()) {
+    additionalObjectsLoaded.value = true;
+  }
+  scene.add(gltf.scene);
 });
 
 
@@ -740,7 +768,6 @@ function onClick() {
   if (intersects.length > 0) {
     const objectName = intersects[0].object.name;
     const cleanedObjectName = objectName.replace(/_[0-9]/g, '');
-    console.log(cleanedObjectName);
 
     selectedObjectName.value = objectNamesMapping[cleanedObjectName] || cleanedObjectName;
 
@@ -822,6 +849,18 @@ function onMouseUp() {
   window.removeEventListener('mouseup', onMouseUp);
 }
 
+function alleZusatzObjekteGeladen() {
+  // Überprüfe hier, ob alle zusätzlichen Objekte im additionalObjects-Array vorhanden sind
+  return (
+    additionalObjects.desklamp &&
+    additionalObjects.curtains &&
+    additionalObjects.plant01 &&
+    additionalObjects.plant02 &&
+    additionalObjects.coathanger
+    // Füge hier weitere Objekte hinzu
+  );
+}
+
 function toggleCameraToWide() {
 
   activeCamera = camera;
@@ -875,14 +914,13 @@ function toggleCameraToKueche() {
 
 function toggleVisibility(id) {
   const objectToToggleVisibility = fixedObjects[id];
-  console.log(objectToToggleVisibility.visible);
   if (objectToToggleVisibility) {
     objectToToggleVisibility.visible = (objectToToggleVisibility.visible) ? false : true; // Hide the object
   }
 }
 
 function hideWalls() {
- 
+
   if (selectedCameraView.value === 'totale') {
     toggleVisibility('room');
     toggleVisibility('room_wireframe');
@@ -899,13 +937,11 @@ function saveData() {
   const originalWidth = 1920//renderer.domElement.width;
   const originalHeight = 1080//renderer.domElement.height;
 
-  console.log(originalWidth, originalHeight);
+  // Setze die gewünschte Auflösung für das Rendern
+  const renderWidth = 1920;
+  const renderHeight = 1080;
 
-   // Setze die gewünschte Auflösung für das Rendern
-    const renderWidth = 1920;
-    const renderHeight = 1080;
 
-    
   // Ändere die Größe des Renderers
   renderer.setSize(renderWidth, renderHeight);
 
@@ -951,11 +987,11 @@ function saveData() {
   const pdfImageHeight = 1080 / 4;
 
   // Füge das Bild hinzu
-  pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth , imageHeight / 1);
-  pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2 , 200, imageWidth / 2.5, imageHeight / 2.5);
+  pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth, imageHeight / 1);
+  pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2, 200, imageWidth / 2.5, imageHeight / 2.5);
   pdf.addImage(thirdImage, 'PNG', (canvasWidth - imageWidth) / 2 + 100, 200, imageWidth / 2.5, imageHeight / 2.5);
 
-// Füge das Bild hinzu und skaliere es auf das feste Format
+  // Füge das Bild hinzu und skaliere es auf das feste Format
   //pdf.addImage(mainImage, 'PNG', 10, 20, pdfImageWidth, pdfImageHeight);
   //pdf.addImage(secondImage, 'PNG', 220, 20, pdfImageWidth, pdfImageHeight);
   //pdf.addImage(thirdImage, 'PNG', 430, 20, pdfImageWidth , pdfImageHeight);
@@ -971,7 +1007,7 @@ function saveData() {
   for (let key in objectTextures) {
     const textureShortInfo = textureShortInfos[objectTextures[key]] || objectTextures[key];
     const listItemText = `${objectNamesMapping[key] || key}: ${textureShortInfo}`;
-    pdf.text(`${listItemNumber}. ${listItemText}`, 10, listPositionY+6);
+    pdf.text(`${listItemNumber}. ${listItemText}`, 10, listPositionY + 6);
     listPositionY += 6; // Verringere den Abstand zwischen den Listenelementen
     listItemNumber++;
   }
@@ -983,14 +1019,16 @@ function saveData() {
 function toggleAdditionalObjects(object, index) {
   object.visible = !object.visible;
   selectedAdditionalObjects[index] = object.visible;
+
+  localStorage.setItem('selectedAdditionalObjects', JSON.stringify(selectedAdditionalObjects));
+
 }
 
 function changeAllTextures(index) {
-  console.log(index);
   for (let key in loadedObjects) {
     //if (key === 'room' || key === 'lowchairfeets' || key === 'doors' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
     const object = loadedObjects[key];
-    const textureUrl = textures[index];0
+    const textureUrl = textures[index]; 0
     //const newTexture = new THREE.TextureLoader().load(textureUrl);
 
     object.traverse(function (node) {
@@ -1015,7 +1053,6 @@ function changeOneTexture(index, object) {
   if (loadedObject) {
     const textureUrl = textures[index];
     ///const newTexture = new THREE.TextureLoader().load(textureUrl);
-    console.log(loadedObject)
 
     loadedObject.traverse(function (node) {
       if (node instanceof THREE.Mesh) {
@@ -1156,7 +1193,8 @@ canvas {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 10px;
 }
-.canvas-menu{
+
+.canvas-menu {
   margin: 8px;
   position: absolute;
   background-color: rgb(236, 236, 236);
@@ -1171,14 +1209,15 @@ canvas {
   cursor: pointer;
   right: 0px;
 }
-.canvas-icon:first-child{
- padding-right: 16px;
+
+.canvas-icon:first-child {
+  padding-right: 16px;
   border-right: 1px solid rgb(192, 192, 192);
- 
+
 
 }
-.canvas-icon:hover{
+
+.canvas-icon:hover {
   color: grey;
   transition: 0.1s ease-in;
-}
-</style>
+}</style>
