@@ -54,8 +54,8 @@
           <h4>Zusatzobjekte</h4>
           <p>Wähle die Objekte aus, die du hinzufügen möchtest</p>
           <div class="buttonContainer">
-            <div v-for="(object, index) in additionalObjects" :key="index" class="textureButton"
-              @click="toggleAdditionalObjects(object, index)" :class="{ selected: selectedAdditionalObjects[index] }">
+            <div v-for="(object, index) in additionalObjectIMGs" :key="index"
+              @click="toggleAdditionalObjects(object, index)" :class="{  textureButton: true ,selected: selectedAdditionalObjects[index] }"> 
               <img :src="`${'/PRO5/assets/additionalObjects/' + index + '.png'}`" alt="Texture Image" />
           </div>
           </div>
@@ -98,6 +98,13 @@ const loadedObjects = {};
 const fixedObjects = {};
 const objectTextures = {};
 const additionalObjects = {};
+const additionalObjectIMGs = {
+  'desklamp':'desklamp',
+  'curtains':'curtains',
+  'plant01':'plant01',
+  'plant02':'plant02',
+  'coathanger':'coathanger',
+};
 
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -203,6 +210,82 @@ onMounted(() => {
 
 
 const glTFLoader = new GLTFLoader();
+
+//------------------------------------------Additional objects to toggle------------------------------------------//
+
+glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
+  gltf.scene.scale.set(5, 5, 5);
+  gltf.scene.position.set(45, 47, 170);
+  gltf.scene.rotateY(-2.5);
+  scene.add(gltf.scene);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
+  additionalObjects.desklamp = gltf.scene;
+});
+
+
+glTFLoader.load('/PRO5/assets/gltf/Objects/curtains.gltf', function (gltf) {
+  gltf.scene.scale.set(50, 50, 50);
+  gltf.scene.position.set(-110, 0, 200);
+  gltf.scene.rotateY(0);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
+  scene.add(gltf.scene);
+
+  additionalObjects.curtains = gltf.scene;
+});
+
+
+
+glTFLoader.load('/PRO5/assets/gltf/Objects/plant01.gltf', function (gltf) {
+  gltf.scene.scale.set(45, 45, 45);
+  gltf.scene.position.set(-90, 10, 120);
+  gltf.scene.rotateY(0);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
+  scene.add(gltf.scene);
+
+  additionalObjects.plant01 = gltf.scene;
+});
+
+glTFLoader.load('/PRO5/assets/gltf/Objects/plant02.gltf', function (gltf) {
+  gltf.scene.scale.set(75, 75, 75);
+  gltf.scene.position.set(45, 47, 130);
+  gltf.scene.rotateY(0);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
+  scene.add(gltf.scene);
+
+  additionalObjects.plant02 = gltf.scene;
+});
+
+glTFLoader.load('/PRO5/assets/gltf/Garderobe/coathanger.gltf', function (gltf) {
+  gltf.scene.scale.set(60, 60, 57);
+  gltf.scene.position.set(-35, 0, -143);
+  gltf.scene.rotateY(0);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
+
+  scene.add(gltf.scene);
+  additionalObjects.coathanger = gltf.scene;
+});
+
+
 
 glTFLoader.load('/PRO5/assets/gltf/Room/room_start.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
@@ -553,79 +636,6 @@ bathrommMirror.rotateY(Math.PI);
 
 scene.add(bathrommMirror);
 
-//------------------------------------------Additional objects to toggle------------------------------------------//
-
-glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
-  gltf.scene.scale.set(5, 5, 5);
-  gltf.scene.position.set(45, 47, 170);
-  gltf.scene.rotateY(-2.5);
-  scene.add(gltf.scene);
-  gltf.scene.traverse(function (node) {
-    if (node instanceof THREE.Mesh) {
-      node.castShadow = true;
-    }
-  });
-  additionalObjects.desklamp = gltf.scene;
-});
-
-
-glTFLoader.load('/PRO5/assets/gltf/Objects/curtains.gltf', function (gltf) {
-  gltf.scene.scale.set(50, 50, 50);
-  gltf.scene.position.set(-110, 0, 200);
-  gltf.scene.rotateY(0);
-  gltf.scene.traverse(function (node) {
-    if (node instanceof THREE.Mesh) {
-      node.castShadow = true;
-    }
-  });
-  scene.add(gltf.scene);
-
-  additionalObjects.curtains = gltf.scene;
-});
-
-
-
-glTFLoader.load('/PRO5/assets/gltf/Objects/plant01.gltf', function (gltf) {
-  gltf.scene.scale.set(45, 45, 45);
-  gltf.scene.position.set(-90, 10, 120);
-  gltf.scene.rotateY(0);
-  gltf.scene.traverse(function (node) {
-    if (node instanceof THREE.Mesh) {
-      node.castShadow = true;
-    }
-  });
-  scene.add(gltf.scene);
-
-  additionalObjects.plant01 = gltf.scene;
-});
-
-glTFLoader.load('/PRO5/assets/gltf/Objects/plant02.gltf', function (gltf) {
-  gltf.scene.scale.set(75, 75, 75);
-  gltf.scene.position.set(45, 47, 130);
-  gltf.scene.rotateY(0);
-  gltf.scene.traverse(function (node) {
-    if (node instanceof THREE.Mesh) {
-      node.castShadow = true;
-    }
-  });
-  scene.add(gltf.scene);
-
-  additionalObjects.plant02 = gltf.scene;
-});
-
-glTFLoader.load('/PRO5/assets/gltf/Garderobe/coathanger.gltf', function (gltf) {
-  gltf.scene.scale.set(60, 60, 57);
-  gltf.scene.position.set(-35, 0, -143);
-  gltf.scene.rotateY(0);
-  gltf.scene.traverse(function (node) {
-    if (node instanceof THREE.Mesh) {
-      node.castShadow = true;
-    }
-  });
-
-  scene.add(gltf.scene);
-  additionalObjects.coathanger = gltf.scene;
-});
 
 
 console.log(additionalObjects);
@@ -882,7 +892,7 @@ function toggleVisibility(id) {
 }
 
 function hideWalls() {
-
+ 
   if (selectedCameraView.value === 'totale') {
     toggleVisibility('room');
     toggleVisibility('room_wireframe');
@@ -1059,9 +1069,10 @@ h1 {
   /* content: '✓'; */
   content: url('/PRO5/assets/check.svg');
   position: absolute;
-  bottom: -10px;
-  right: -10px;
+  bottom: -5px;
+  right: -5px;
   color: #3C4F64;
+  scale: 70%;
 }
 
 .textureButton img {
