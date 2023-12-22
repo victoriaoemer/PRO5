@@ -51,7 +51,7 @@
           <h4>Zusatzobjekte</h4>
           <p>Wähle die Objekte aus, die du hinzufügen möchtest</p>
           <div class="buttonContainer">
-            <div v-for="(object, index) in additionalObjectIMGs" :key="index"
+            <div v-for="(object, index) in additionalObjects" :key="index"
               @click="toggleAdditionalObjects(object, index)" :class="{  textureButton: true ,selected: selectedAdditionalObjects[index] }"> 
               <img :src="`${'/PRO5/assets/additionalObjects/' + index + '.png'}`" alt="Texture Image" />
           </div>
@@ -95,13 +95,6 @@ const loadedObjects = {};
 const fixedObjects = {};
 const objectTextures = {};
 const additionalObjects = {};
-const additionalObjectIMGs = {
-  'desklamp':'desklamp',
-  'curtains':'curtains',
-  'plant01':'plant01',
-  'plant02':'plant02',
-  'coathanger':'coathanger',
-};
 
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -1186,5 +1179,6 @@ canvas {
 }
 .canvas-icon:hover{
   color: grey;
+  transition: 0.1s ease-in;
 }
 </style>
