@@ -1136,6 +1136,7 @@ button {
   flex-direction: row;
   margin-left: 2rem;
   margin-right: 2rem;
+  position: relative;
   background-color: rgb(255, 255, 255)
 }
 
@@ -1175,6 +1176,7 @@ canvas {
   align-items: center;
   justify-content: space-around;
   cursor: pointer;
+  right: 0px;
 }
 .canvas-icon:first-child{
  padding-right: 16px;
