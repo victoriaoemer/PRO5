@@ -34,6 +34,9 @@
         <div class="instruction">I AM INSTRUCTA</div>
       </div>
         </div>
+      <div class="canvas-menu"><font-awesome-icon v-if="selectedCameraView === 'totale'" @click="hideWalls"
+          class="canvas-icon" icon="fa-solid fa-cube" /> <font-awesome-icon v-if="selectedCameraView === 'totale'"
+          @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square" /></div>
     </div>
     <div class="ui">
       <h1>Einzelzimmer</h1>
@@ -42,15 +45,15 @@
         <!-- <button @click="toggleCameraToWide" id="totaleButton"> Totale </button> -->
         <button alt="Totale" class="button" :class="{ selected: selectedCameraView === 'totale' }"
           @click="toggleCameraToWide">
-          <div style="content: url('/PRO5/assets/totale.png'); height: 80px;"></div>
+          <div style="content: url('/PRO5/assets/POVTotale.gif'); height: 80px;"></div>
         </button>
         <button alt="Gardarobe" class="button" :class="{ selected: selectedCameraView === 'gardarobe' }"
           @click="toggleCameraToGardarobe">
-          <div style="content: url('/PRO5/assets/gardarobe.png'); height: 80px;"></div>
+          <div style="content: url('/PRO5/assets/POVRoom.gif'); height: 80px;"></div>
         </button>
         <button alt="Küche" class="button" :class="{ selected: selectedCameraView === 'kueche' }"
           @click="toggleCameraToKueche">
-          <div style="content: url('/PRO5/assets/kueche.png'); height: 80px;"></div>
+          <div style="content: url('/PRO5/assets/POVKitchen.gif'); height: 80px;"></div>
         </button>
       </div>
       <br>
@@ -649,14 +652,19 @@ mirror.position.z = -115;
 mirror.rotateY(Math.PI / 2);
 
 scene.add(mirror);
-
+const material = new THREE.MeshPhysicalMaterial({  
+  roughness: 0.5,   
+  transmission: 0.7,  
+  thickness: 0.5
+});
 geometry = new THREE.PlaneGeometry(70, 102);
-windowrefl = new Reflector(geometry, {
+/*windowrefl = new Reflector(geometry, {
   clipBias: 0.003,
   textureWidth: window.innerWidth * window.devicePixelRatio,
   textureHeight: window.innerHeight * window.devicePixelRatio,
   color: 0xb5b5b5
-});
+});*/
+windowrefl = new THREE.Mesh(geometry, material)
 windowrefl.position.x = -20;
 windowrefl.position.y = 64.5;
 windowrefl.position.z = 200;
@@ -688,7 +696,7 @@ console.log(additionalObjects);
 
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
-camera.position.set(-100, 330, 80);
+camera.position.set(-150, 300, 0);
 camera.lookAt(object.position);
 camera2.position.set(-90, 80, -20);
 camera3.position.set(30, 80, 60);
@@ -1232,31 +1240,28 @@ canvas {
 }
 
 .canvas-menu {
-  right: 0px;
+  margin: 8px;
   position: absolute;
-  display: flex;
-}
-
-.canvas-icon {
-  margin: 6px;
-  padding: 8px;
   background-color: rgb(236, 236, 236);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  height: 16px;
-  width: 16px;
+  height: 40px;
+  width: 80px;
   z-index: 100;
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   cursor: pointer;
-  font-size: 12px !important;
+  right: 0px;
+}
+
+.canvas-icon:first-child {
+  padding-right: 16px;
+  border-right: 1px solid rgb(192, 192, 192);
 
 
 }
-font-awesome-icon{
-  font-size: 12px;
-}
+
 .canvas-icon:hover {
   color: grey;
   transition: 0.1s ease-in;
