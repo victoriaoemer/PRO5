@@ -620,19 +620,14 @@ mirror.position.z = -115;
 mirror.rotateY(Math.PI / 2);
 
 scene.add(mirror);
-const material = new THREE.MeshPhysicalMaterial({  
-  roughness: 0.4,   
-  transmission: 1,  
-  thickness: 1
-});
+
 geometry = new THREE.PlaneGeometry(70, 102);
-/*windowrefl = new Reflector(geometry, {
+windowrefl = new Reflector(geometry, {
   clipBias: 0.003,
   textureWidth: window.innerWidth * window.devicePixelRatio,
   textureHeight: window.innerHeight * window.devicePixelRatio,
   color: 0xb5b5b5
-});*/
-windowrefl = new THREE.Mesh(geometry, material)
+});
 windowrefl.position.x = -20;
 windowrefl.position.y = 64.5;
 windowrefl.position.z = 200;
