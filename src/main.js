@@ -14,11 +14,12 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { faCube } from '@fortawesome/free-solid-svg-icons'
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
 library.add(faDownload)
 library.add(faPenToSquare)
 library.add(faCube)
-
+library.add(faCircleQuestion)
 createApp(App)
 .component('font-awesome-icon', FontAwesomeIcon)
 .mount('#app')
