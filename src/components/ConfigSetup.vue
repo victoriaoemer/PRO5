@@ -6,9 +6,34 @@
           class="canvas-icon" icon="fa-solid fa-cube" />
         <font-awesome-icon v-if="selectedCameraView === 'totale'"
           @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square" />
-        <font-awesome-icon icon="fa-solid fa-circle-question" class="canvas-icon" />
+        <font-awesome-icon @click="helpScreen()" icon="fa-solid fa-circle-question" class="canvas-icon" />
+       
         </div>
-        
+        <div v-if="isVisible" class="helpscreen"> <font-awesome-icon icon="fa-solid fa-circle-question"/><h4>Hilfestellung</h4>
+          <div class="helpscreen-container">
+            <div class="mouse-col">
+              <div class="mouse">
+        <img class="mouse-icon" src = "/PRO5/assets/svg/mouse_left.svg" alt="right mouse button"/>  <div class="mouse-descriptions"><h4>linke Maustaste</h4>
+          <br />
+          <p>use left mouse navigate</p>
+        </div>
+      </div>
+            <div class="mouse"> 
+          <img class="mouse-icon" src = "/PRO5/assets/svg/mouse_right.svg" alt="right mouse button"/>  <div class="mouse-descriptions"><h4>rechte Maustaste</h4>
+          <br />
+          <p>use right mouse button to pan</p>
+        </div>
+      </div>
+      <div class="mouse">
+        <img class="mouse-icon" src = "/PRO5/assets/svg/mouse_scrollwheel.svg" alt="right mouse button"/>  <div class="mouse-descriptions"><h4>Scrollwheel</h4>
+          <br />
+          <p>use scroll wheel to zoom</p>
+        </div>
+      </div>
+        </div>
+        <div class="instruction">I AM INSTRUCTA</div>
+      </div>
+        </div>
     </div>
     <div class="ui">
       <h1>Einzelzimmer</h1>
@@ -98,8 +123,7 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { Reflector } from 'three/addons/objects/Reflector.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
-
-// ...
+const isVisible = ref(false);
 
 
 import jsPDF from 'jspdf';
@@ -198,11 +222,11 @@ let controls = new OrbitControls(activeCamera, renderer.domElement);
 //controls.autoRotate = true;
 //controls.autoRotateSpeed = 3.0;
 
-
 let object = new THREE.Group();
 
 let selectedObjectName = ref(null);
 onMounted(() => {
+
   const container = document.getElementById('container3D');
   if (container) {
     container.appendChild(renderer.domElement);
@@ -825,6 +849,12 @@ window.addEventListener('keydown', supressKeys);
 const virtualCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 virtualCamera.rotation.copy(activeCamera.rotation);
 
+
+function helpScreen(){
+  console.log(isVisible);
+  isVisible.value = !isVisible.value;
+}
+
 function onMouseDown(event) {
 
   isDragging = true;
@@ -1230,5 +1260,41 @@ font-awesome-icon{
 .canvas-icon:hover {
   color: grey;
   transition: 0.1s ease-in;
+}
+.helpscreen{
+  padding: 20px;
+  text-align: center;
+  position: absolute;
+  width: 800px;
+  height: 400px;
+  background-color: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.mouse-icon{
+  height: 40px;
+  width: auto;
+}
+.mouse{
+  padding: 20px;
+display: flex !important;
+text-align: left;
+    line-height: 0.8;
+
+}
+.mouse-descriptions{
+  margin-left: 20px;
+}
+.helpscreen-container{
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.mouse-col{
+  display: flex;
+  flex-direction: column;
 }
 </style>
