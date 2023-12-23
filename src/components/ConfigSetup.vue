@@ -1,9 +1,14 @@
 <template>
   <div class="container">
     <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp">
-      <div class="canvas-menu"><font-awesome-icon v-if="selectedCameraView === 'totale'" @click="hideWalls"
-          class="canvas-icon" icon="fa-solid fa-cube" /> <font-awesome-icon v-if="selectedCameraView === 'totale'"
-          @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square" /></div>
+      <div class="canvas-menu">
+        <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="hideWalls"
+          class="canvas-icon" icon="fa-solid fa-cube" />
+        <font-awesome-icon v-if="selectedCameraView === 'totale'"
+          @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square" />
+        <font-awesome-icon icon="fa-solid fa-circle-question" class="canvas-icon" />
+        </div>
+        
     </div>
     <div class="ui">
       <h1>Einzelzimmer</h1>
@@ -1197,28 +1202,31 @@ canvas {
 }
 
 .canvas-menu {
-  margin: 8px;
+  right: 0px;
   position: absolute;
+  display: flex;
+}
+
+.canvas-icon {
+  margin: 6px;
+  padding: 8px;
   background-color: rgb(236, 236, 236);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  height: 40px;
-  width: 80px;
+  height: 16px;
+  width: 16px;
   z-index: 100;
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: space-around;
   cursor: pointer;
-  right: 0px;
-}
-
-.canvas-icon:first-child {
-  padding-right: 16px;
-  border-right: 1px solid rgb(192, 192, 192);
+  font-size: 12px !important;
 
 
 }
-
+font-awesome-icon{
+  font-size: 12px;
+}
 .canvas-icon:hover {
   color: grey;
   transition: 0.1s ease-in;
