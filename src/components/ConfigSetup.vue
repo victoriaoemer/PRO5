@@ -12,15 +12,15 @@
         <!-- <button @click="toggleCameraToWide" id="totaleButton"> Totale </button> -->
         <button alt="Totale" class="button" :class="{ selected: selectedCameraView === 'totale' }"
           @click="toggleCameraToWide">
-          <div style="content: url('/PRO5/assets/totale.png'); height: 80px;"></div>
+          <div style="content: url('/PRO5/assets/POVTotale.gif'); height: 80px;"></div>
         </button>
         <button alt="Gardarobe" class="button" :class="{ selected: selectedCameraView === 'gardarobe' }"
           @click="toggleCameraToGardarobe">
-          <div style="content: url('/PRO5/assets/gardarobe.png'); height: 80px;"></div>
+          <div style="content: url('/PRO5/assets/POVRoom.gif'); height: 80px;"></div>
         </button>
         <button alt="Küche" class="button" :class="{ selected: selectedCameraView === 'kueche' }"
           @click="toggleCameraToKueche">
-          <div style="content: url('/PRO5/assets/kueche.png'); height: 80px;"></div>
+          <div style="content: url('/PRO5/assets/POVKitchen.gif'); height: 80px;"></div>
         </button>
       </div>
       <br>
@@ -621,9 +621,9 @@ mirror.rotateY(Math.PI / 2);
 
 scene.add(mirror);
 const material = new THREE.MeshPhysicalMaterial({  
-  roughness: 0.4,   
-  transmission: 1,  
-  thickness: 1
+  roughness: 0.5,   
+  transmission: 0.7,  
+  thickness: 0.5
 });
 geometry = new THREE.PlaneGeometry(70, 102);
 /*windowrefl = new Reflector(geometry, {
@@ -664,7 +664,7 @@ console.log(additionalObjects);
 
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
-camera.position.set(-100, 330, 80);
+camera.position.set(-150, 300, 0);
 camera.lookAt(object.position);
 camera2.position.set(-90, 80, -20);
 camera3.position.set(30, 80, 60);
