@@ -2,39 +2,46 @@
   <div class="container">
     <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp">
       <div class="canvas-menu">
-        <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="hideWalls"
-          class="canvas-icon" icon="fa-solid fa-cube" />
-        <font-awesome-icon v-if="selectedCameraView === 'totale'"
-          @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square" />
+        <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="hideWalls" class="canvas-icon"
+          icon="fa-solid fa-cube" />
+        <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="toggleWireframe" class="canvas-icon"
+          icon="fa-solid fa-pen-to-square" />
         <font-awesome-icon @click="helpScreen()" icon="fa-solid fa-circle-question" class="canvas-icon" />
-       
-        </div>
-        <div v-if="isVisible" class="helpscreen"> <font-awesome-icon icon="fa-solid fa-circle-question"/><h4>Hilfestellung</h4>
-          <div class="helpscreen-container">
-            <div class="mouse-col">
-              <div class="mouse">
-        <img class="mouse-icon" src = "/PRO5/assets/svg/mouse_left.svg" alt="right mouse button"/>  <div class="mouse-descriptions"><h4>linke Maustaste</h4>
-          <br />
-          <p>use left mouse navigate</p>
+
+      </div>
+      <div v-if="isVisible" class="helpscreen"> <font-awesome-icon icon="fa-solid fa-circle-question" />
+        <h4>Hilfestellung</h4>
+        <div class="helpscreen-container">
+          <div class="mouse-col">
+            <div class="mouse">
+              <img class="mouse-icon" src="/PRO5/assets/svg/mouse_left.svg" alt="right mouse button" />
+              <div class="mouse-descriptions">
+                <h4>linke Maustaste</h4>
+                <br />
+                <p>use left mouse navigate</p>
+              </div>
+            </div>
+            <div class="mouse">
+              <img class="mouse-icon" src="/PRO5/assets/svg/mouse_right.svg" alt="right mouse button" />
+              <div class="mouse-descriptions">
+                <h4>rechte Maustaste</h4>
+                <br />
+                <p>use right mouse button to pan</p>
+              </div>
+            </div>
+            <div class="mouse">
+              <img class="mouse-icon" src="/PRO5/assets/svg/mouse_scrollwheel.svg" alt="right mouse button" />
+              <div class="mouse-descriptions">
+                <h4>Scrollwheel</h4>
+                <br />
+                <p>use scroll wheel to zoom</p>
+              </div>
+            </div>
+          </div>
+          <div class="instruction">I AM INSTRUCTA</div>
         </div>
       </div>
-            <div class="mouse"> 
-          <img class="mouse-icon" src = "/PRO5/assets/svg/mouse_right.svg" alt="right mouse button"/>  <div class="mouse-descriptions"><h4>rechte Maustaste</h4>
-          <br />
-          <p>use right mouse button to pan</p>
-        </div>
-      </div>
-      <div class="mouse">
-        <img class="mouse-icon" src = "/PRO5/assets/svg/mouse_scrollwheel.svg" alt="right mouse button"/>  <div class="mouse-descriptions"><h4>Scrollwheel</h4>
-          <br />
-          <p>use scroll wheel to zoom</p>
-        </div>
-      </div>
-        </div>
-        <div class="instruction">I AM INSTRUCTA</div>
-      </div>
-        </div>
-  
+
     </div>
     <div class="ui">
       <h1>Einzelzimmer</h1>
@@ -43,15 +50,15 @@
         <!-- <button @click="toggleCameraToWide" id="totaleButton"> Totale </button> -->
         <button alt="Totale" class="button" :class="{ selected: selectedCameraView === 'totale' }"
           @click="toggleCameraToWide">
-          <div style="content: url('/PRO5/assets/POVTotale.gif'); height: 80px;"></div>
+          <div class="totale"></div>
         </button>
         <button alt="Gardarobe" class="button" :class="{ selected: selectedCameraView === 'gardarobe' }"
           @click="toggleCameraToGardarobe">
-          <div style="content: url('/PRO5/assets/POVRoom.gif'); height: 80px;"></div>
+          <div class="room"></div>
         </button>
         <button alt="Küche" class="button" :class="{ selected: selectedCameraView === 'kueche' }"
           @click="toggleCameraToKueche">
-          <div style="content: url('/PRO5/assets/POVKitchen.gif'); height: 80px;"></div>
+          <div class="kitchen"></div>
         </button>
       </div>
       <br>
@@ -85,13 +92,14 @@
         <div>
           <h4>Zusatzobjekte</h4>
           <p>Wähle die Objekte aus, die du hinzufügen möchtest</p>
-          <div >
+          <div>
             <div v-if="additionalObjectsLoaded" class="buttonContainer">
               <!-- Hier kommt dein HTML-Code mit v-for -->
               <div v-for="(object, index) in additionalObjects" :key="index"
-                @click="toggleAdditionalObjects(object, index)" class="textureButton" :class="{selected: selectedAdditionalObjects[index]}">
+                @click="toggleAdditionalObjects(object, index)" class="textureButton"
+                :class="{ selected: selectedAdditionalObjects[index] }">
                 <img :src="`${'/PRO5/assets/additionalObjects/' + index + '.png'}`" alt="Texture Image" />
-            </div>
+              </div>
             </div>
             <div v-else>
               <!-- Hier kannst du einen Ladeindikator oder eine Meldung anzeigen, während die Objekte geladen werden -->
@@ -856,7 +864,7 @@ const virtualCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window
 virtualCamera.rotation.copy(activeCamera.rotation);
 
 
-function helpScreen(){
+function helpScreen() {
   console.log(isVisible);
   isVisible.value = !isVisible.value;
 }
@@ -1085,7 +1093,7 @@ function changeAllTextures(index) {
 }
 function changeOneTexture(index, object) {
   selectedTexture.value = null;
-  
+
   const originalObjectName = Object.keys(objectNamesMapping).find(key => objectNamesMapping[key] === object);
   console.log(objectTextures[originalObjectName]); //bereits gespeicherte texture
   const loadedObject = loadedObjects[originalObjectName];
@@ -1179,6 +1187,35 @@ button {
   padding-inline: 12px
 }
 
+.totale {
+  content: url('/PRO5/assets/totale.png');
+  height: 80px;
+}
+
+.totale:hover {
+  content: url('/PRO5/assets/POVTotale.gif');
+  height: 80px;
+}
+
+.kitchen {
+  content: url('/PRO5/assets/kitchen.png');
+  height: 80px;
+}
+
+.kitchen:hover {
+  content: url('/PRO5/assets/POVKitchen.gif');
+  height: 80px;
+}
+
+.room {
+  content: url('/PRO5/assets/room.png');
+  height: 80px;
+}
+
+.room:hover {
+  content: url('/PRO5/assets/POVRoom.gif');
+  height: 80px;
+}
 
 
 .button {
@@ -1256,18 +1293,22 @@ canvas {
   cursor: pointer;
   font-size: 12px !important;
 }
-font-awesome-icon{
+
+font-awesome-icon {
   font-size: 12px;
 }
-.canvas-icon{
+
+.canvas-icon {
   background-color: rgb(228, 228, 228);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
 .canvas-icon:hover {
   color: grey;
   transition: 0.1s ease-in;
 }
-.helpscreen{
+
+.helpscreen {
   padding: 20px;
   text-align: center;
   position: absolute;
@@ -1280,27 +1321,31 @@ font-awesome-icon{
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.mouse-icon{
+
+.mouse-icon {
   height: 40px;
   width: auto;
 }
-.mouse{
+
+.mouse {
   padding: 20px;
-display: flex !important;
-text-align: left;
-    line-height: 0.8;
+  display: flex !important;
+  text-align: left;
+  line-height: 0.8;
 
 }
-.mouse-descriptions{
+
+.mouse-descriptions {
   margin-left: 20px;
 }
-.helpscreen-container{
+
+.helpscreen-container {
   padding: 20px;
   display: flex;
   justify-content: space-between;
 }
-.mouse-col{
+
+.mouse-col {
   display: flex;
   flex-direction: column;
-}
-</style>
+}</style>
