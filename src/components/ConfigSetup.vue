@@ -155,6 +155,8 @@ const camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.inner
 camera2.name = 'camera2';
 const camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera3.name = 'camera3';
+const camera4 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+camera4.name = 'camera4';
 
 
 let activeCamera = camera;
@@ -723,6 +725,8 @@ camera.position.set(-150, 300, 0);
 camera.lookAt(object.position);
 camera2.position.set(-90, 80, -20);
 camera3.position.set(30, 80, 60);
+camera4.position.set(-1, 350, 0);
+camera4.lookAt(object.position);
 
 const pointLight = new THREE.PointLight(0xffffff, 14000); //mitte vom raum
 pointLight.position.set(-20, 120, 40);
@@ -1022,6 +1026,11 @@ function saveData() {
   //console.log("Third Image Data URL:", thirdImage);
   console.log("Third Image Size (bytes):", thirdImage.length);
 
+  renderer.render(scene, camera4);
+  const fourthImage = canvas.toDataURL("image/png", 0.5);
+
+
+
 
 
   // Ändere die Größe des Renderers
@@ -1054,26 +1063,34 @@ function saveData() {
 
   // Füge das Bild hinzu
   pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth, imageHeight / 1);
-  pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2, 200, imageWidth / 2.5, imageHeight / 2.5);
-  pdf.addImage(thirdImage, 'PNG', (canvasWidth - imageWidth) / 2 + 100, 200, imageWidth / 2.5, imageHeight / 2.5);
+  pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2, 190, imageWidth / 2, imageHeight / 2);
+  pdf.addImage(thirdImage, 'PNG', (canvasWidth - imageWidth) / 2 + 100, 190, imageWidth / 2, imageHeight / 2);
+  pdf.addImage(fourthImage, 'PNG', (canvasWidth - imageWidth) / 2, 245, imageWidth / 2, imageHeight / 2);
 
   // Füge das Bild hinzu und skaliere es auf das feste Format
   //pdf.addImage(mainImage, 'PNG', 10, 20, pdfImageWidth, pdfImageHeight);
   //pdf.addImage(secondImage, 'PNG', 220, 20, pdfImageWidth, pdfImageHeight);
   //pdf.addImage(thirdImage, 'PNG', 430, 20, pdfImageWidth , pdfImageHeight);
 
+  //pdf.line(10, 115, 200, 115); // Von (20, 30) nach (60, 30)
+  //pdf.line(10, 180, 200, 180); // Von (20, 30) nach (60, 30)
+
+  pdf.line(105, 120, 105, 170); // Von (20, 30) nach (60, 30)
+
 
   // Füge eine nummerierte Liste der Materialinformationen hinzu
   let listPositionY = 0 + imageHeight + 20; // Verringere den Abstand zwischen dem Bild und der Liste
   let listItemNumber = 1;
 
-  pdf.text("Materialliste: ", 10, listPositionY);
 
+  pdf.setFont("Helvetica", "bold");
+  pdf.text("Materialliste: ", 30, listPositionY);
+  pdf.setFont("Helvetica", "normal");
 
   for (let key in objectTextures) {
     const textureShortInfo = textureShortInfos[objectTextures[key]] || objectTextures[key];
     const listItemText = `${objectNamesMapping[key] || key}: ${textureShortInfo}`;
-    pdf.text(`${listItemNumber}. ${listItemText}`, 10, listPositionY + 6);
+    pdf.text(`${listItemNumber}. ${listItemText}`, 30, listPositionY + 6);
     listPositionY += 6; // Verringere den Abstand zwischen den Listenelementen
     listItemNumber++;
   }
@@ -1082,20 +1099,19 @@ function saveData() {
   let listPositionY2 = 0 + imageHeight + 20; // Verringere den Abstand zwischen dem Bild und der Liste
   let listItemNumber2 = 1;
 
-  pdf.text("Zusätzliche Objekte: ", 90, listPositionY2);
-
+  pdf.setFont("Helvetica", "bold");
+  pdf.text("Zusätzliche Objekte: ", 130, listPositionY2);
+  pdf.setFont("Helvetica", "normal");
 
   // Iteriere über selectedAdditionalObjects und füge die Informationen zur PDF hinzu
   for (const objectName in selectedAdditionalObjects) {
     const mappedObjectName = additionalobjectNamesMapping[objectName] || objectName;
     const added = selectedAdditionalObjects[objectName];
     const outputText = `${mappedObjectName}: ${added ? 'hinzugefügt' : 'nicht hinzugefügt'}`;
-    pdf.text(`${listItemNumber2}. ${outputText}`, 90, listPositionY2 + 6);
+    pdf.text(`${listItemNumber2}. ${outputText}`, 130, listPositionY2 + 6);
     listPositionY2 += 6; // Verringere den Abstand zwischen den Listenelementen
     listItemNumber2++;
   }
-
-
   pdf.save("KitzConfig - Datenblatt.pdf");
 }
 
