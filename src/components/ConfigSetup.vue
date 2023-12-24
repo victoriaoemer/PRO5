@@ -80,11 +80,14 @@
         <div>
           <h4>Material einzelner Möbelstücke ändern</h4>
           <p v-if="selectedObjectName == null"> Wählen Sie ein Möbelstück aus indem Sie darauf klicken!</p>
-          <p v-else>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p> <!-- Hier wird der Name angezeigt -->
-          <div class="buttonContainer">
-            <div v-for="(texture, index) in textures" :key="index" class="textureButton"
-              @click="changeOneTexture(index, selectedObjectName)" :class="{ selected: selectedOneTexture === texture }">
-              <img :src="texture" alt="Texture Image">
+          <div v-else>
+            <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p>
+            <div class="buttonContainer">
+              <div v-for="(texture, index) in textures" :key="index" class="textureButton"
+                @click="changeOneTexture(index, selectedObjectName)"
+                :class="{ selected: selectedOneTexture === texture }">
+                <img :src="texture" alt="Texture Image">
+              </div>
             </div>
           </div>
         </div>
@@ -238,6 +241,10 @@ let previousMousePosition = { x: 0, y: 0 };
 
 
 let controls = new OrbitControls(activeCamera, renderer.domElement);
+controls.minDistance = 100;
+controls.maxDistance = 350;
+
+
 //controls.autoRotate = true;
 //controls.autoRotateSpeed = 3.0;
 
@@ -749,19 +756,6 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 1); // soft white light
 ambientLight.position.y = 1000
 scene.add(ambientLight);
 
-// const renderPass = new RenderPass(scene, camera);
-// composer.addPass(renderPass);
-
-// const outlinePass = new OutlinePass(
-//   new THREE.Vector2(window.innerWidth, window.innerHeight), //resolution parameter
-//   scene,
-//   camera
-// );
-// composer.addPass(outlinePass);
-
-
-
-
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 renderer.domElement.addEventListener('click', onClick, false);
@@ -911,13 +905,13 @@ function onMouseUp() {
 function alleZusatzObjekteGeladen() {
   // Überprüfe hier, ob alle zusätzlichen Objekte im additionalObjects-Array vorhanden sind
   return (
-    
+
     additionalObjects.curtains &&
     additionalObjects.desklamp &&
     additionalObjects.plant01 &&
     additionalObjects.coathanger &&
-    additionalObjects.plant02 
-    
+    additionalObjects.plant02
+
     // Füge hier weitere Objekte hinzu
   );
 }
@@ -932,6 +926,9 @@ function toggleCameraToWide() {
   selectedCameraView.value = 'totale';
   controls.dispose();
   controls = new OrbitControls(activeCamera, renderer.domElement);
+  controls.minDistance = 100;
+  controls.maxDistance = 350;
+
 
   controls.addEventListener('change', () => {
     composer.render(scene, activeCamera);
@@ -1033,12 +1030,12 @@ function saveData() {
   var pdf = new jsPDF();
 
   // Wähle die Schriftart aus (z.B., "times", "helvetica", "courier", etc.)
-const font = "helvetica";
-pdf.setFont(font);
+  const font = "helvetica";
+  pdf.setFont(font);
 
-// Wähle die Schriftgröße aus (z.B., 12 für 12pt)
-const fontSize = 12;
-pdf.setFontSize(fontSize);
+  // Wähle die Schriftgröße aus (z.B., 12 für 12pt)
+  const fontSize = 12;
+  pdf.setFontSize(fontSize);
 
   // Füge den Titel über dem Bild hinzu
   pdf.text("KitzConfig - Datenblatt", pdf.internal.pageSize.getWidth() / 2, 10, { align: 'center' });
@@ -1081,8 +1078,8 @@ pdf.setFontSize(fontSize);
     listItemNumber++;
   }
 
-// Füge eine nummerierte Liste der Materialinformationen hinzu
-let listPositionY2 = 0 + imageHeight + 20; // Verringere den Abstand zwischen dem Bild und der Liste
+  // Füge eine nummerierte Liste der Materialinformationen hinzu
+  let listPositionY2 = 0 + imageHeight + 20; // Verringere den Abstand zwischen dem Bild und der Liste
   let listItemNumber2 = 1;
 
   pdf.text("Zusätzliche Objekte: ", 90, listPositionY2);
@@ -1090,15 +1087,15 @@ let listPositionY2 = 0 + imageHeight + 20; // Verringere den Abstand zwischen de
 
   // Iteriere über selectedAdditionalObjects und füge die Informationen zur PDF hinzu
   for (const objectName in selectedAdditionalObjects) {
-  const mappedObjectName = additionalobjectNamesMapping[objectName] || objectName;
-  const added = selectedAdditionalObjects[objectName];
-  const outputText = `${mappedObjectName}: ${added ? 'hinzugefügt' : 'nicht hinzugefügt'}`;
-  pdf.text(`${listItemNumber2}. ${outputText}`, 90, listPositionY2 + 6);
-  listPositionY2 += 6; // Verringere den Abstand zwischen den Listenelementen
-  listItemNumber2++;
-}
+    const mappedObjectName = additionalobjectNamesMapping[objectName] || objectName;
+    const added = selectedAdditionalObjects[objectName];
+    const outputText = `${mappedObjectName}: ${added ? 'hinzugefügt' : 'nicht hinzugefügt'}`;
+    pdf.text(`${listItemNumber2}. ${outputText}`, 90, listPositionY2 + 6);
+    listPositionY2 += 6; // Verringere den Abstand zwischen den Listenelementen
+    listItemNumber2++;
+  }
 
-  
+
   pdf.save("KitzConfig - Datenblatt.pdf");
 }
 
@@ -1152,8 +1149,6 @@ function changeOneTexture(index, object) {
     textureIndex = index;
     selectedOneTexture.value = textures[textureIndex];
     console.log(objectTextures[originalObjectName]);
-
-
   }
 }
 
@@ -1386,4 +1381,5 @@ font-awesome-icon {
 .mouse-col {
   display: flex;
   flex-direction: column;
-}</style>
+}
+</style>
