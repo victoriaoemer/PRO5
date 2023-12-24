@@ -153,6 +153,7 @@ camera2.name = 'camera2';
 const camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera3.name = 'camera3';
 
+
 let activeCamera = camera;
 let selectedCameraView = ref('totale');
 
@@ -161,11 +162,11 @@ let mirror, bathrommMirror, windowrefl;
 const additionalObjectsLoaded = ref(false);
 
 const selectedAdditionalObjects = reactive({
-  desklamp: true,
   curtains: true,
-  plant01: true,
+  desklamp: true,
   plant02: true,
-  coathanger: true
+  coathanger: true,
+  plant01: true
   // Add more objects as needed
 });
 
@@ -181,6 +182,15 @@ const objectNamesMapping = {
   'kitchen': 'Küche',
   'washbasin': 'Waschbecken',
   'desk': 'Schreibtisch'
+  // Füge hier alle gewünschten Zuordnungen hinzu
+};
+
+const additionalobjectNamesMapping = {
+  'curtains': 'Vorhänge',
+  'desklamp': 'Tischlampe',
+  'plant01': 'Große Pflanze',
+  'plant02': 'Kleine Pflanze',
+  'coathanger': 'Kleiderbügel',
   // Füge hier alle gewünschten Zuordnungen hinzu
 };
 
@@ -251,23 +261,6 @@ const glTFLoader = new GLTFLoader();
 
 //------------------------------------------Additional objects to toggle------------------------------------------//
 
-glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
-  gltf.scene.scale.set(5, 5, 5);
-  gltf.scene.position.set(45, 47, 170);
-  gltf.scene.rotateY(-2.5);
-  gltf.scene.traverse(function (node) {
-    if (node instanceof THREE.Mesh) {
-      node.castShadow = true;
-    }
-  });
-  additionalObjects.desklamp = gltf.scene;
-  if (alleZusatzObjekteGeladen()) {
-    additionalObjectsLoaded.value = true;
-  }
-  scene.add(gltf.scene);
-});
-
-
 glTFLoader.load('/PRO5/assets/gltf/Objects/curtains.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 200);
@@ -285,6 +278,21 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/curtains.gltf', function (gltf) {
   scene.add(gltf.scene);
 });
 
+glTFLoader.load('/PRO5/assets/gltf/Objects/deskLamp.gltf', function (gltf) {
+  gltf.scene.scale.set(5, 5, 5);
+  gltf.scene.position.set(45, 47, 170);
+  gltf.scene.rotateY(-2.5);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
+  additionalObjects.desklamp = gltf.scene;
+  if (alleZusatzObjekteGeladen()) {
+    additionalObjectsLoaded.value = true;
+  }
+  scene.add(gltf.scene);
+});
 
 
 glTFLoader.load('/PRO5/assets/gltf/Objects/plant01.gltf', function (gltf) {
@@ -298,6 +306,23 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/plant01.gltf', function (gltf) {
   });
 
   additionalObjects.plant01 = gltf.scene;
+  if (alleZusatzObjekteGeladen()) {
+    additionalObjectsLoaded.value = true;
+  }
+  scene.add(gltf.scene);
+});
+
+glTFLoader.load('/PRO5/assets/gltf/Garderobe/coathanger.gltf', function (gltf) {
+  gltf.scene.scale.set(60, 60, 57);
+  gltf.scene.position.set(-35, 0, -143);
+  gltf.scene.rotateY(0);
+  gltf.scene.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.castShadow = true;
+    }
+  });
+
+  additionalObjects.coathanger = gltf.scene;
   if (alleZusatzObjekteGeladen()) {
     additionalObjectsLoaded.value = true;
   }
@@ -321,22 +346,7 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/plant02.gltf', function (gltf) {
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/PRO5/assets/gltf/Garderobe/coathanger.gltf', function (gltf) {
-  gltf.scene.scale.set(60, 60, 57);
-  gltf.scene.position.set(-35, 0, -143);
-  gltf.scene.rotateY(0);
-  gltf.scene.traverse(function (node) {
-    if (node instanceof THREE.Mesh) {
-      node.castShadow = true;
-    }
-  });
 
-  additionalObjects.coathanger = gltf.scene;
-  if (alleZusatzObjekteGeladen()) {
-    additionalObjectsLoaded.value = true;
-  }
-  scene.add(gltf.scene);
-});
 
 
 
@@ -901,11 +911,13 @@ function onMouseUp() {
 function alleZusatzObjekteGeladen() {
   // Überprüfe hier, ob alle zusätzlichen Objekte im additionalObjects-Array vorhanden sind
   return (
-    additionalObjects.desklamp &&
+    
     additionalObjects.curtains &&
+    additionalObjects.desklamp &&
     additionalObjects.plant01 &&
-    additionalObjects.plant02 &&
-    additionalObjects.coathanger
+    additionalObjects.coathanger &&
+    additionalObjects.plant02 
+    
     // Füge hier weitere Objekte hinzu
   );
 }
@@ -1020,6 +1032,14 @@ function saveData() {
 
   var pdf = new jsPDF();
 
+  // Wähle die Schriftart aus (z.B., "times", "helvetica", "courier", etc.)
+const font = "helvetica";
+pdf.setFont(font);
+
+// Wähle die Schriftgröße aus (z.B., 12 für 12pt)
+const fontSize = 12;
+pdf.setFontSize(fontSize);
+
   // Füge den Titel über dem Bild hinzu
   pdf.text("KitzConfig - Datenblatt", pdf.internal.pageSize.getWidth() / 2, 10, { align: 'center' });
 
@@ -1061,13 +1081,31 @@ function saveData() {
     listItemNumber++;
   }
 
+// Füge eine nummerierte Liste der Materialinformationen hinzu
+let listPositionY2 = 0 + imageHeight + 20; // Verringere den Abstand zwischen dem Bild und der Liste
+  let listItemNumber2 = 1;
 
+  pdf.text("Zusätzliche Objekte: ", 90, listPositionY2);
+
+
+  // Iteriere über selectedAdditionalObjects und füge die Informationen zur PDF hinzu
+  for (const objectName in selectedAdditionalObjects) {
+  const mappedObjectName = additionalobjectNamesMapping[objectName] || objectName;
+  const added = selectedAdditionalObjects[objectName];
+  const outputText = `${mappedObjectName}: ${added ? 'hinzugefügt' : 'nicht hinzugefügt'}`;
+  pdf.text(`${listItemNumber2}. ${outputText}`, 90, listPositionY2 + 6);
+  listPositionY2 += 6; // Verringere den Abstand zwischen den Listenelementen
+  listItemNumber2++;
+}
+
+  
   pdf.save("KitzConfig - Datenblatt.pdf");
 }
 
 function toggleAdditionalObjects(object, index) {
   object.visible = !object.visible;
   selectedAdditionalObjects[index] = object.visible;
+  console.log(selectedAdditionalObjects);
 
 }
 
