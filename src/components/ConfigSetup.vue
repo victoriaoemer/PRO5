@@ -1066,8 +1066,8 @@ pdf.setFontSize(fontSize);
 
   // Füge das Bild hinzu
   pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth, imageHeight / 1);
-  pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2 - 30, 190, imageWidth / 2, imageHeight / 2);
-  pdf.addImage(thirdImage, 'PNG', (canvasWidth - imageWidth) / 2 + 85, 190, imageWidth / 2, imageHeight / 2);
+  pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2, 190, imageWidth / 2, imageHeight / 2);
+  pdf.addImage(thirdImage, 'PNG', (canvasWidth - imageWidth) / 2 + 100, 190, imageWidth / 2, imageHeight / 2);
   pdf.addImage(fourthImage, 'PNG', (canvasWidth - imageWidth) / 2 , 245, imageWidth / 2, imageHeight / 2);
 
   // Füge das Bild hinzu und skaliere es auf das feste Format
