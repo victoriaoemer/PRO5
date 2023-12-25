@@ -38,7 +38,18 @@
               </div>
             </div>
           </div>
-          <div class="instruction">I AM INSTRUCTA</div>
+          <div class="mouse-col">
+          <div class="mouse">
+              <img class="mouse-icon" src="/PRO5/assets/svg/mouse_scrollwheel.svg" alt="right mouse button" />
+              <div class="mouse-descriptions">
+                <h4>Material ändern</h4>
+                <br />
+                <p>um ein Material zu verändern, klicken Sie auf das gewünschte Material um es auf alle Möbel anzuwenden</p>
+                <br />
+                <p>um ein Material für ein einzelnes Möbelstück zu verändern, klicken Sie auf das gewünschte Möbelstück und dann auf das Material</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1380,7 +1391,7 @@ font-awesome-icon {
   padding: 20px;
   display: flex !important;
   text-align: left;
-  line-height: 0.8;
+  line-height: 0.9;
 
 }
 
@@ -1395,6 +1406,7 @@ font-awesome-icon {
 }
 
 .mouse-col {
+  flex:1;
   display: flex;
   flex-direction: column;
 }
