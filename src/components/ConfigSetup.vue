@@ -168,6 +168,10 @@ const camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.inner
 camera3.name = 'camera3';
 const camera4 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera4.name = 'camera4';
+const camera5 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+camera5.name = 'camera5';
+const camera6 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+camera6.name = 'camera6';
 
 
 let activeCamera = camera;
@@ -746,8 +750,17 @@ camera.position.set(-150, 300, 0);
 camera.lookAt(object.position);
 camera2.position.set(-90, 80, -20);
 camera3.position.set(30, 80, 60);
+
+//cameras for pdf
+
 camera4.position.set(-1, 350, 0);
 camera4.lookAt(object.position);
+
+camera5.position.set(-70, 85, -20);
+camera5.lookAt(0,75,50);
+
+camera6.position.set(30, 80, 60);
+camera6.lookAt(-70, 25, 215);
 
 const pointLight = new THREE.PointLight(0xffffff, 14000); //mitte vom raum
 pointLight.position.set(-20, 120, 40);
@@ -1035,13 +1048,13 @@ function saveData() {
   //console.log("Main Image Data URL:", mainImage);
   console.log("Main Image Size (bytes):", mainImage.length);
 
-  renderer.render(scene, camera2);
+  renderer.render(scene, camera5);
   const secondImage = canvas.toDataURL("image/png");
 
   //console.log("Second Image Data URL:", secondImage);
   console.log("Second Image Size (bytes):", secondImage.length);
 
-  renderer.render(scene, camera3);
+  renderer.render(scene, camera6);
   const thirdImage = canvas.toDataURL("image/png");
 
   //console.log("Third Image Data URL:", thirdImage);
@@ -1060,15 +1073,14 @@ function saveData() {
   var pdf = new jsPDF();
 
   // Wähle die Schriftart aus (z.B., "times", "helvetica", "courier", etc.)
-  const font = "helvetica";
-  pdf.setFont(font);
+  pdf.setFont("Helvetica", "bold");
 
   // Wähle die Schriftgröße aus (z.B., 12 für 12pt)
   const fontSize = 12;
   pdf.setFontSize(fontSize);
 
   // Füge den Titel über dem Bild hinzu
-  pdf.text("KitzConfig - Datenblatt", pdf.internal.pageSize.getWidth() / 2, 10, { align: 'center' });
+  pdf.text("KitzConfig - Datenblatt", pdf.internal.pageSize.getWidth() / 2, 15, { align: 'center' });
 
   // Skaliere das Bild basierend auf der Größe des Canvas und des Bildes
   const canvasWidth = 210//pdf.internal.pageSize.getWidth();
@@ -1084,9 +1096,9 @@ function saveData() {
 
   // Füge das Bild hinzu
   pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth, imageHeight / 1);
-  pdf.addImage(secondImage, 'PNG', (canvasWidth - imageWidth) / 2, 190, imageWidth / 2, imageHeight / 2);
-  pdf.addImage(thirdImage, 'PNG', (canvasWidth - imageWidth) / 2 + 100, 190, imageWidth / 2, imageHeight / 2);
-  pdf.addImage(fourthImage, 'PNG', (canvasWidth - imageWidth) / 2, 245, imageWidth / 2, imageHeight / 2);
+  pdf.addImage(secondImage, 'PNG', 10, 190, imageWidth / 2.3, imageHeight / 2.3);
+  pdf.addImage(thirdImage, 'PNG', 115, 190, imageWidth / 2.3, imageHeight / 2.3);
+  
 
   // Füge das Bild hinzu und skaliere es auf das feste Format
   //pdf.addImage(mainImage, 'PNG', 10, 20, pdfImageWidth, pdfImageHeight);
@@ -1133,6 +1145,16 @@ function saveData() {
     listPositionY2 += 6; // Verringere den Abstand zwischen den Listenelementen
     listItemNumber2++;
   }
+
+// Neue Seite hinzufügen
+pdf.addPage();
+
+// Text auf der zweiten Seite hinzufügen
+pdf.text('Dies ist Seite 2', 10, 10);
+
+pdf.addImage(fourthImage, 'PNG', 200, 100, 300, 205, undefined, undefined, 90);
+
+
   pdf.save("KitzConfig - Datenblatt.pdf");
 }
 
