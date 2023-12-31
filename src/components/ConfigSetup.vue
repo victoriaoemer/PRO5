@@ -1098,6 +1098,12 @@ function saveData() {
   pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth, imageHeight / 1);
   pdf.addImage(secondImage, 'PNG', 10, 190, imageWidth / 2.3, imageHeight / 2.3);
   pdf.addImage(thirdImage, 'PNG', 115, 190, imageWidth / 2.3, imageHeight / 2.3);
+
+  pdf.setFontSize(10);
+  pdf.setFont("Helvetica", "normal");
+  pdf.text('Ansicht: Totale', 90, 102);
+  pdf.text('Ansicht: POV-Küche', 40, 242);
+  pdf.text('Ansicht: POV-Bett', 140, 242);
   
 
   // Füge das Bild hinzu und skaliere es auf das feste Format
@@ -1115,7 +1121,7 @@ function saveData() {
   let listPositionY = 0 + imageHeight + 20; // Verringere den Abstand zwischen dem Bild und der Liste
   let listItemNumber = 1;
 
-
+  pdf.setFontSize(fontSize);
   pdf.setFont("Helvetica", "bold");
   pdf.text("Materialliste: ", 30, listPositionY);
   pdf.setFont("Helvetica", "normal");
@@ -1150,13 +1156,14 @@ function saveData() {
 pdf.addPage();
 
 // Text auf der zweiten Seite hinzufügen
-pdf.text('Dies ist Seite 2', 10, 10);
+
 
 pdf.addImage(fourthImage, 'PNG', 200, 100, 300, 205, undefined, undefined, 90);
-
+pdf.text('Ansicht: Vogelperspektive', 90, 262);
 
   pdf.save("KitzConfig - Datenblatt.pdf");
 }
+
 
 function toggleAdditionalObjects(object, index) {
   object.visible = !object.visible;
