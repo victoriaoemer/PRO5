@@ -174,7 +174,7 @@ let activeCamera = camera;
 let selectedCameraView = ref('totale');
 
 
-let mirror, bathrommMirror, windowrefl;
+let mirror, bathrommMirror, windowrefl, windowreflback;
 const additionalObjectsLoaded = ref(false);
 
 const selectedAdditionalObjects = reactive({
@@ -688,11 +688,11 @@ mirror.position.z = -115;
 mirror.rotateY(Math.PI / 2);
 
 scene.add(mirror);
-/*const material = new THREE.MeshPhysicalMaterial({  
-  roughness: 0.5,   
-  transmission: 0.7,  
-  thickness: 0.5
-});*/
+const material = new THREE.MeshPhysicalMaterial({  
+  roughness: 0.1,   
+  transmission: 0.9,  
+  thickness: 0.1
+});
 
 geometry = new THREE.PlaneGeometry(70, 102);
 windowrefl = new Reflector(geometry, {
@@ -708,6 +708,16 @@ windowrefl.position.z = 200;
 windowrefl.rotateY(Math.PI);
 
 scene.add(windowrefl);
+
+windowreflback = new Reflector(geometry, material);
+
+windowreflback.position.x = -20;
+windowreflback.position.y = 64.5;
+windowreflback.position.z = 201;
+
+//windowreflback.rotateY(Math.PI /);
+
+scene.add(windowreflback);
 
 geometry = new THREE.PlaneGeometry(35, 45);
 bathrommMirror = new Reflector(geometry, {
