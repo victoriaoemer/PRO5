@@ -16,14 +16,14 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { faCube } from '@fortawesome/free-solid-svg-icons'
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
 import {faRotateLeft} from '@fortawesome/free-solid-svg-icons'
-import {faCamera} from '@fortawesome/free-solid-svg-icons'
+import {faVideo} from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
 library.add(faDownload)
 library.add(faPenToSquare)
 library.add(faCube)
 library.add(faCircleQuestion)
 library.add(faRotateLeft)
-library.add(faCamera)
+library.add(faVideo)
 createApp(App)
 .component('font-awesome-icon', FontAwesomeIcon)
 .mount('#app')

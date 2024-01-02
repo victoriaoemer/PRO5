@@ -3,7 +3,7 @@
     <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp">
       <div class="canvas-menu">
         <font-awesome-icon @click="undoTextureChange()" icon="fa-solid fa-rotate-left" class="canvas-icon" />
-        <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="resetStartscreen()" icon="fa-solid fa-camera" class="canvas-icon" />
+        <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="resetStartscreen()" icon="fa-solid fa-video" class="canvas-icon" />
         <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="hideWalls" class="canvas-icon"
           icon="fa-solid fa-cube" />
         <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="toggleWireframe" class="canvas-icon"
@@ -164,6 +164,8 @@ const additionalObjects = {};
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera.name = 'camera';
+const cameraTotale = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+camera.name = 'cameraTotale';
 const camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera2.name = 'camera2';
 const camera3 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -750,6 +752,10 @@ const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 camera.position.set(-150, 300, 0);
 camera.lookAt(object.position);
+
+cameraTotale.position.set(-150, 300, 0);
+cameraTotale.lookAt(object.position);
+
 camera2.position.set(-90, 80, -20);
 camera3.position.set(30, 80, 60);
 
@@ -1071,6 +1077,9 @@ function toggleWireframe() {
 
 function saveData() {
 
+  fixedObjects.room.visible = true;
+  fixedObjects.room_complete.visible = false;
+
   const originalWidth = 1920//renderer.domElement.width;
   const originalHeight = 1080//renderer.domElement.height;
 
@@ -1082,7 +1091,7 @@ function saveData() {
   // Ändere die Größe des Renderers
   renderer.setSize(renderWidth, renderHeight);
 
-  renderer.render(scene, camera);
+  renderer.render(scene, cameraTotale);
   const canvas = document.getElementsByTagName("canvas", { preserveDrawingBuffer: true })[0];
   const mainImage = canvas.toDataURL("image/png", 0.5);
 
