@@ -11,15 +11,19 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faDownload } from '@fortawesome/free-solid-svg-icons'
+import { faC, faDownload } from '@fortawesome/free-solid-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { faCube } from '@fortawesome/free-solid-svg-icons'
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
+import {faRotateLeft} from '@fortawesome/free-solid-svg-icons'
+import {faCamera} from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
 library.add(faDownload)
 library.add(faPenToSquare)
 library.add(faCube)
 library.add(faCircleQuestion)
+library.add(faRotateLeft)
+library.add(faCamera)
 createApp(App)
 .component('font-awesome-icon', FontAwesomeIcon)
 .mount('#app')

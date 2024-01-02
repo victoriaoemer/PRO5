@@ -2,6 +2,7 @@
   <div class="container">
     <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp">
       <div class="canvas-menu">
+        <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="resetStartscreen()" icon="fa-solid fa-camera" class="canvas-icon" />
         <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="hideWalls" class="canvas-icon"
           icon="fa-solid fa-cube" />
         <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="toggleWireframe" class="canvas-icon"
@@ -909,6 +910,11 @@ virtualCamera.rotation.copy(activeCamera.rotation);
 function helpScreen() {
   console.log(isVisible);
   isVisible.value = !isVisible.value;
+}
+
+function resetStartscreen() {
+  camera.position.set(-150, 300, 0);
+  camera.lookAt(object.position);
 }
 
 function onMouseDown(event) {
