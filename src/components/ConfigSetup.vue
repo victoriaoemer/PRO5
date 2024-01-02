@@ -2,6 +2,7 @@
   <div class="container">
     <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp">
       <div class="canvas-menu">
+        <font-awesome-icon @click="undoTextureChange()" icon="fa-solid fa-rotate-left" class="canvas-icon" />
         <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="resetStartscreen()" icon="fa-solid fa-camera" class="canvas-icon" />
         <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="hideWalls" class="canvas-icon"
           icon="fa-solid fa-cube" />
@@ -795,6 +796,40 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 1); // soft white light
 ambientLight.position.y = 1000
 scene.add(ambientLight);
 
+// Vor der Änderung speichern
+let previousState = {};
+
+function saveCurrentState() {
+  previousState = {};
+  for (let key in loadedObjects) {
+    previousState[key] = objectTextures[key];
+  }
+}
+
+function undoTextureChange() {
+  for (let key in loadedObjects) {
+    const object = loadedObjects[key];
+    const textureUrl = previousState[key];
+
+    if (textureUrl !== undefined) {
+      object.traverse(function (node) {
+        if (node instanceof THREE.Mesh) {
+          node.material.map = new THREE.TextureLoader().load(textureUrl);
+          node.material.needsUpdate = true;
+        }
+      });
+      objectTextures[key] = textureUrl;
+    }
+  }
+}
+
+
+
+
+
+
+
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 renderer.domElement.addEventListener('click', onClick, false);
@@ -1179,6 +1214,7 @@ function toggleAdditionalObjects(object, index) {
 }
 
 function changeAllTextures(index) {
+  saveCurrentState(); // Speichere vor der Änderung den Zustand
   for (let key in loadedObjects) {
     //if (key === 'room' || key === 'lowchairfeets' || key === 'doors' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
     const object = loadedObjects[key];
@@ -1199,6 +1235,7 @@ function changeAllTextures(index) {
   selectedOneTexture.value = textures[textureIndex];
 }
 function changeOneTexture(index, object) {
+  saveCurrentState(); // Speichere vor der Änderung den Zustand
   selectedTexture.value = null;
 
   const originalObjectName = Object.keys(objectNamesMapping).find(key => objectNamesMapping[key] === object);
