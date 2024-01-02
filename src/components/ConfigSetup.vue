@@ -802,30 +802,53 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 1); // soft white light
 ambientLight.position.y = 1000
 scene.add(ambientLight);
 
-// Vor der Änderung speichern
-let previousState = {};
+// Speichert die Historie der Zustände
+let stateHistory = [];
+let currentStateIndex = -1;
 
 function saveCurrentState() {
-  previousState = {};
+  console.log("Saving state...", stateHistory);
+  currentStateIndex++;
+  stateHistory = stateHistory.slice(0, currentStateIndex);
+  const currentState = {};
   for (let key in loadedObjects) {
-    previousState[key] = objectTextures[key];
+    currentState[key] = objectTextures[key];
   }
+  stateHistory.push({ ...currentState }); // Hier verwenden wir den Spread Operator, um eine tiefe Kopie zu erstellen
 }
 
 function undoTextureChange() {
+  console.log("Undoing texture change...", stateHistory, currentStateIndex);
+  if (currentStateIndex > 0) {
+    currentStateIndex--;
+    applyState(stateHistory[currentStateIndex]);
+  }
+}
+
+function applyState(state) {
   for (let key in loadedObjects) {
     const object = loadedObjects[key];
-    const textureUrl = previousState[key];
+    const textureUrl = state[key];
 
     if (textureUrl !== undefined) {
       object.traverse(function (node) {
         if (node instanceof THREE.Mesh) {
+          if (node.material.map) {
+            node.material.map.dispose();
+          }
           node.material.map = new THREE.TextureLoader().load(textureUrl);
           node.material.needsUpdate = true;
         }
       });
       objectTextures[key] = textureUrl;
     }
+  }
+}
+
+function redoTextureChange() {
+  if (currentStateIndex < stateHistory.length - 1) {
+    currentStateIndex++;
+    applyState(stateHistory[currentStateIndex]);
   }
 }
 
@@ -1223,7 +1246,6 @@ function toggleAdditionalObjects(object, index) {
 }
 
 function changeAllTextures(index) {
-  saveCurrentState(); // Speichere vor der Änderung den Zustand
   for (let key in loadedObjects) {
     //if (key === 'room' || key === 'lowchairfeets' || key === 'doors' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
     const object = loadedObjects[key];
@@ -1242,9 +1264,9 @@ function changeAllTextures(index) {
   textureIndex = index;
   selectedTexture.value = textures[textureIndex];
   selectedOneTexture.value = textures[textureIndex];
+  saveCurrentState(); // Speichere vor der Änderung den Zustand
 }
 function changeOneTexture(index, object) {
-  saveCurrentState(); // Speichere vor der Änderung den Zustand
   selectedTexture.value = null;
 
   const originalObjectName = Object.keys(objectNamesMapping).find(key => objectNamesMapping[key] === object);
@@ -1267,6 +1289,7 @@ function changeOneTexture(index, object) {
     textureIndex = index;
     selectedOneTexture.value = textures[textureIndex];
     console.log(objectTextures[originalObjectName]);
+    saveCurrentState(); // Speichere vor der Änderung den Zustand
   }
 }
 
