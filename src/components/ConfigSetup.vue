@@ -817,11 +817,15 @@ function saveCurrentState() {
   stateHistory.push({ ...currentState }); // Hier verwenden wir den Spread Operator, um eine tiefe Kopie zu erstellen
 }
 
+console.log(stateHistory);
+
 function undoTextureChange() {
   console.log("Undoing texture change...", stateHistory, currentStateIndex);
   if (currentStateIndex > 0) {
     currentStateIndex--;
     applyState(stateHistory[currentStateIndex]);
+    const originalObjectName = Object.keys(objectNamesMapping).find(key => objectNamesMapping[key] === selectedObjectName.value);
+      selectedOneTexture.value = objectTextures[originalObjectName] || '/PRO5/assets/gltf/text/Gold_wood.jpg';
   }
 }
 
@@ -1288,6 +1292,7 @@ function changeOneTexture(index, object) {
     objectTextures[originalObjectName] = textureUrl; // Speichere die aktuelle Textur für das Objekt
     textureIndex = index;
     selectedOneTexture.value = textures[textureIndex];
+    console.log(index)
     console.log(objectTextures[originalObjectName]);
     saveCurrentState(); // Speichere vor der Änderung den Zustand
   }
