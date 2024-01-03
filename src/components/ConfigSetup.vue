@@ -1,135 +1,210 @@
 <template>
   <div class="container">
-    <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp">
-      <div class="canvas-menu">
-        <font-awesome-icon @click="undoTextureChange()" icon="fa-solid fa-rotate-left" class="canvas-icon" />
-        <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="resetStartscreen()" icon="fa-solid fa-video" class="canvas-icon" />
-        <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="hideWalls" class="canvas-icon"
-          icon="fa-solid fa-cube" />
-        <font-awesome-icon v-if="selectedCameraView === 'totale'" @click="toggleWireframe" class="canvas-icon"
-          icon="fa-solid fa-pen-to-square" />
-        <font-awesome-icon @click="helpScreen()" icon="fa-solid fa-circle-question" class="canvas-icon" />
-
-      </div>
-      <div v-if="isVisible" class="helpscreen"> <font-awesome-icon icon="fa-solid fa-circle-question" />
-        <h4>Hilfestellung</h4>
-        <div class="helpscreen-container">
-          <div class="mouse-col">
-            <div class="mouse">
-              <img class="mouse-icon" src="/PRO5/assets/svg/mouse_left.svg" alt="right mouse button" />
-              <div class="mouse-descriptions">
-                <h4>linke Maustaste</h4>
-                <br />
-                <p>use left mouse navigate</p>
+    <div>
+      <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp">
+        <div class="canvas-menu">
+          <font-awesome-icon title="Zurück" @click="undoTextureChange()" icon="fa-solid fa-rotate-left"
+            class="canvas-icon" />
+          <font-awesome-icon title="Ansicht zurücksetzen" v-if="selectedCameraView === 'totale'"
+            @click="resetStartscreen()" icon="fa-solid fa-video" class="canvas-icon" />
+          <font-awesome-icon title="Wände aus/einblenden" v-if="selectedCameraView === 'totale'" @click="hideWalls"
+            class="canvas-icon" icon="fa-solid fa-cube" />
+          <font-awesome-icon title="Wireframe aus/einblenden" v-if="selectedCameraView === 'totale'"
+            @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square" />
+          <font-awesome-icon title="Bedienungshilfe" @click="helpScreen()" icon="fa-solid fa-circle-question"
+            class="canvas-icon" />
+        </div>
+        <div v-if="isVisible" class="helpscreen"> <font-awesome-icon icon="fa-solid fa-circle-question" />
+          <h4>Hilfestellung</h4>
+          <div class="helpscreen-container">
+            <div class="mouse-col">
+              <div class="mouse">
+                <img class="mouse-icon" src="/PRO5/assets/svg/mouse_left.svg" alt="right mouse button" />
+                <div class="mouse-descriptions">
+                  <h4>linke Maustaste</h4>
+                  <br />
+                  <p>use left mouse navigate</p>
+                </div>
+              </div>
+              <div class="mouse">
+                <img class="mouse-icon" src="/PRO5/assets/svg/mouse_right.svg" alt="right mouse button" />
+                <div class="mouse-descriptions">
+                  <h4>rechte Maustaste</h4>
+                  <br />
+                  <p>use right mouse button to pan</p>
+                </div>
+              </div>
+              <div class="mouse">
+                <img class="mouse-icon" src="/PRO5/assets/svg/mouse_scrollwheel.svg" alt="right mouse button" />
+                <div class="mouse-descriptions">
+                  <h4>Scrollwheel</h4>
+                  <br />
+                  <p>use scroll wheel to zoom</p>
+                </div>
               </div>
             </div>
-            <div class="mouse">
-              <img class="mouse-icon" src="/PRO5/assets/svg/mouse_right.svg" alt="right mouse button" />
-              <div class="mouse-descriptions">
-                <h4>rechte Maustaste</h4>
-                <br />
-                <p>use right mouse button to pan</p>
-              </div>
-            </div>
-            <div class="mouse">
-              <img class="mouse-icon" src="/PRO5/assets/svg/mouse_scrollwheel.svg" alt="right mouse button" />
-              <div class="mouse-descriptions">
-                <h4>Scrollwheel</h4>
-                <br />
-                <p>use scroll wheel to zoom</p>
-              </div>
-            </div>
-          </div>
-          <div class="mouse-col">
-          <div class="mouse">
-              <img class="mouse-icon" src="/PRO5/assets/svg/mouse_scrollwheel.svg" alt="right mouse button" />
-              <div class="mouse-descriptions">
-                <h4>Material ändern</h4>
-                <br />
-                <p>um ein Material zu verändern, klicken Sie auf das gewünschte Material um es auf alle Möbel anzuwenden</p>
-                <br />
-                <p>um ein Material für ein einzelnes Möbelstück zu verändern, klicken Sie auf das gewünschte Möbelstück und dann auf das Material</p>
+            <div class="mouse-col">
+              <div class="mouse">
+                <img class="mouse-icon" src="/PRO5/assets/svg/mouse_scrollwheel.svg" alt="right mouse button" />
+                <div class="mouse-descriptions">
+                  <h4>Material ändern</h4>
+                  <br />
+                  <p>um ein Material zu verändern, klicken Sie auf das gewünschte Material um es auf alle Möbel anzuwenden
+                  </p>
+                  <br />
+                  <p>um ein Material für ein einzelnes Möbelstück zu verändern, klicken Sie auf das gewünschte Möbelstück
+                    und dann auf das Material</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
+
     <div class="ui">
       <h1>Einzelzimmer</h1>
-      <h4>Wähle deine Ansicht</h4>
-      <div style="display: flex; gap: 15px; margin-bottom: 20px; margin: 4px;">
-        <!-- <button @click="toggleCameraToWide" id="totaleButton"> Totale </button> -->
-        <button alt="Totale" class="button" :class="{ selected: selectedCameraView === 'totale' }"
-          @click="toggleCameraToWide">
-          <div class="totale"></div>
+      <div v-for="(category, index) in categories" class="categoryContainer" :key="index">
+        <button class="category" @click="toggleCategory(category, index)">
+          {{ category.title }}
         </button>
-        <button alt="Gardarobe" class="button" :class="{ selected: selectedCameraView === 'gardarobe' }"
-          @click="toggleCameraToGardarobe">
-          <div class="room"></div>
-        </button>
-        <button alt="Küche" class="button" :class="{ selected: selectedCameraView === 'kueche' }"
-          @click="toggleCameraToKueche">
-          <div class="kitchen"></div>
-        </button>
-      </div>
-      <br>
-      <br>
-
-      <div>
-
-        <div>
-          <h4>Material aller Möbelstücke ändern</h4>
-
-          <div class="buttonContainer">
-            <div v-for="(texture, index) in textures" :key="index" class="textureButton"
-              :class="{ selected: selectedTexture === texture }" @click="changeAllTextures(index)">
-              <img :src="texture" alt="Texture Image">
+        <div v-if="category.opened" class="opened">
+          <div v-if="category.name === 'ansicht'">
+            <div style="display: flex; gap: 15px; margin-bottom: 20px; margin: 4px;">
+              <!-- <button @click="toggleCameraToWide" id="totaleButton"> Totale </button> -->
+              <button alt="Totale" class="button" :class="{ selected: selectedCameraView === 'totale' }"
+                @click="toggleCameraToWide">
+                <div class="totale"></div>
+              </button>
+              <button alt="Gardarobe" class="button" :class="{ selected: selectedCameraView === 'gardarobe' }"
+                @click="toggleCameraToGardarobe">
+                <div class="room"></div>
+              </button>
+              <button alt="Küche" class="button" :class="{ selected: selectedCameraView === 'kueche' }"
+                @click="toggleCameraToKueche">
+                <div class="kitchen"></div>
+              </button>
             </div>
           </div>
-        </div>
-        <br>
-        <div>
-          <h4>Material einzelner Möbelstücke ändern</h4>
-          <p v-if="selectedObjectName == null"> Wählen Sie ein Möbelstück aus indem Sie darauf klicken!</p>
-          <div v-else>
-            <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p>
+
+          <div v-if="category.name === 'allMaterials'">
             <div class="buttonContainer">
               <div v-for="(texture, index) in textures" :key="index" class="textureButton"
-                @click="changeOneTexture(index, selectedObjectName)"
-                :class="{ selected: selectedOneTexture === texture }">
+                :class="{ selected: selectedTexture === texture }" @click="changeAllTextures(index)">
                 <img :src="texture" alt="Texture Image">
               </div>
             </div>
           </div>
-        </div>
-        <br>
-        <div>
-          <h4>Zusatzobjekte</h4>
-          <p>Wähle die Objekte aus, die du hinzufügen möchtest</p>
-          <div>
-            <div v-if="additionalObjectsLoaded" class="buttonContainer">
-              <!-- Hier kommt dein HTML-Code mit v-for -->
-              <div v-for="(object, index) in additionalObjects" :key="index"
-                @click="toggleAdditionalObjects(object, index)" class="textureButton"
-                :class="{ selected: selectedAdditionalObjects[index] }">
-                <img :src="`${'/PRO5/assets/additionalObjects/' + index + '.png'}`" alt="Texture Image" />
+
+          <div v-if="category.name === 'oneMaterial'">
+            <p v-if="selectedObjectName == null"> Wählen Sie ein Möbelstück aus indem Sie darauf klicken!</p>
+            <div v-else>
+              <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p>
+              <div class="buttonContainer">
+                <div v-for="(texture, index) in textures" :key="index" class="textureButton"
+                  @click="changeOneTexture(index, selectedObjectName)"
+                  :class="{ selected: selectedOneTexture === texture }">
+                  <img :src="texture" alt="Texture Image">
+                </div>
               </div>
             </div>
-            <div v-else>
-              <!-- Hier kannst du einen Ladeindikator oder eine Meldung anzeigen, während die Objekte geladen werden -->
-              Lade zusätzliche Objekte...
+          </div>
+
+          <div v-if="category.name === 'additionalObjects'">
+            <p>Wähle die Objekte aus, die du hinzufügen möchtest</p>
+            <div>
+              <div v-if="additionalObjectsLoaded" class="buttonContainer">
+                <!-- Hier kommt dein HTML-Code mit v-for -->
+                <div v-for="(object, index) in additionalObjects" :key="index"
+                  @click="toggleAdditionalObjects(object, index)" class="textureButton"
+                  :class="{ selected: selectedAdditionalObjects[index] }">
+                  <img :src="`${'/PRO5/assets/additionalObjects/' + index + '.png'}`" alt="Texture Image" />
+                </div>
+              </div>
+              <div v-else>
+                <!-- Hier kannst du einen Ladeindikator oder eine Meldung anzeigen, während die Objekte geladen werden -->
+                Lade zusätzliche Objekte...
+              </div>
             </div>
           </div>
-          <br>
 
-          <button class="saveButton" @click="saveData"> <font-awesome-icon class="icon" icon="fa-solid fa-download" />
-            Daten
-            als PDF speichern</button>
         </div>
       </div>
+      <!-- <div>
+        <h4>Wähle deine Ansicht</h4>
+        <div style="display: flex; gap: 15px; margin-bottom: 20px; margin: 4px;">
+          <button alt="Totale" class="button" :class="{ selected: selectedCameraView === 'totale' }"
+            @click="toggleCameraToWide">
+            <div class="totale"></div>
+          </button>
+          <button alt="Gardarobe" class="button" :class="{ selected: selectedCameraView === 'gardarobe' }"
+            @click="toggleCameraToGardarobe">
+            <div class="room"></div>
+          </button>
+          <button alt="Küche" class="button" :class="{ selected: selectedCameraView === 'kueche' }"
+            @click="toggleCameraToKueche">
+            <div class="kitchen"></div>
+          </button>
+        </div>
+      </div>
+      <br>
+      <br>
+
+
+      <div>
+        <h4>Material aller Möbelstücke ändern</h4>
+
+        <div class="buttonContainer">
+          <div v-for="(texture, index) in textures" :key="index" class="textureButton"
+            :class="{ selected: selectedTexture === texture }" @click="changeAllTextures(index)">
+            <img :src="texture" alt="Texture Image">
+          </div>
+        </div>
+      </div>
+      <br>
+
+
+      <div>
+        <h4>Material einzelner Möbelstücke ändern</h4>
+        <p v-if="selectedObjectName == null"> Wählen Sie ein Möbelstück aus indem Sie darauf klicken!</p>
+        <div v-else>
+          <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p>
+          <div class="buttonContainer">
+            <div v-for="(texture, index) in textures" :key="index" class="textureButton"
+              @click="changeOneTexture(index, selectedObjectName)" :class="{ selected: selectedOneTexture === texture }">
+              <img :src="texture" alt="Texture Image">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <br>
+      <div>
+        <h4>Zusatzobjekte</h4>
+        <p>Wähle die Objekte aus, die du hinzufügen möchtest</p>
+        <div>
+          <div v-if="additionalObjectsLoaded" class="buttonContainer">
+            <div v-for="(object, index) in additionalObjects" :key="index" @click="toggleAdditionalObjects(object, index)"
+              class="textureButton" :class="{ selected: selectedAdditionalObjects[index] }">
+              <img :src="`${'/PRO5/assets/additionalObjects/' + index + '.png'}`" alt="Texture Image" />
+            </div>
+          </div>
+          <div v-else>
+            Lade zusätzliche Objekte...
+          </div>
+        </div>
+      </div>
+      <br> -->
+
+      <div>
+        <button class="saveButton" @click="saveData"> <font-awesome-icon class="icon" icon="fa-solid fa-download" />
+          Daten
+          als PDF speichern</button>
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -194,7 +269,28 @@ const selectedAdditionalObjects = reactive({
   // Add more objects as needed
 });
 
-
+const categories = reactive({
+  'Ansicht': {
+    title: 'Wähle deine Ansicht',
+    name: 'ansicht',
+    opened: true
+  },
+  'Material': {
+    title: 'Material aller Möbelstücke ändern',
+    name: 'allMaterials',
+    opened: true
+  },
+  'Material2': {
+    title: 'Material einzelner Möbelstücke ändern',
+    name: 'oneMaterial',
+    opened: false
+  },
+  'Zusatzobjekte': {
+    title: 'Zusatzobjekte',
+    name: 'additionalObjects',
+    opened: false
+  }
+})
 
 const objectNamesMapping = {
   'room': 'Zimmer',
@@ -696,9 +792,9 @@ mirror.position.z = -115;
 mirror.rotateY(Math.PI / 2);
 
 scene.add(mirror);
-const material = new THREE.MeshPhysicalMaterial({  
-  roughness: 0.1,   
-  transmission: 0.9,  
+const material = new THREE.MeshPhysicalMaterial({
+  roughness: 0.1,
+  transmission: 0.9,
   thickness: 0.1
 });
 
@@ -742,10 +838,6 @@ bathrommMirror.rotateY(Math.PI);
 
 scene.add(bathrommMirror);
 
-
-
-console.log(additionalObjects);
-
 //------------------------------------------Axis and Lights------------------------------------------//
 
 const axesHelper = new THREE.AxesHelper(5);
@@ -765,7 +857,7 @@ camera4.position.set(-1, 350, 0);
 camera4.lookAt(object.position);
 
 camera5.position.set(-70, 85, -20);
-camera5.lookAt(0,75,50);
+camera5.lookAt(0, 75, 50);
 
 camera6.position.set(30, 80, 60);
 camera6.lookAt(-70, 25, 215);
@@ -817,15 +909,13 @@ function saveCurrentState() {
   stateHistory.push({ ...currentState }); // Hier verwenden wir den Spread Operator, um eine tiefe Kopie zu erstellen
 }
 
-console.log(stateHistory);
-
 function undoTextureChange() {
   console.log("Undoing texture change...", stateHistory, currentStateIndex);
   if (currentStateIndex > 0) {
     currentStateIndex--;
     applyState(stateHistory[currentStateIndex]);
     const originalObjectName = Object.keys(objectNamesMapping).find(key => objectNamesMapping[key] === selectedObjectName.value);
-      selectedOneTexture.value = objectTextures[originalObjectName] || '/PRO5/assets/gltf/text/Gold_wood.jpg';
+    selectedOneTexture.value = objectTextures[originalObjectName] || '/PRO5/assets/gltf/text/Gold_wood.jpg';
   }
 }
 
@@ -1014,6 +1104,11 @@ function onMouseUp() {
   window.removeEventListener('mouseup', onMouseUp);
 }
 
+function toggleCategory(category, index) {
+  categories[index].opened = !categories[index].opened;
+  console.log('toggleCategory ausgelöst', category, index);
+}
+
 function alleZusatzObjekteGeladen() {
   // Überprüfe hier, ob alle zusätzlichen Objekte im additionalObjects-Array vorhanden sind
   return (
@@ -1181,7 +1276,7 @@ function saveData() {
   pdf.text('Ansicht: Totale', 90, 102);
   pdf.text('Ansicht: POV-Küche', 40, 242);
   pdf.text('Ansicht: POV-Bett', 140, 242);
-  
+
 
   // Füge das Bild hinzu und skaliere es auf das feste Format
   //pdf.addImage(mainImage, 'PNG', 10, 20, pdfImageWidth, pdfImageHeight);
@@ -1229,14 +1324,14 @@ function saveData() {
     listItemNumber2++;
   }
 
-// Neue Seite hinzufügen
-pdf.addPage();
+  // Neue Seite hinzufügen
+  pdf.addPage();
 
-// Text auf der zweiten Seite hinzufügen
+  // Text auf der zweiten Seite hinzufügen
 
 
-pdf.addImage(fourthImage, 'PNG', 200, 100, 300, 205, undefined, undefined, 90);
-pdf.text('Ansicht: Vogelperspektive', 90, 262);
+  pdf.addImage(fourthImage, 'PNG', 200, 100, 300, 205, undefined, undefined, 90);
+  pdf.text('Ansicht: Vogelperspektive', 90, 262);
 
   pdf.save("KitzConfig - Datenblatt.pdf");
 }
@@ -1245,8 +1340,6 @@ pdf.text('Ansicht: Vogelperspektive', 90, 262);
 function toggleAdditionalObjects(object, index) {
   object.visible = !object.visible;
   selectedAdditionalObjects[index] = object.visible;
-  console.log(selectedAdditionalObjects);
-
 }
 
 function changeAllTextures(index) {
@@ -1260,7 +1353,6 @@ function changeAllTextures(index) {
       if (node instanceof THREE.Mesh) {
         node.material.map = new THREE.TextureLoader().load(textureUrl);
         node.material.needsUpdate = true;
-        //console.log(`Changed texture of ${key} to ${textureUrl}`);
       }
     });
     objectTextures[key] = textureUrl; // Speichere die aktuelle Textur für das Objekt
@@ -1274,7 +1366,6 @@ function changeOneTexture(index, object) {
   selectedTexture.value = null;
 
   const originalObjectName = Object.keys(objectNamesMapping).find(key => objectNamesMapping[key] === object);
-  console.log(objectTextures[originalObjectName]); //bereits gespeicherte texture
   const loadedObject = loadedObjects[originalObjectName];
 
 
@@ -1292,8 +1383,6 @@ function changeOneTexture(index, object) {
     objectTextures[originalObjectName] = textureUrl; // Speichere die aktuelle Textur für das Objekt
     textureIndex = index;
     selectedOneTexture.value = textures[textureIndex];
-    console.log(index)
-    console.log(objectTextures[originalObjectName]);
     saveCurrentState(); // Speichere vor der Änderung den Zustand
   }
 }
@@ -1304,6 +1393,27 @@ function changeOneTexture(index, object) {
 
 
 <style scoped>
+.category {
+  padding: 5px;
+  color: white;
+  background-color: var(--vt-c-text-light-1);
+  width: 100%;
+  text-align: start;
+  margin: 0;
+  border-radius: 3px 3px 0 0;
+
+}
+
+.opened{
+  padding: 11px 12px;
+}
+
+.categoryContainer {
+  border: 1px solid var(--vt-c-text-light-1);
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
 h1 {
   font-weight: 800;
 }
@@ -1525,7 +1635,7 @@ font-awesome-icon {
 }
 
 .mouse-col {
-  flex:1;
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
