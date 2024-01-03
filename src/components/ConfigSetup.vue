@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp">
-        <div class="canvas-menu">
+        <div v-if="additionalObjectsLoaded" class="canvas-menu">
           <font-awesome-icon title="Zurück" @click="undoTextureChange()" icon="fa-solid fa-rotate-left"
             class="canvas-icon" />
           <font-awesome-icon title="Ansicht zurücksetzen" v-if="selectedCameraView === 'totale'"
@@ -63,7 +63,13 @@
       </div>
     </div>
 
-    <div class="ui">
+    <div v-if="!additionalObjectsLoaded" class="loadingScreen">
+      <!-- Loading screen or indicator -->
+      Konfigurator lädt... //Hier Loading screen Design
+    </div>
+
+
+    <div v-else class="ui">
       <h1>Einzelzimmer</h1>
       <div v-for="(category, index) in categories" class="categoryContainer" :key="index">
         <button class="category" @click="toggleCategory(category, index)">
@@ -1416,6 +1422,18 @@ function changeOneTexture(index, object) {
   border: 1px solid var(--vt-c-text-light-1);
   border-radius: 5px;
   margin-bottom: 20px;
+}
+
+.loadingScreen{
+  width: 100%;
+    background-color: white;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
 
 h1 {
