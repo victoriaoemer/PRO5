@@ -318,7 +318,9 @@ const textureShortInfos = {
   '/PRO5/assets/gltf/text/Gold_wood.jpg': 'Eichenholz',
   '/PRO5/assets/gltf/text/plywood03.jpg': 'Birkenholz',
   '/PRO5/assets/gltf/text/walnut.jpg': 'Walnussholz',
-  '/PRO5/assets/gltf/text/adthe.jpg': 'Nuhiu',
+  '/PRO5/assets/gltf/text/white.jpg': 'Weiß',
+  '/PRO5/assets/gltf/text/black.jpg': 'Schwarz',
+  // '/PRO5/assets/gltf/text/adthe.jpg': 'Nuhiu',
   // Füge hier weitere Texturen hinzu
 };
 
@@ -327,7 +329,9 @@ const textures = [
   '/PRO5/assets/gltf/text/Gold_wood.jpg',
   '/PRO5/assets/gltf/text/plywood03.jpg',
   '/PRO5/assets/gltf/text/walnut.jpg',
-  '/PRO5/assets/gltf/text/adthe.jpg',
+  '/PRO5/assets/gltf/text/white.jpg',
+  '/PRO5/assets/gltf/text/black.jpg',
+  // '/PRO5/assets/gltf/text/adthe.jpg',
 ]
 const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
 let selectedTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
