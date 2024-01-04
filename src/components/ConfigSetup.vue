@@ -296,12 +296,12 @@ const categories = reactive({
   'Material2': {
     title: 'Material einzelner Möbelstücke ändern',
     name: 'oneMaterial',
-    opened: false
+    opened: true
   },
   'Zusatzobjekte': {
     title: 'Zusatzobjekte',
     name: 'additionalObjects',
-    opened: false
+    opened: true
   }
 })
 
@@ -1036,6 +1036,7 @@ init();
 
 
 function onClick() {
+
   //only loaded objects are selectable
   for (const key in loadedObjects) {
     if (Object.hasOwnProperty.call(loadedObjects, key)) {
@@ -1075,14 +1076,17 @@ function onClick() {
 
       const originalObjectName = Object.keys(objectNamesMapping).find(key => objectNamesMapping[key] === selectedObjectName.value);
       selectedOneTexture.value = objectTextures[originalObjectName] || '/PRO5/assets/gltf/text/Gold_wood.jpg';
+      categories['Material'].opened = false;
     }
   } else {
     if (INTERSECTED) {
       // Reset the outline effect on the previously selected object
       outlinePass.selectedObjects = [];
+      categories['Material'].opened = true;
     }
     INTERSECTED = null;
   }
+
 }
 
 const animate = () => {
