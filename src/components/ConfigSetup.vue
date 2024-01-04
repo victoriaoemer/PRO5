@@ -964,12 +964,6 @@ function redoTextureChange() {
 }
 
 
-
-
-
-
-
-
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 renderer.domElement.addEventListener('click', onClick, false);
@@ -1090,6 +1084,11 @@ function helpScreen() {
 function resetStartscreen() {
   camera.position.set(-150, 300, 0);
   camera.lookAt(object.position);
+  
+  controls.dispose();
+  controls = new OrbitControls(activeCamera, renderer.domElement);
+  controls.minDistance = 100;
+  controls.maxDistance = 350;
 }
 
 function onMouseDown(event) {
