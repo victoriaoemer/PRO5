@@ -312,11 +312,15 @@ const objectNamesMapping = {
   'garderobe': 'Garderobe',
   'lowchairwood': 'Stuhl',
   'highchairwood': 'Hoher Stuhl',
-  'kitchen': 'Küche',
-  'washbasin': 'Waschbecken',
+  'kitchen': 'Küche - Allgemein',
+  'kitchenbackwall': 'Küche - Rückwand',
+  'kitchenworkwood': 'Küche - Arbeitsplatte',
+  'washbasin': 'Bad - Waschbecken',
   'desk': 'Schreibtisch'
   // Füge hier alle gewünschten Zuordnungen hinzu
 };
+
+const desiredOrder = ['kitchen', 'kitchenbackwall', 'kitchenworkwood', 'bedwood', 'desk', 'lowchairwood', 'closet', 'highchairwood', 'garderobe', 'washbasin']; // Beispielreihenfolge
 
 const additionalobjectNamesMapping = {
   'curtains': 'Vorhänge',
@@ -331,8 +335,8 @@ const textureShortInfos = {
   '/PRO5/assets/gltf/text/Gold_wood.jpg': 'Eichenholz',
   '/PRO5/assets/gltf/text/plywood03.jpg': 'Birkenholz',
   '/PRO5/assets/gltf/text/walnut.jpg': 'Walnussholz',
-  '/PRO5/assets/gltf/text/white.jpg': 'Weiß',
-  '/PRO5/assets/gltf/text/black.jpg': 'Schwarz',
+  '/PRO5/assets/gltf/text/white.jpg': 'Dekorspan weiß',
+  '/PRO5/assets/gltf/text/black.jpg': 'Dekorspan schwarz',
   // '/PRO5/assets/gltf/text/adthe.jpg': 'Nuhiu',
   // Füge hier weitere Texturen hinzu
 };
@@ -347,6 +351,8 @@ const textures = [
   // '/PRO5/assets/gltf/text/adthe.jpg',
 ]
 const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
+const textureloaderWorkwood = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/white.jpg');
+
 let selectedTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
 let selectedOneTexture = ref(null);
 
@@ -698,7 +704,7 @@ glTFLoader.load('/PRO5/assets/gltf/HighChair_sep/highChair_feet.gltf', function 
   });
 });
 
-glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchen_wood.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchen.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-35, 10, 16);
   gltf.scene.rotateY(0);
@@ -714,7 +720,39 @@ glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchen_wood.gltf', function (glt
   scene.add(gltf.scene);
 });
 
-glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchen_stuff.gltf', function (gltf) {
+glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchenbackwall.gltf', function (gltf) {
+  gltf.scene.scale.set(50, 50, 50);
+  gltf.scene.position.set(-35, 10, 16);
+  gltf.scene.rotateY(0);
+
+  loadedObjects.kitchenbackwall = gltf.scene;
+  loadedObjects.kitchenbackwall.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.material.map = textureloader;
+      node.castShadow = true;
+      // node.receiveShadow = true;
+    }
+  });
+  scene.add(gltf.scene);
+});
+
+glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchenworkwood.gltf', function (gltf) {
+  gltf.scene.scale.set(50, 50, 50);
+  gltf.scene.position.set(-35, 10, 16);
+  gltf.scene.rotateY(0);
+
+  loadedObjects.kitchenworkwood = gltf.scene;
+  loadedObjects.kitchenworkwood.traverse(function (node) {
+    if (node instanceof THREE.Mesh) {
+      node.material.map = textureloaderWorkwood;
+      node.castShadow = true;
+      // node.receiveShadow = true;
+    }
+  });
+  scene.add(gltf.scene);
+});
+
+glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchenstuff.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-35, 10, 16);
   gltf.scene.rotateY(0);
@@ -1286,14 +1324,14 @@ function saveData() {
 
   // Füge das Bild hinzu
   pdf.addImage(mainImage, 'PNG', (canvasWidth - imageWidth) / 2, 20, imageWidth, imageHeight / 1);
-  pdf.addImage(secondImage, 'PNG', 10, 190, imageWidth / 2.3, imageHeight / 2.3);
-  pdf.addImage(thirdImage, 'PNG', 115, 190, imageWidth / 2.3, imageHeight / 2.3);
+  pdf.addImage(secondImage, 'PNG', 10, 210, imageWidth / 2.3, imageHeight / 2.3);
+  pdf.addImage(thirdImage, 'PNG', 115, 210, imageWidth / 2.3, imageHeight / 2.3);
 
   pdf.setFontSize(10);
   pdf.setFont("Helvetica", "normal");
   pdf.text('Ansicht: Totale', 90, 102);
-  pdf.text('Ansicht: POV-Küche', 40, 242);
-  pdf.text('Ansicht: POV-Bett', 140, 242);
+  pdf.text('Ansicht: POV-Küche', 40, 260);
+  pdf.text('Ansicht: POV-Bett', 140, 260);
 
 
   // Füge das Bild hinzu und skaliere es auf das feste Format
@@ -1304,7 +1342,7 @@ function saveData() {
   //pdf.line(10, 115, 200, 115); // Von (20, 30) nach (60, 30)
   //pdf.line(10, 180, 200, 180); // Von (20, 30) nach (60, 30)
 
-  pdf.line(105, 120, 105, 170); // Von (20, 30) nach (60, 30)
+  //pdf.line(105, 120, 105, 170); // Von (20, 30) nach (60, 30)
 
 
   // Füge eine nummerierte Liste der Materialinformationen hinzu
@@ -1316,13 +1354,14 @@ function saveData() {
   pdf.text("Materialliste: ", 30, listPositionY);
   pdf.setFont("Helvetica", "normal");
 
-  for (let key in objectTextures) {
+  for (let key of desiredOrder) {
+    if ( key in objectTextures) {
     const textureShortInfo = textureShortInfos[objectTextures[key]] || objectTextures[key];
     const listItemText = `${objectNamesMapping[key] || key}: ${textureShortInfo}`;
     pdf.text(`${listItemNumber}. ${listItemText}`, 30, listPositionY + 6);
     listPositionY += 6; // Verringere den Abstand zwischen den Listenelementen
     listItemNumber++;
-  }
+  }}
 
   // Füge eine nummerierte Liste der Materialinformationen hinzu
   let listPositionY2 = 0 + imageHeight + 20; // Verringere den Abstand zwischen dem Bild und der Liste
