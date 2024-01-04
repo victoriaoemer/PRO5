@@ -65,8 +65,8 @@
 
     <div v-if="!additionalObjectsLoaded" class="loadingScreen">
       <!-- Loading screen or indicator -->
-      <img src="/PRO5/public/icon_house.png" alt="loading_icon" class="logooutside" />
-      <img src="/PRO5/public/icon_inside.png" alt="loading_icon" class="logoinside" />
+      <img src="/PRO5/public/assets/logo/icon_house.png" alt="loading_icon" class="logooutside" />
+      <img src="/PRO5/public/assets/logo/icon_inside.png" alt="loading_icon" class="logoinside" />
 
       <p class="loadingScreenText">Konfigurator lädt...</p>
 
@@ -1417,6 +1417,7 @@ function changeOneTexture(index, object) {
   text-align: start;
   margin: 0;
   box-shadow: none;
+  color:#3C4F64;
 }
 
 .opened {
