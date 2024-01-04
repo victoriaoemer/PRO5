@@ -1476,7 +1476,23 @@ function changeOneTexture(index, object) {
 .loadingScreenText {
   /* Stellen Sie sicher, dass der Text über den Bildern liegt */
   margin-top: 170px; /* Passen Sie den Abstand nach Bedarf an */
+  display:inline-block;
+  overflow:hidden;
+  white-space:nowrap;
 }
+
+.loadingScreenText:first-of-type {    
+  animation: showup 7s infinite;
+}
+
+@keyframes showup {
+    0% {opacity:0;}
+    20% {opacity:1;}
+    80% {opacity:1;}
+    100% {opacity:0;}
+}
+
+
 
 
 h1 {
