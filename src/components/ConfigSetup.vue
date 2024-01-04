@@ -65,11 +65,11 @@
 
     <div v-if="!additionalObjectsLoaded" class="loadingScreen">
       <!-- Loading screen or indicator -->
-      <img src="/PRO5/public/icon_house.png" alt="loading_icon" class="logooutside"/>
-      <img src="/PRO5/public/icon_inside.png" alt="loading_icon" class="logoinside"/>
-      
+      <img src="/PRO5/public/icon_house.png" alt="loading_icon" class="logooutside" />
+      <img src="/PRO5/public/icon_inside.png" alt="loading_icon" class="logoinside" />
+
       <p class="loadingScreenText">Konfigurator lädt...</p>
-      
+
 
     </div>
 
@@ -77,8 +77,10 @@
     <div v-else class="ui">
       <h1>Einzelzimmer</h1>
       <div v-for="(category, index) in categories" class="categoryContainer" :key="index">
-        <button class="category" @click="toggleCategory(category, index)">
-          {{ category.title }}
+        <button class="category" @click="toggleCategory(category, index)" style="display: flex;">
+          <font-awesome-icon v-if="!category.opened" title="Mehr anzeigen" icon="fa-solid fa-caret-down" />
+          <font-awesome-icon v-if="category.opened" title="Weniger anzeigen" icon="fa-solid fa-caret-up" />
+          <p style="margin-left: 8px;">{{ category.title }}</p>
         </button>
         <div v-if="category.opened" class="opened">
           <div v-if="category.name === 'ansicht'">
@@ -1258,8 +1260,8 @@ function saveData() {
   renderer.setSize(originalWidth, originalHeight);
 
   var pdf = new jsPDF({
-  compress: true,
-})
+    compress: true,
+  })
 
   // Wähle die Schriftart aus (z.B., "times", "helvetica", "courier", etc.)
   pdf.setFont("Helvetica", "bold");
@@ -1412,22 +1414,16 @@ function changeOneTexture(index, object) {
 <style scoped>
 .category {
   padding: 5px;
-  color: white;
-  background-color: var(--vt-c-text-light-1);
   width: 100%;
   text-align: start;
   margin: 0;
-  border-radius: 3px 3px 0 0;
-
 }
 
-.opened{
+.opened {
   padding: 11px 12px;
 }
 
 .categoryContainer {
-  border: 1px solid var(--vt-c-text-light-1);
-  border-radius: 5px;
   margin-bottom: 20px;
 }
 
@@ -1450,24 +1446,28 @@ function changeOneTexture(index, object) {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1; /* Stellen Sie sicher, dass es über dem Text liegt */
+  z-index: 1;
+  /* Stellen Sie sicher, dass es über dem Text liegt */
 }
 
 .logoinside {
   height: 120px;
   width: auto;
   position: absolute;
-  top: 50%;
+  top: 50.6%;
   left: 50%;
-  transform: translate(-50%, -50%) rotate(0); /* Rotation hinzufügen */
+  transform: translate(-50%, -50%) rotate(0);
+  /* Rotation hinzufügen */
   animation: spin 2s infinite ease-in-out;
-  z-index: 2; /* Stellen Sie sicher, dass es über logooutside liegt */
+  z-index: 2;
+  /* Stellen Sie sicher, dass es über logooutside liegt */
 }
 
 @keyframes spin {
   0% {
     transform: translate(-50%, -50%) rotate(0);
   }
+
   100% {
     transform: translate(-50%, -50%) rotate(360deg);
   }
@@ -1475,21 +1475,33 @@ function changeOneTexture(index, object) {
 
 .loadingScreenText {
   /* Stellen Sie sicher, dass der Text über den Bildern liegt */
-  margin-top: 170px; /* Passen Sie den Abstand nach Bedarf an */
-  display:inline-block;
-  overflow:hidden;
-  white-space:nowrap;
+  margin-top: 170px;
+  /* Passen Sie den Abstand nach Bedarf an */
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.loadingScreenText:first-of-type {    
+.loadingScreenText:first-of-type {
   animation: showup 7s infinite;
 }
 
 @keyframes showup {
-    0% {opacity:0;}
-    20% {opacity:1;}
-    80% {opacity:1;}
-    100% {opacity:0;}
+  0% {
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 
@@ -1720,7 +1732,4 @@ font-awesome-icon {
   display: flex;
   flex-direction: column;
 }
-
-
-
 </style>

@@ -17,6 +17,8 @@ import { faCube } from '@fortawesome/free-solid-svg-icons'
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
 import {faRotateLeft} from '@fortawesome/free-solid-svg-icons'
 import {faVideo} from '@fortawesome/free-solid-svg-icons'
+import { faCaretUp} from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
 library.add(faDownload)
 library.add(faPenToSquare)
@@ -24,6 +26,8 @@ library.add(faCube)
 library.add(faCircleQuestion)
 library.add(faRotateLeft)
 library.add(faVideo)
+library.add(faCaretUp)
+library.add(faCaretDown)
 createApp(App)
 .component('font-awesome-icon', FontAwesomeIcon)
 .mount('#app')
