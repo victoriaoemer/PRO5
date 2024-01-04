@@ -65,7 +65,12 @@
 
     <div v-if="!additionalObjectsLoaded" class="loadingScreen">
       <!-- Loading screen or indicator -->
-      Konfigurator lädt... //Hier Loading screen Design
+      <img src="/PRO5/public/icon_house.png" alt="loading_icon" class="logooutside"/>
+      <img src="/PRO5/public/icon_inside.png" alt="loading_icon" class="logoinside"/>
+      
+      <p class="loadingScreenText">Konfigurator lädt...</p>
+      
+
     </div>
 
 
@@ -1424,17 +1429,53 @@ function changeOneTexture(index, object) {
   margin-bottom: 20px;
 }
 
-.loadingScreen{
+.loadingScreen {
   width: 100%;
-    background-color: white;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    align-items: center;
-    display: flex;
-    justify-content: center;
+  background-color: white;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
+
+.logooutside {
+  height: 150px;
+  width: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* Stellen Sie sicher, dass es über dem Text liegt */
+}
+
+.logoinside {
+  height: 120px;
+  width: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0); /* Rotation hinzufügen */
+  animation: spin 2s infinite ease-in-out;
+  z-index: 2; /* Stellen Sie sicher, dass es über logooutside liegt */
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.loadingScreenText {
+  /* Stellen Sie sicher, dass der Text über den Bildern liegt */
+  margin-top: 170px; /* Passen Sie den Abstand nach Bedarf an */
+}
+
 
 h1 {
   font-weight: 800;
@@ -1661,4 +1702,7 @@ font-awesome-icon {
   display: flex;
   flex-direction: column;
 }
+
+
+
 </style>
