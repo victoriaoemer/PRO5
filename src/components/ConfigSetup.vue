@@ -78,9 +78,9 @@
       <h1>Einzelzimmer</h1>
       <div v-for="(category, index) in categories" class="categoryContainer" :key="index">
         <button class="category" @click="toggleCategory(category, index)" style="display: flex;">
-          <font-awesome-icon v-if="!category.opened" title="Mehr anzeigen" icon="fa-solid fa-caret-down" />
-          <font-awesome-icon v-if="category.opened" title="Weniger anzeigen" icon="fa-solid fa-caret-up" />
-          <p style="margin-left: 8px;">{{ category.title }}</p>
+          <p style="margin-right: 8px; font-weight: bold;">{{ category.title }}</p>
+          <font-awesome-icon v-if="!category.opened" title="Mehr anzeigen" icon="fa-solid fa-chevron-down" />
+          <font-awesome-icon v-if="category.opened" title="Weniger anzeigen" icon="fa-solid fa-chevron-up" />
         </button>
         <div v-if="category.opened" class="opened">
           <div v-if="category.name === 'ansicht'">
@@ -284,7 +284,7 @@ const selectedAdditionalObjects = reactive({
 
 const categories = reactive({
   'Ansicht': {
-    title: 'Wähle deine Ansicht',
+    title: 'Ansicht wählen',
     name: 'ansicht',
     opened: true
   },
@@ -1417,6 +1417,7 @@ function changeOneTexture(index, object) {
   width: 100%;
   text-align: start;
   margin: 0;
+  box-shadow: none;
 }
 
 .opened {
