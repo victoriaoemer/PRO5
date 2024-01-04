@@ -1252,7 +1252,9 @@ function saveData() {
   // Ändere die Größe des Renderers
   renderer.setSize(originalWidth, originalHeight);
 
-  var pdf = new jsPDF();
+  var pdf = new jsPDF({
+  compress: true,
+})
 
   // Wähle die Schriftart aus (z.B., "times", "helvetica", "courier", etc.)
   pdf.setFont("Helvetica", "bold");
