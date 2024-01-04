@@ -212,7 +212,8 @@
       <br> -->
 
       <div>
-        <button class="saveButton" @click="saveData"> <font-awesome-icon class="icon" icon="fa-solid fa-download" />
+        <button class="saveButton" @click="saveData" :disabled="downloadComplete"  >
+           <font-awesome-icon class="icon download-icon" icon="fa-solid fa-download" />
           Daten
           als PDF speichern</button>
       </div>
@@ -237,6 +238,7 @@ import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { Reflector } from 'three/addons/objects/Reflector.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
 const isVisible = ref(false);
+let downloadComplete = ref(false);
 
 
 import jsPDF from 'jspdf';
@@ -1255,7 +1257,16 @@ function toggleWireframe() {
   toggleVisibility('room_wireframe'); //enable it
 }
 
+
+
+function checkDownloadStatus() {
+  console.log("Download-Status:", downloadComplete);
+}
+
 function saveData() {
+  document.querySelector('.download-icon').classList.add('pulsate');
+  downloadComplete = false;
+  //downloadComplete = false;
 
   fixedObjects.room.visible = true;
   fixedObjects.room_complete.visible = false;
@@ -1395,6 +1406,13 @@ function saveData() {
   pdf.text('Ansicht: Vogelperspektive', 90, 262);
 
   pdf.save("KitzConfig - Datenblatt.pdf");
+  downloadComplete = true;
+  setTimeout(() => {
+      document.querySelector('.download-icon').classList.remove('pulsate');
+    }, 2000); // Ändere den Timeout-Wert je nach Bedarf
+  
+  checkDownloadStatus();
+  
 }
 
 
@@ -1682,10 +1700,28 @@ button {
   cursor: pointer;
 }
 
-.icon {
+.icon{
   margin-left: 2px;
   margin-right: 4px;
   font-size: 18px;
+  opacity: 0.3;
+  transition: opacity 0.5s ease; /* CSS-Transition für die Opacity mit 0,5 Sekunden Dauer und 'ease' Timing-Funktion */
+}
+
+.download-icon.pulsate {
+  animation: pulsate 2s infinite; /* CSS-Keyframes-Animation 'pulsate' mit 2 Sekunden Dauer und unendlicher Wiederholung */
+}
+
+@keyframes pulsate {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  25%, 75% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 h4 {
@@ -1776,4 +1812,7 @@ font-awesome-icon {
   display: flex;
   flex-direction: column;
 }
+
+
+
 </style>
