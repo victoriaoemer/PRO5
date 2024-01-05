@@ -1265,7 +1265,7 @@ function startDownload() {
   downloadMessage.value="Download läuft...";
   setTimeout(() => {
     saveData();
-    }, 50); // Ändere den Timeout-Wert je nach Bedarf
+    }, 100); // Ändere den Timeout-Wert je nach Bedarf
   
  
 }
