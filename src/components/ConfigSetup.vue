@@ -78,7 +78,7 @@
       <h1>Einzelzimmer</h1>
       <div v-for="(category, index) in categories" class="categoryContainer" :key="index">
         <button class="category" @click="toggleCategory(category, index)" style="display: flex;">
-          <p style="margin-right: 8px; font-weight: bold;">{{ category.title }}</p>
+          <p style="margin-right: 8px; font-weight: bold; font-family: 'Montserrat';">{{ category.title }} </p>
           <font-awesome-icon v-if="!category.opened" title="Mehr anzeigen" icon="fa-solid fa-chevron-down" />
           <font-awesome-icon v-if="category.opened" title="Weniger anzeigen" icon="fa-solid fa-chevron-up" />
         </button>
