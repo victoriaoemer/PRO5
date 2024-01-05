@@ -212,10 +212,9 @@
       <br> -->
 
       <div>
-        <button class="saveButton" @click="saveData" :disabled="downloadComplete"  >
+        <button class="saveButton" @click="startDownload"  :disabled="downloadComplete"  >
            <font-awesome-icon class="icon download-icon" icon="fa-solid fa-download" />
-          Daten
-          als PDF speichern</button>
+          {{downloadMessage}}</button>
       </div>
     </div>
 
@@ -357,7 +356,7 @@ const textureloaderWorkwood = new THREE.TextureLoader().load('/PRO5/assets/gltf/
 
 let selectedTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
 let selectedOneTexture = ref(null);
-
+let downloadMessage=ref("PDF speichern");
 
 
 const scene = new THREE.Scene();
@@ -1262,6 +1261,16 @@ function checkDownloadStatus() {
   console.log("Download-Status:", downloadComplete);
 }
 
+function startDownload() {
+  downloadMessage.value="download started...";
+  console.log("download gstartet oida");
+  setTimeout(() => {
+    saveData();
+    }, 100); // Ändere den Timeout-Wert je nach Bedarf
+  
+ 
+}
+
 function saveData() {
   document.querySelector('.download-icon').classList.add('pulsate');
   downloadComplete = false;
@@ -1274,8 +1283,8 @@ function saveData() {
   const originalHeight = 1080//renderer.domElement.height;
 
   // Setze die gewünschte Auflösung für das Rendern
-  const renderWidth = 1920;
-  const renderHeight = 1080;
+  const renderWidth = 960;
+  const renderHeight = 540;
 
 
   // Ändere die Größe des Renderers
@@ -1314,6 +1323,7 @@ function saveData() {
     compress: true,
   })
 
+  
   // Wähle die Schriftart aus (z.B., "times", "helvetica", "courier", etc.)
   pdf.setFont("Helvetica", "bold");
 
@@ -1411,7 +1421,8 @@ function saveData() {
     }, 2000); // Ändere den Timeout-Wert je nach Bedarf
   
   checkDownloadStatus();
-  
+  downloadMessage.value="download done!";
+
 }
 
 
