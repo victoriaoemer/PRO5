@@ -45,7 +45,7 @@
             </div>
             <div class="mouse-col">
               <div class="mouse">
-                <img class="mouse-icon" src="/PRO5/assets/svg/mouse_scrollwheel.svg" alt="right mouse button" />
+                <img class="mouse-icon" src="/PRO5/assets/svg/edit_texture.svg" alt="right mouse button" />
                 <div class="mouse-descriptions">
                   <h4>Material ändern</h4>
                   <br />
