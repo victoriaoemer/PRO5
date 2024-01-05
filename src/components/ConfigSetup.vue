@@ -212,7 +212,7 @@
       <br> -->
 
       <div>
-        <button class="saveButton" @click="saveData" :disabled="downloadComplete"  >
+        <button class="saveButton" @click="saveData">
            <font-awesome-icon class="icon download-icon" icon="fa-solid fa-download" />
           Daten
           als PDF speichern</button>
@@ -1263,9 +1263,9 @@ function checkDownloadStatus() {
 }
 
 function saveData() {
-  document.querySelector('.download-icon').classList.add('pulsate');
   downloadComplete = false;
   //downloadComplete = false;
+  console.log("Saving data...");
 
   fixedObjects.room.visible = true;
   fixedObjects.room_complete.visible = false;
@@ -1311,8 +1311,11 @@ function saveData() {
   renderer.setSize(originalWidth, originalHeight);
 
   var pdf = new jsPDF({
-    compress: true,
+    compress: true,    
   })
+
+  
+
 
   // Wähle die Schriftart aus (z.B., "times", "helvetica", "courier", etc.)
   pdf.setFont("Helvetica", "bold");
@@ -1377,6 +1380,8 @@ function saveData() {
     listItemNumber++;
   }}
 
+  console.log("Liste 1 done");
+
   // Füge eine nummerierte Liste der Materialinformationen hinzu
   let listPositionY2 = 0 + imageHeight + 20; // Verringere den Abstand zwischen dem Bild und der Liste
   let listItemNumber2 = 1;
@@ -1395,6 +1400,8 @@ function saveData() {
     listItemNumber2++;
   }
 
+  console.log("Liste 2 done");
+
   // Neue Seite hinzufügen
   pdf.addPage();
 
@@ -1405,11 +1412,7 @@ function saveData() {
   pdf.text('Ansicht: Vogelperspektive', 90, 262);
 
   pdf.save("KitzConfig - Datenblatt.pdf");
-  downloadComplete = true;
-  setTimeout(() => {
-      document.querySelector('.download-icon').classList.remove('pulsate');
-    }, 2000); // Ändere den Timeout-Wert je nach Bedarf
-  
+  downloadComplete = true;  
   checkDownloadStatus();
   
 }
@@ -1713,24 +1716,7 @@ button {
   margin-left: 2px;
   margin-right: 4px;
   font-size: 18px;
-  opacity: 0.3;
-  transition: opacity 0.5s ease; /* CSS-Transition für die Opacity mit 0,5 Sekunden Dauer und 'ease' Timing-Funktion */
-}
-
-.download-icon.pulsate {
-  animation: pulsate 2s infinite; /* CSS-Keyframes-Animation 'pulsate' mit 2 Sekunden Dauer und unendlicher Wiederholung */
-}
-
-@keyframes pulsate {
-  0%, 100% {
-    opacity: 0.3;
-  }
-  25%, 75% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
+  opacity: 1;
 }
 
 h4 {
