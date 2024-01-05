@@ -498,7 +498,6 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/plant02.gltf', function (gltf) {
 
 
 
-
 glTFLoader.load('/PRO5/assets/gltf/Room/room_start.gltf', function (gltf) {
   gltf.scene.scale.set(50, 50, 50);
   gltf.scene.position.set(-110, 0, 210);
@@ -821,7 +820,6 @@ glTFLoader.load('/PRO5/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
     }
   });
   scene.add(gltf.scene);
-  changeAllTextures(0); //changing all textures when last object loads (for PDF material list)
 });
 
 glTFLoader.load('/PRO5/assets/gltf/Objects/toilet.gltf', function (gltf) {
@@ -1112,6 +1110,7 @@ const supressKeys = (evnt) => {
 };
 window.addEventListener('keyup', supressKeys);
 window.addEventListener('keydown', supressKeys);
+
 
 
 //------------------------------------------Functions------------------------------------------//
@@ -1466,6 +1465,16 @@ function changeOneTexture(index, object) {
   }
 }
 
+function checkAdditionalObjectsLoaded() {
+    if (additionalObjectsLoaded.value) {
+        changeAllTextures(0);
+    } else {
+        setTimeout(checkAdditionalObjectsLoaded, 100); // Check again in 100 milliseconds
+    }
+}
+
+// Start the polling
+checkAdditionalObjectsLoaded();
 
 </script>
 
