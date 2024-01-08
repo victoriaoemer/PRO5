@@ -215,10 +215,9 @@
         <button class="saveButton" @click="startDownload">
            <font-awesome-icon class="icon download-icon" icon="fa-solid fa-download" />
           {{downloadMessage}}</button>
+        </div>
       </div>
     </div>
-
-  </div>
 </template>
 
 
@@ -1001,6 +1000,8 @@ function redoTextureChange() {
 }
 
 
+
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 renderer.domElement.addEventListener('click', onClick, false);
@@ -1488,6 +1489,13 @@ function checkAdditionalObjectsLoaded() {
 // Start the polling
 checkAdditionalObjectsLoaded();
 
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.innerWidth <= 500) {
+    alert('Fenstergröße für Konfigurieren erweitern');
+  }
+});
+
+
 </script>
 
 
@@ -1816,6 +1824,26 @@ font-awesome-icon {
   display: flex;
   flex-direction: column;
 }
+
+/* responsive design */
+
+/* Media Query für kleinere Bildschirme */
+@media only screen and (max-width: 1200px) {
+  .container {
+    flex-direction: column; /* Ändern Sie die Ausrichtung auf Spalte für kleinere Bildschirme */
+    padding: 1rem; /* Reduzieren Sie das Padding für kleinere Bildschirme */
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .container {
+    display: none; /* Ausblenden des Hauptcontainers */
+  }
+}
+
+
+
+
 
 
 
