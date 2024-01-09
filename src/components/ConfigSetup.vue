@@ -23,7 +23,7 @@
                 <div class="mouse-descriptions">
                   <h4>linke Maustaste</h4>
                   <br />
-                  <p>use left mouse navigate</p>
+                  <p>mit gedrückter linker Maustaste Kamera schwenken</p>
                 </div>
               </div>
               <div class="mouse">
@@ -31,7 +31,7 @@
                 <div class="mouse-descriptions">
                   <h4>rechte Maustaste</h4>
                   <br />
-                  <p>use right mouse button to pan</p>
+                  <p>mit gedrückter rechter Maustaste Kamera bewegen</p>
                 </div>
               </div>
               <div class="mouse">
@@ -39,7 +39,7 @@
                 <div class="mouse-descriptions">
                   <h4>Scrollwheel</h4>
                   <br />
-                  <p>use scroll wheel to zoom</p>
+                  <p>Scrollrad zum Zoomen verwenden</p>
                 </div>
               </div>
             </div>
@@ -1609,6 +1609,7 @@ h1 {
 .textureButton {
   border-radius: 10px;
   flex-direction: row;
+  cursor: pointer;
 
 }
 
