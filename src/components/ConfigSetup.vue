@@ -19,33 +19,33 @@
           <div class="helpscreen-container">
             <div class="mouse-col">
               <div class="mouse">
-                <img class="mouse-icon" src="/PRO5/assets/svg/mouse_left.svg" alt="right mouse button" />
+                <img class="mouse-icon" :src="`${'/PRO5/assets/svg/mouse_left.svg'}`" alt="left mouse button" />
                 <div class="mouse-descriptions">
                   <h4>linke Maustaste</h4>
                   <br />
-                  <p>use left mouse navigate</p>
+                  <p>mit gedrückter linker Maustaste Kamera schwenken</p>
                 </div>
               </div>
               <div class="mouse">
-                <img class="mouse-icon" src="/PRO5/assets/svg/mouse_right.svg" alt="right mouse button" />
+                <img class="mouse-icon" :src="`${'/PRO5/assets/svg/mouse_right.svg'}`" alt="right mouse button" />
                 <div class="mouse-descriptions">
                   <h4>rechte Maustaste</h4>
                   <br />
-                  <p>use right mouse button to pan</p>
+                  <p>mit gedrückter rechter Maustaste Kamera bewegen</p>
                 </div>
               </div>
               <div class="mouse">
-                <img class="mouse-icon" src="/PRO5/assets/svg/mouse_scrollwheel.svg" alt="right mouse button" />
+                <img class="mouse-icon" :src="`${'/PRO5/assets/svg/mouse_scrollwheel.svg'}`" alt="right mouse button" />
                 <div class="mouse-descriptions">
                   <h4>Scrollwheel</h4>
                   <br />
-                  <p>use scroll wheel to zoom</p>
+                  <p>Scrollrad zum Zoomen verwenden</p>
                 </div>
               </div>
             </div>
             <div class="mouse-col">
               <div class="mouse">
-                <img class="mouse-icon" src="/PRO5/assets/svg/edit_texture.svg" alt="right mouse button" />
+                <img class="mouse-icon" :src="`${'/PRO5/assets/svg/edit_texture.svg'}`" alt="right mouse button" />
                 <div class="mouse-descriptions">
                   <h4>Material ändern</h4>
                   <br />
@@ -65,8 +65,8 @@
 
     <div v-if="!additionalObjectsLoaded" class="loadingScreen">
       <!-- Loading screen or indicator -->
-      <img src="/PRO5/public/assets/logo/icon_house.png" alt="loading_icon" class="logooutside" />
-      <img src="/PRO5/public/assets/logo/icon_inside.png" alt="loading_icon" class="logoinside" />
+      <img :src="`${'/PRO5/assets/logo/icon_house.png'}`" alt="loading_icon" class="logooutside" />
+      <img :src="`${'/PRO5/assets/logo/icon_inside.png'}`" alt="loading_icon" class="logoinside" />
 
       <p class="loadingScreenText">Konfigurator lädt...</p>
 
@@ -215,10 +215,9 @@
         <button class="saveButton" @click="startDownload">
            <font-awesome-icon class="icon download-icon" icon="fa-solid fa-download" />
           {{downloadMessage}}</button>
+        </div>
       </div>
     </div>
-
-  </div>
 </template>
 
 
@@ -1001,6 +1000,8 @@ function redoTextureChange() {
 }
 
 
+
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 renderer.domElement.addEventListener('click', onClick, false);
@@ -1488,6 +1489,13 @@ function checkAdditionalObjectsLoaded() {
 // Start the polling
 checkAdditionalObjectsLoaded();
 
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.innerWidth <= 500) {
+    alert('Fenstergröße für Konfigurieren erweitern');
+  }
+});
+
+
 </script>
 
 
@@ -1601,6 +1609,7 @@ h1 {
 .textureButton {
   border-radius: 10px;
   flex-direction: row;
+  cursor: pointer;
 
 }
 
@@ -1816,6 +1825,26 @@ font-awesome-icon {
   display: flex;
   flex-direction: column;
 }
+
+/* responsive design */
+
+/* Media Query für kleinere Bildschirme */
+@media only screen and (max-width: 1200px) {
+  .container {
+    flex-direction: column; /* Ändern Sie die Ausrichtung auf Spalte für kleinere Bildschirme */
+    padding: 1rem; /* Reduzieren Sie das Padding für kleinere Bildschirme */
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .container {
+    display: none; /* Ausblenden des Hauptcontainers */
+  }
+}
+
+
+
+
 
 
 
