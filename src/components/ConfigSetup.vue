@@ -381,10 +381,8 @@ let previousMousePosition = { x: 0, y: 0 };
 
 
 let controls = new OrbitControls(activeCamera, renderer.domElement);
-//controls.minDistance = 100;
-//controls.maxDistance = 350;
-controls.autoRotate = true;
-controls.autoRotateSpeed = 3.0;
+controls.minDistance = 100;
+controls.maxDistance = 350;
 
 
 //controls.autoRotate = true;
