@@ -1295,7 +1295,7 @@ function saveData() {
 
   //console.log("Main Image Data URL:", mainImage);
   console.log("Main Image Size (bytes):", mainImage.length);
-
+  
   renderer.render(scene, camera5);
   const secondImage = canvas.toDataURL("image/png");
 
