@@ -19,7 +19,7 @@
           <div class="helpscreen-container">
             <div class="mouse-col">
               <div class="mouse">
-                <img class="mouse-icon" src="/PRO5/assets/svg/mouse_left.svg" alt="right mouse button" />
+                <img class="mouse-icon" :src="`${'/PRO5/assets/svg/mouse_left.svg'}`" alt="left mouse button" />
                 <div class="mouse-descriptions">
                   <h4>linke Maustaste</h4>
                   <br />
@@ -27,7 +27,7 @@
                 </div>
               </div>
               <div class="mouse">
-                <img class="mouse-icon" src="/PRO5/assets/svg/mouse_right.svg" alt="right mouse button" />
+                <img class="mouse-icon" :src="`${'/PRO5/assets/svg/mouse_right.svg'}`" alt="right mouse button" />
                 <div class="mouse-descriptions">
                   <h4>rechte Maustaste</h4>
                   <br />
@@ -35,7 +35,7 @@
                 </div>
               </div>
               <div class="mouse">
-                <img class="mouse-icon" src="/PRO5/assets/svg/mouse_scrollwheel.svg" alt="right mouse button" />
+                <img class="mouse-icon" :src="`${'/PRO5/assets/svg/mouse_scrollwheel.svg'}`" alt="right mouse button" />
                 <div class="mouse-descriptions">
                   <h4>Scrollwheel</h4>
                   <br />
@@ -45,7 +45,7 @@
             </div>
             <div class="mouse-col">
               <div class="mouse">
-                <img class="mouse-icon" src="/PRO5/assets/svg/edit_texture.svg" alt="right mouse button" />
+                <img class="mouse-icon" :src="`${'/PRO5/assets/svg/edit_texture.svg'}`" alt="right mouse button" />
                 <div class="mouse-descriptions">
                   <h4>Material ändern</h4>
                   <br />
@@ -65,8 +65,8 @@
 
     <div v-if="!additionalObjectsLoaded" class="loadingScreen">
       <!-- Loading screen or indicator -->
-      <img src="/PRO5/public/assets/logo/icon_house.png" alt="loading_icon" class="logooutside" />
-      <img src="/PRO5/public/assets/logo/icon_inside.png" alt="loading_icon" class="logoinside" />
+      <img :src="`${'/PRO5/assets/logo/icon_house.png'}`" alt="loading_icon" class="logooutside" />
+      <img :src="`${'/PRO5/assets/logo/icon_inside.png'}`" alt="loading_icon" class="logoinside" />
 
       <p class="loadingScreenText">Konfigurator lädt...</p>
 
@@ -1298,7 +1298,7 @@ function saveData() {
 
   //console.log("Main Image Data URL:", mainImage);
   console.log("Main Image Size (bytes):", mainImage.length);
-
+  
   renderer.render(scene, camera5);
   const secondImage = canvas.toDataURL("image/png");
 
