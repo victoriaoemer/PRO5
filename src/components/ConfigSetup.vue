@@ -235,6 +235,7 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { Reflector } from 'three/addons/objects/Reflector.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
+import Stats from 'stats.js'
 const isVisible = ref(false);
 let downloadComplete = ref(false);
 
@@ -248,6 +249,14 @@ const loadedObjects = {};
 const fixedObjects = {};
 const objectTextures = {};
 const additionalObjects = {};
+
+var stats = new Stats();
+stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+
+stats.dom.style.transform = 'scale(0.1)'; // Ändere den Skalierungsfaktor nach Bedarf
+
+
+document.body.appendChild( stats.dom );
 
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -912,8 +921,10 @@ camera4.lookAt(object.position);
 camera5.position.set(-70, 85, -20);
 camera5.lookAt(0, 75, 50);
 
-camera6.position.set(30, 80, 60);
-camera6.lookAt(-70, 25, 215);
+camera6.position.set(30, 85, 60);
+camera6.lookAt(0, 40, 50);
+
+
 
 const pointLight = new THREE.PointLight(0xffffff, 14000); //mitte vom raum
 pointLight.position.set(-20, 120, 40);
@@ -1094,6 +1105,8 @@ const animate = () => {
   //composer.render();
   controls.update();
   composer.render(scene, activeCamera)
+
+  stats.update();
 }
 animate();
 
