@@ -14,7 +14,7 @@
           <font-awesome-icon title="Bedienungshilfe" @click="helpScreen()" icon="fa-solid fa-circle-question"
             class="canvas-icon" />
         </div>
-        <div v-if="isVisible" class="helpscreen"> <font-awesome-icon icon="fa-solid fa-circle-question" />
+        <div v-if="HelpscreenisVisible" class="helpscreen"> <font-awesome-icon icon="fa-solid fa-circle-question" />
           <h4>Hilfestellung</h4>
           <div class="helpscreen-container">
             <div class="mouse-col">
@@ -111,9 +111,21 @@
           </div>
 
           <div v-if="category.name === 'oneMaterial'">
-            <p v-if="selectedObjectName == null"> Wählen Sie ein Möbelstück aus indem Sie darauf klicken!</p>
+            <p v-if="selectedObjectName == null"> Wählen Sie ein Möbelstück aus indem Sie darauf klicken!
+              <font-awesome-icon title="Konfigurationsinfo" @click="KonfigInfoScreen()" icon="fa-solid fa-circle-question" />
+              <div v-if="KonfigInfoisVisible" class="KonfigInfo">
+              <p>Folgende Möbel können konfiguriert werden:</p>
+              <p>Küche - Allgemein / Rückwand / Arbeitsplatte, Schrank, Bett, </p>
+              <p>Schreibtisch, Stuhl, Hoher Stuhl, Garderobe, Bad - Waschbecken</p>
+            </div>
+            </p>
+            
+
+
             <div v-else>
-              <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p>
+              <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}
+                <font-awesome-icon title="Konfigurationsinfo" @click="KonfigInfoScreen()" icon="fa-solid fa-circle-question" />
+              </p>
               <div class="buttonContainer">
                 <div v-for="(texture, index) in textures" :key="index" class="textureButton"
                   @click="changeOneTexture(index, selectedObjectName)"
@@ -121,6 +133,11 @@
                   <img :src="texture" alt="Texture Image">
                 </div>
               </div>
+              <div v-if="KonfigInfoisVisible" class="KonfigInfo">
+              <p>Folgende Möbel können konfiguriert werden:</p>
+              <p>Küche - Allgemein / Rückwand / Arbeitsplatte, Schrank, Bett, </p>
+              <p>Schreibtisch, Stuhl, Hoher Stuhl, Garderobe, Bad - Waschbecken</p>
+            </div>
             </div>
           </div>
 
@@ -236,7 +253,8 @@ import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { Reflector } from 'three/addons/objects/Reflector.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
 import Stats from 'stats.js'
-const isVisible = ref(false);
+const HelpscreenisVisible = ref(false);
+const KonfigInfoisVisible = ref(false);
 let downloadComplete = ref(false);
 
 
@@ -1133,8 +1151,13 @@ virtualCamera.rotation.copy(activeCamera.rotation);
 
 
 function helpScreen() {
-  console.log(isVisible);
-  isVisible.value = !isVisible.value;
+  console.log(HelpscreenisVisible);
+  HelpscreenisVisible.value = !HelpscreenisVisible.value;
+}
+
+function KonfigInfoScreen() {
+  console.log(KonfigInfoisVisible);
+  KonfigInfoisVisible.value = !KonfigInfoisVisible.value;
 }
 
 function resetStartscreen() {
@@ -1820,7 +1843,12 @@ font-awesome-icon {
   display: flex !important;
   text-align: left;
   line-height: 0.9;
+}
 
+.KonfigInfo {
+  text-align: left;
+  line-height: 0.9;
+  font-size: 12px;
 }
 
 .mouse-descriptions {
