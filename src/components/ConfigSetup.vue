@@ -272,6 +272,7 @@ var stats = new Stats();
 stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 
 stats.dom.style.transform = 'scale(0.1)'; // Ändere den Skalierungsfaktor nach Bedarf
+stats.dom.style.transformOrigin = 'top left'; // Ändere den Ursprung nach Bedarf
 
 
 document.body.appendChild( stats.dom );
@@ -378,7 +379,6 @@ const textures = [
   // '/PRO5/assets/gltf/text/adthe.jpg',
 ]
 const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
-const textureloaderWorkwood = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/white.jpg');
 
 let selectedTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
 let selectedOneTexture = ref(null);
@@ -770,7 +770,7 @@ glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchenworkwood.gltf', function (
   loadedObjects.kitchenworkwood = gltf.scene;
   loadedObjects.kitchenworkwood.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
-      node.material.map = textureloaderWorkwood;
+      node.material.map = textureloader;
       node.castShadow = true;
       // node.receiveShadow = true;
     }
@@ -897,7 +897,7 @@ windowreflback = new Reflector(geometry, material);
 
 windowreflback.position.x = -20;
 windowreflback.position.y = 64.5;
-windowreflback.position.z = 201;
+windowreflback.position.z = 201.5;
 
 //windowreflback.rotateY(Math.PI /);
 
@@ -944,8 +944,8 @@ camera6.lookAt(0, 40, 50);
 
 
 
-const pointLight = new THREE.PointLight(0xffffff, 14000); //mitte vom raum
-pointLight.position.set(-20, 120, 40);
+const pointLight = new THREE.PointLight(0xffffff, 12000); //mitte vom raum
+pointLight.position.set(-21, 120, 40);
 pointLight.castShadow = true; // Enable shadow casting for the light
 pointLight.shadow.mapSize.width = 512; // default
 pointLight.shadow.mapSize.height = 512; // default
@@ -953,6 +953,7 @@ pointLight.shadow.camera.near = 0.5; // default
 pointLight.shadow.camera.far = 300; // default
 
 scene.add(pointLight);
+
 
 const pointlight1 = new THREE.PointLight(0xffffff, 1400); //bad
 pointlight1.position.set(0, 120, -100);
@@ -972,7 +973,7 @@ pointlight2.shadow.camera.near = 0.5; // default
 pointlight2.shadow.camera.far = 300; // default
 scene.add(pointlight2);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 1); // soft white light
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.25); // soft white light
 ambientLight.position.y = 1000
 scene.add(ambientLight);
 
