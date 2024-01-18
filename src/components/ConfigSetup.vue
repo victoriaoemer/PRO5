@@ -1699,32 +1699,32 @@ button {
 }
 
 .totale {
-  content: url('/PRO5/assets/totale.png');
+  content: url('/PRO5/assets/cam_totale.jpg');
   height: 80px;
 }
 
 .totale:hover {
-  content: url('/PRO5/assets/POVTotale.gif');
+  content: url('/PRO5/assets/cam_totale.gif');
   height: 80px;
 }
 
 .kitchen {
-  content: url('/PRO5/assets/kitchen.png');
+  content: url('/PRO5/assets/cam_pov02.jpg');
   height: 80px;
 }
 
 .kitchen:hover {
-  content: url('/PRO5/assets/POVKitchen.gif');
+  content: url('/PRO5/assets/cam_pov02.gif');
   height: 80px;
 }
 
 .room {
-  content: url('/PRO5/assets/room.png');
+  content: url('/PRO5/assets/cam_pov01.jpg');
   height: 80px;
 }
 
 .room:hover {
-  content: url('/PRO5/assets/POVRoom.gif');
+  content: url('/PRO5/assets/cam_pov01.gif');
   height: 80px;
 }
 
