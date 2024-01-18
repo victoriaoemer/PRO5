@@ -269,13 +269,13 @@ const objectTextures = {};
 const additionalObjects = {};
 
 var stats = new Stats();
-stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+/*stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 
 stats.dom.style.transform = 'scale(0.1)'; // Ändere den Skalierungsfaktor nach Bedarf
 stats.dom.style.transformOrigin = 'top left'; // Ändere den Ursprung nach Bedarf
 
 
-document.body.appendChild( stats.dom );
+document.body.appendChild( stats.dom );*/
 
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
