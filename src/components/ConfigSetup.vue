@@ -3,7 +3,7 @@
     <div>
       <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp">
         <div v-if="additionalObjectsLoaded" class="canvas-menu">
-          <font-awesome-icon title="Zurück" @click="undoTextureChange()" icon="fa-solid fa-rotate-left"
+          <font-awesome-icon title="Texturänderung rückgängig machen" @click="undoTextureChange()" icon="fa-solid fa-rotate-left"
             class="canvas-icon" />
           <font-awesome-icon title="Ansicht zurücksetzen" v-if="selectedCameraView === 'totale'"
             @click="resetStartscreen()" icon="fa-solid fa-video" class="canvas-icon" />
@@ -11,7 +11,7 @@
             class="canvas-icon" icon="fa-solid fa-cube" />
           <font-awesome-icon title="Wireframe aus/einblenden" v-if="selectedCameraView === 'totale'"
             @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square" />
-          <font-awesome-icon title="Bedienungshilfe" @click="helpScreen()" icon="fa-solid fa-circle-question"
+          <font-awesome-icon v-if="selectedCameraView === 'totale'" title="Bedienungshilfe" @click="helpScreen()" icon="fa-solid fa-circle-question"
             class="canvas-icon" />
         </div>
         <div v-if="HelpscreenisVisible" class="helpscreen"> <font-awesome-icon icon="fa-solid fa-circle-question" />
@@ -64,13 +64,9 @@
     </div>
 
     <div v-if="!additionalObjectsLoaded" class="loadingScreen">
-      <!-- Loading screen or indicator -->
       <img :src="`${'/PRO5/assets/logo/icon_house.png'}`" alt="loading_icon" class="logooutside" />
       <img :src="`${'/PRO5/assets/logo/icon_inside.png'}`" alt="loading_icon" class="logoinside" />
-
       <p class="loadingScreenText">Konfigurator lädt...</p>
-
-
     </div>
 
 
@@ -85,7 +81,6 @@
         <div v-if="category.opened" class="opened">
           <div v-if="category.name === 'ansicht'">
             <div style="display: flex; gap: 15px; margin-bottom: 20px; margin: 4px;">
-              <!-- <button @click="toggleCameraToWide" id="totaleButton"> Totale </button> -->
               <button alt="Totale" class="button" :class="{ selected: selectedCameraView === 'totale' }"
                 @click="toggleCameraToWide">
                 <div class="totale"></div>
@@ -112,16 +107,17 @@
 
           <div v-if="category.name === 'oneMaterial'">
             <p v-if="selectedObjectName == null"> Wählen Sie ein Möbelstück aus indem Sie darauf klicken!
-              <font-awesome-icon title="Konfigurationsinfo" @click="KonfigInfoScreen()" icon="fa-solid fa-circle-question" />
-              <div v-if="KonfigInfoisVisible" class="KonfigInfo">
-              <p>Folgende Möbel können konfiguriert werden:</p>
-              <p>Küche - Allgemein / Rückwand / Arbeitsplatte, Schrank, Bett, </p>
-              <p>Schreibtisch, Stuhl, Hoher Stuhl, Garderobe, Bad - Waschbecken</p>
-            </div>
+              <font-awesome-icon title="Folgende Möbel können konfiguriert werden:
+              Küche - Allgemein / Rückwand / Arbeitsplatte, 
+              Schrank, 
+              Bett,
+              Schreibtisch, 
+              Stuhl Schreibtisch, 
+              Hoher Stuhl Küche, 
+              Garderobe, 
+              Bad - Waschbecken
+              " icon="fa-solid fa-circle-question" />
             </p>
-            
-
-
             <div v-else>
               <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}
                 <font-awesome-icon title="Konfigurationsinfo" @click="KonfigInfoScreen()" icon="fa-solid fa-circle-question" />
@@ -145,7 +141,6 @@
             <p>Wähle die Objekte aus, die du hinzufügen möchtest</p>
             <div>
               <div v-if="additionalObjectsLoaded" class="buttonContainer">
-                <!-- Hier kommt dein HTML-Code mit v-for -->
                 <div v-for="(object, index) in additionalObjects" :key="index"
                   @click="toggleAdditionalObjects(object, index)" class="textureButton"
                   :class="{ selected: selectedAdditionalObjects[index] }">
@@ -153,7 +148,6 @@
                 </div>
               </div>
               <div v-else>
-                <!-- Hier kannst du einen Ladeindikator oder eine Meldung anzeigen, während die Objekte geladen werden -->
                 Lade zusätzliche Objekte...
               </div>
             </div>
@@ -161,73 +155,6 @@
 
         </div>
       </div>
-      <!-- <div>
-        <h4>Wähle deine Ansicht</h4>
-        <div style="display: flex; gap: 15px; margin-bottom: 20px; margin: 4px;">
-          <button alt="Totale" class="button" :class="{ selected: selectedCameraView === 'totale' }"
-            @click="toggleCameraToWide">
-            <div class="totale"></div>
-          </button>
-          <button alt="Gardarobe" class="button" :class="{ selected: selectedCameraView === 'gardarobe' }"
-            @click="toggleCameraToGardarobe">
-            <div class="room"></div>
-          </button>
-          <button alt="Küche" class="button" :class="{ selected: selectedCameraView === 'kueche' }"
-            @click="toggleCameraToKueche">
-            <div class="kitchen"></div>
-          </button>
-        </div>
-      </div>
-      <br>
-      <br>
-
-
-      <div>
-        <h4>Material aller Möbelstücke ändern</h4>
-
-        <div class="buttonContainer">
-          <div v-for="(texture, index) in textures" :key="index" class="textureButton"
-            :class="{ selected: selectedTexture === texture }" @click="changeAllTextures(index)">
-            <img :src="texture" alt="Texture Image">
-          </div>
-        </div>
-      </div>
-      <br>
-
-
-      <div>
-        <h4>Material einzelner Möbelstücke ändern</h4>
-        <p v-if="selectedObjectName == null"> Wählen Sie ein Möbelstück aus indem Sie darauf klicken!</p>
-        <div v-else>
-          <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}</p>
-          <div class="buttonContainer">
-            <div v-for="(texture, index) in textures" :key="index" class="textureButton"
-              @click="changeOneTexture(index, selectedObjectName)" :class="{ selected: selectedOneTexture === texture }">
-              <img :src="texture" alt="Texture Image">
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <br>
-      <div>
-        <h4>Zusatzobjekte</h4>
-        <p>Wähle die Objekte aus, die du hinzufügen möchtest</p>
-        <div>
-          <div v-if="additionalObjectsLoaded" class="buttonContainer">
-            <div v-for="(object, index) in additionalObjects" :key="index" @click="toggleAdditionalObjects(object, index)"
-              class="textureButton" :class="{ selected: selectedAdditionalObjects[index] }">
-              <img :src="`${'/PRO5/assets/additionalObjects/' + index + '.png'}`" alt="Texture Image" />
-            </div>
-          </div>
-          <div v-else>
-            Lade zusätzliche Objekte...
-          </div>
-        </div>
-      </div>
-      <br> -->
-
       <div>
         <button class="saveButton" @click="startDownload">
            <font-awesome-icon class="icon download-icon" icon="fa-solid fa-download" />
@@ -307,7 +234,6 @@ const selectedAdditionalObjects = reactive({
   plant02: true,
   coathanger: true,
   plant01: true
-  // Add more objects as needed
 });
 
 const categories = reactive({
@@ -345,7 +271,6 @@ const objectNamesMapping = {
   'kitchenworkwood': 'Küche - Arbeitsplatte',
   'washbasin': 'Bad - Waschbecken',
   'desk': 'Schreibtisch'
-  // Füge hier alle gewünschten Zuordnungen hinzu
 };
 
 const desiredOrder = ['kitchen', 'kitchenbackwall', 'kitchenworkwood', 'bedwood', 'desk', 'lowchairwood', 'closet', 'highchairwood', 'garderobe', 'washbasin']; // Beispielreihenfolge
@@ -356,7 +281,6 @@ const additionalobjectNamesMapping = {
   'plant01': 'Große Pflanze',
   'plant02': 'Kleine Pflanze',
   'coathanger': 'Kleiderbügel',
-  // Füge hier alle gewünschten Zuordnungen hinzu
 };
 
 const textureShortInfos = {
@@ -366,7 +290,6 @@ const textureShortInfos = {
   '/PRO5/assets/gltf/text/white.jpg': 'Dekorspan weiß',
   '/PRO5/assets/gltf/text/black.jpg': 'Dekorspan schwarz',
   // '/PRO5/assets/gltf/text/adthe.jpg': 'Nuhiu',
-  // Füge hier weitere Texturen hinzu
 };
 
 let textureIndex = 1;
@@ -379,6 +302,8 @@ const textures = [
   // '/PRO5/assets/gltf/text/adthe.jpg',
 ]
 const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
+const dynamicTextureLoader = new THREE.TextureLoader();
+
 
 let selectedTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
 let selectedOneTexture = ref(null);
@@ -390,7 +315,6 @@ scene.background = new THREE.Color(0xffffff);
 const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
-// const composer = new EffectComposer(renderer);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -428,7 +352,6 @@ onMounted(() => {
   }
 });
 
-//------------------------------------------Load Objects------------------------------------------//
 
 
 const glTFLoader = new GLTFLoader();
@@ -521,6 +444,7 @@ glTFLoader.load('/PRO5/assets/gltf/Objects/plant02.gltf', function (gltf) {
 });
 
 
+//------------------------------------------Load all Objects------------------------------------------//
 
 
 glTFLoader.load('/PRO5/assets/gltf/Room/room_start.gltf', function (gltf) {
@@ -1472,46 +1396,48 @@ function toggleAdditionalObjects(object, index) {
 
 function changeAllTextures(index) {
   for (let key in loadedObjects) {
-    //if (key === 'room' || key === 'lowchairfeets' || key === 'doors' || key === 'bedstuff' || key === 'floor' || key === 'roommirror' || key === 'highchairfeet' || key === 'kitchenstuff' || key === 'washbasinstuff' || key === 'closethandle' || key === 'desklamp') continue;
     const object = loadedObjects[key];
-    const textureUrl = textures[index]; 0
-    //const newTexture = new THREE.TextureLoader().load(textureUrl);
+    const textureUrl = textures[index];
 
-    object.traverse(function (node) {
-      if (node instanceof THREE.Mesh) {
-        node.material.map = new THREE.TextureLoader().load(textureUrl);
-        node.material.needsUpdate = true;
-      }
+    // Use the dynamicTextureLoader to load textures dynamically
+    dynamicTextureLoader.load(textureUrl, function (texture) {
+      object.traverse(function (node) {
+        if (node instanceof THREE.Mesh) {
+          node.material.map = texture;
+          node.material.needsUpdate = true;
+        }
+      });
+      objectTextures[key] = textureUrl;
     });
-    objectTextures[key] = textureUrl; // Speichere die aktuelle Textur für das Objekt
   }
   textureIndex = index;
   selectedTexture.value = textures[textureIndex];
   selectedOneTexture.value = textures[textureIndex];
-  saveCurrentState(); // Speichere vor der Änderung den Zustand
+  saveCurrentState();
 }
+
 function changeOneTexture(index, object) {
   selectedTexture.value = null;
 
   const originalObjectName = Object.keys(objectNamesMapping).find(key => objectNamesMapping[key] === object);
   const loadedObject = loadedObjects[originalObjectName];
 
-
   if (loadedObject) {
     const textureUrl = textures[index];
-    ///const newTexture = new THREE.TextureLoader().load(textureUrl);
 
-    loadedObject.traverse(function (node) {
-      if (node instanceof THREE.Mesh) {
-        node.material.map = new THREE.TextureLoader().load(textureUrl);
-        node.material.needsUpdate = true;
-        console.log(`Changed texture of ${originalObjectName} to ${textureUrl}`);
-      }
+    // Use the dynamicTextureLoader to load textures dynamically
+    dynamicTextureLoader.load(textureUrl, function (texture) {
+      loadedObject.traverse(function (node) {
+        if (node instanceof THREE.Mesh) {
+          node.material.map = texture;
+          node.material.needsUpdate = true;
+        }
+      });
+      objectTextures[originalObjectName] = textureUrl;
+      textureIndex = index;
+      selectedOneTexture.value = textures[textureIndex];
+      saveCurrentState();
     });
-    objectTextures[originalObjectName] = textureUrl; // Speichere die aktuelle Textur für das Objekt
-    textureIndex = index;
-    selectedOneTexture.value = textures[textureIndex];
-    saveCurrentState(); // Speichere vor der Änderung den Zustand
   }
 }
 
