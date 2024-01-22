@@ -69,7 +69,6 @@
       <p class="loadingScreenText">Konfigurator lädt...</p>
     </div>
 
-
     <div v-else class="ui">
       <h1>Einzelzimmer</h1>
       <div v-for="(category, index) in categories" class="categoryContainer" :key="index">
@@ -160,8 +159,17 @@
            <font-awesome-icon class="icon download-icon" icon="fa-solid fa-download" />
           {{downloadMessage}}</button>
         </div>
+
+        <div v-if="downloadInProgress" class="loadingScreen">
+        <img :src="`${'/PRO5/assets/logo/icon_house.png'}`" alt="loading_icon" class="logooutside" />
+        <img :src="`${'/PRO5/assets/logo/icon_inside.png'}`" alt="loading_icon" class="logoinside" />
+        <p class="loadingScreenText">Download läuft...</p>
+        </div>
+        
       </div>
+      
     </div>
+   
 </template>
 
 
@@ -183,6 +191,7 @@ import Stats from 'stats.js'
 const HelpscreenisVisible = ref(false);
 const KonfigInfoisVisible = ref(false);
 let downloadComplete = ref(false);
+let downloadInProgress = ref (false);
 
 
 import jsPDF from 'jspdf';
@@ -1224,6 +1233,7 @@ function checkDownloadStatus() {
 }
 
 function startDownload() {
+  downloadInProgress = true;
   downloadMessage.value="Download läuft...";
   setTimeout(() => {
     saveData();
@@ -1233,6 +1243,7 @@ function startDownload() {
 }
 
 function saveData() {
+  downloadInProgress = true;
   downloadComplete = false;
   //downloadComplete = false;
   console.log("Saving data...");
@@ -1382,6 +1393,7 @@ function saveData() {
   pdf.text('Ansicht: Vogelperspektive', 90, 262);
 
   pdf.save("KitzConfig - Datenblatt.pdf");
+  downloadInProgress = false;
   downloadComplete = true;  
   checkDownloadStatus();
   downloadMessage.value="Download abgeschlossen!";
