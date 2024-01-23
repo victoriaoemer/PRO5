@@ -106,16 +106,12 @@
 
           <div v-if="category.name === 'oneMaterial'">
             <p v-if="selectedObjectName == null"> Wählen Sie ein Möbelstück aus indem Sie darauf klicken!
-              <font-awesome-icon title="Folgende Möbel können konfiguriert werden:
-              Küche - Allgemein / Rückwand / Arbeitsplatte, 
-              Schrank, 
-              Bett,
-              Schreibtisch, 
-              Stuhl Schreibtisch, 
-              Hoher Stuhl Küche, 
-              Garderobe, 
-              Bad - Waschbecken
-              " icon="fa-solid fa-circle-question" />
+              <font-awesome-icon title="Konfigurationsinfo" @click="KonfigInfoScreen()" icon="fa-solid fa-circle-question" />
+              <div v-if="KonfigInfoisVisible" class="KonfigInfo">
+              <p>Folgende Möbel können konfiguriert werden:</p>
+              <p>Küche - Allgemein / Rückwand / Arbeitsplatte, Schrank, Bett, </p>
+              <p>Schreibtisch, Stuhl, Hoher Stuhl, Garderobe, Bad - Waschbecken</p>
+            </div>
             </p>
             <div v-else>
               <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}
@@ -872,8 +868,8 @@ camera4.lookAt(object.position);
 camera5.position.set(-70, 85, -20);
 camera5.lookAt(0, 75, 50);
 
-camera6.position.set(30, 85, 60);
-camera6.lookAt(0, 40, 50);
+camera6.position.set(30, 85, 30);
+camera6.lookAt(0, 75, 100);
 
 
 
