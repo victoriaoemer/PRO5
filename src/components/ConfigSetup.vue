@@ -3,16 +3,16 @@
     <div>
       <div id="container3D" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp">
         <div v-if="additionalObjectsLoaded" class="canvas-menu">
-          <font-awesome-icon title="Texturänderung rückgängig machen" @click="undoTextureChange()" icon="fa-solid fa-rotate-left"
-            class="canvas-icon" />
+          <font-awesome-icon title="Texturänderung rückgängig machen" @click="undoTextureChange()"
+            icon="fa-solid fa-rotate-left" class="canvas-icon" />
           <font-awesome-icon title="Ansicht zurücksetzen" v-if="selectedCameraView === 'totale'"
             @click="resetStartscreen()" icon="fa-solid fa-video" class="canvas-icon" />
           <font-awesome-icon title="Wände aus/einblenden" v-if="selectedCameraView === 'totale'" @click="hideWalls"
             class="canvas-icon" icon="fa-solid fa-cube" />
           <font-awesome-icon title="Wireframe aus/einblenden" v-if="selectedCameraView === 'totale'"
             @click="toggleWireframe" class="canvas-icon" icon="fa-solid fa-pen-to-square" />
-          <font-awesome-icon v-if="selectedCameraView === 'totale'" title="Bedienungshilfe" @click="helpScreen()" icon="fa-solid fa-circle-question"
-            class="canvas-icon" />
+          <font-awesome-icon v-if="selectedCameraView === 'totale'" title="Bedienungshilfe" @click="helpScreen()"
+            icon="fa-solid fa-circle-question" class="canvas-icon" />
         </div>
         <div v-if="HelpscreenisVisible" class="helpscreen"> <font-awesome-icon icon="fa-solid fa-circle-question" />
           <h4>Hilfestellung</h4>
@@ -106,20 +106,13 @@
 
           <div v-if="category.name === 'oneMaterial'">
             <p v-if="selectedObjectName == null"> Wählen Sie ein Möbelstück aus indem Sie darauf klicken!
-              <font-awesome-icon title="Folgende Möbel können konfiguriert werden:
-              Küche - Allgemein / Rückwand / Arbeitsplatte, 
-              Schrank, 
-              Bett,
-              Schreibtisch, 
-              Stuhl Schreibtisch, 
-              Hoher Stuhl Küche, 
-              Garderobe, 
-              Bad - Waschbecken
-              " icon="fa-solid fa-circle-question" />
+              <font-awesome-icon title="Konfigurationsinfo" @click="KonfigInfoScreen()"
+                icon="fa-solid fa-circle-question" />
             </p>
             <div v-else>
               <p>Ausgewähltes Möbelstück: {{ selectedObjectName }}
-                <font-awesome-icon title="Konfigurationsinfo" @click="KonfigInfoScreen()" icon="fa-solid fa-circle-question" />
+                <font-awesome-icon title="Konfigurationsinfo" @click="KonfigInfoScreen()"
+                  icon="fa-solid fa-circle-question" />
               </p>
               <div class="buttonContainer">
                 <div v-for="(texture, index) in textures" :key="index" class="textureButton"
@@ -128,11 +121,19 @@
                   <img :src="texture" alt="Texture Image">
                 </div>
               </div>
-              <div v-if="KonfigInfoisVisible" class="KonfigInfo">
-              <p>Folgende Möbel können konfiguriert werden:</p>
-              <p>Küche - Allgemein / Rückwand / Arbeitsplatte, Schrank, Bett, </p>
-              <p>Schreibtisch, Stuhl, Hoher Stuhl, Garderobe, Bad - Waschbecken</p>
+
             </div>
+            <div v-if="KonfigInfoisVisible" class="KonfigInfo" style="line-height: normal; margin-top: 5px;">
+              <p><u>Folgende Möbel können konfiguriert werden:</u><br /><br />
+                Küche - Allgemein / Rückwand / Arbeitsplatte, <br />
+                Schrank, <br />
+                Bett,<br />
+                Schreibtisch, <br />
+                Stuhl (Schreibtisch),<br /> 
+                Hoher Stuhl (Küche), <br />
+                Garderobe, <br />
+                Bad - Waschbecken
+              </p>
             </div>
           </div>
 
@@ -156,20 +157,19 @@
       </div>
       <div>
         <button class="saveButton" @click="startDownload">
-           <font-awesome-icon class="icon download-icon" icon="fa-solid fa-download" />
-          {{downloadMessage}}</button>
-        </div>
+          <font-awesome-icon class="icon download-icon" icon="fa-solid fa-download" />
+          {{ downloadMessage }}</button>
+      </div>
 
-        <div v-if="downloadInProgress" class="loadingScreen">
+      <div v-if="downloadInProgress" class="loadingScreen">
         <img :src="`${'/PRO5/assets/logo/icon_house.png'}`" alt="loading_icon" class="logooutside" />
         <img :src="`${'/PRO5/assets/logo/icon_inside.png'}`" alt="loading_icon" class="logoinside" />
         <p class="loadingScreenText">Download läuft...</p>
-        </div>
-        
       </div>
-      
+
     </div>
-   
+
+  </div>
 </template>
 
 
@@ -191,7 +191,7 @@ import Stats from 'stats.js'
 const HelpscreenisVisible = ref(false);
 const KonfigInfoisVisible = ref(false);
 let downloadComplete = ref(false);
-let downloadInProgress = ref (false);
+let downloadInProgress = ref(false);
 
 
 import jsPDF from 'jspdf';
@@ -316,7 +316,7 @@ const dynamicTextureLoader = new THREE.TextureLoader();
 
 let selectedTexture = ref('/PRO5/assets/gltf/text/Gold_wood.jpg');
 let selectedOneTexture = ref(null);
-let downloadMessage=ref("PDF speichern");
+let downloadMessage = ref("PDF speichern");
 
 
 const scene = new THREE.Scene();
@@ -1098,7 +1098,7 @@ function KonfigInfoScreen() {
 function resetStartscreen() {
   camera.position.set(-150, 300, 0);
   camera.lookAt(object.position);
-  
+
   controls.dispose();
   controls = new OrbitControls(activeCamera, renderer.domElement);
   controls.minDistance = 100;
@@ -1235,12 +1235,12 @@ function checkDownloadStatus() {
 
 function startDownload() {
   downloadInProgress = true;
-  downloadMessage.value="Download läuft...";
+  downloadMessage.value = "Download läuft...";
   setTimeout(() => {
     saveData();
-    }, 100); // Ändere den Timeout-Wert je nach Bedarf
-  
- 
+  }, 100); // Ändere den Timeout-Wert je nach Bedarf
+
+
 }
 
 function saveData() {
@@ -1269,7 +1269,7 @@ function saveData() {
 
   //console.log("Main Image Data URL:", mainImage);
   console.log("Main Image Size (bytes):", mainImage.length);
-  
+
   renderer.render(scene, camera5);
   const secondImage = canvas.toDataURL("image/png");
 
@@ -1293,10 +1293,10 @@ function saveData() {
   renderer.setSize(originalWidth, originalHeight);
 
   var pdf = new jsPDF({
-    compress: true,    
+    compress: true,
   })
 
-  
+
 
 
   // Wähle die Schriftart aus (z.B., "times", "helvetica", "courier", etc.)
@@ -1354,13 +1354,14 @@ function saveData() {
   pdf.setFont("Helvetica", "normal");
 
   for (let key of desiredOrder) {
-    if ( key in objectTextures) {
-    const textureShortInfo = textureShortInfos[objectTextures[key]] || objectTextures[key];
-    const listItemText = `${objectNamesMapping[key] || key}: ${textureShortInfo}`;
-    pdf.text(`${listItemNumber}. ${listItemText}`, 30, listPositionY + 6);
-    listPositionY += 6; // Verringere den Abstand zwischen den Listenelementen
-    listItemNumber++;
-  }}
+    if (key in objectTextures) {
+      const textureShortInfo = textureShortInfos[objectTextures[key]] || objectTextures[key];
+      const listItemText = `${objectNamesMapping[key] || key}: ${textureShortInfo}`;
+      pdf.text(`${listItemNumber}. ${listItemText}`, 30, listPositionY + 6);
+      listPositionY += 6; // Verringere den Abstand zwischen den Listenelementen
+      listItemNumber++;
+    }
+  }
 
   console.log("Liste 1 done");
 
@@ -1395,9 +1396,9 @@ function saveData() {
 
   pdf.save("KitzConfig - Datenblatt.pdf");
   downloadInProgress = false;
-  downloadComplete = true;  
+  downloadComplete = true;
   checkDownloadStatus();
-  downloadMessage.value="Download abgeschlossen!";
+  downloadMessage.value = "Download abgeschlossen!";
 
 }
 
@@ -1421,7 +1422,7 @@ function changeAllTextures(index) {
           node.material.needsUpdate = true;
         }
       });
-      
+
     });
   }
   textureIndex = index;
@@ -1448,7 +1449,7 @@ function changeOneTexture(index, object) {
           node.material.needsUpdate = true;
         }
       });
-      
+
       textureIndex = index;
       selectedOneTexture.value = textures[textureIndex];
       saveCurrentState();
@@ -1457,11 +1458,11 @@ function changeOneTexture(index, object) {
 }
 
 function checkAdditionalObjectsLoaded() {
-    if (additionalObjectsLoaded.value) {
-        changeAllTextures(0);
-    } else {
-        setTimeout(checkAdditionalObjectsLoaded, 100); // Check again in 100 milliseconds
-    }
+  if (additionalObjectsLoaded.value) {
+    changeAllTextures(0);
+  } else {
+    setTimeout(checkAdditionalObjectsLoaded, 100); // Check again in 100 milliseconds
+  }
 }
 
 // Start the polling
@@ -1485,7 +1486,7 @@ document.addEventListener('DOMContentLoaded', function () {
   text-align: start;
   margin: 0;
   box-shadow: none;
-  color:#3C4F64;
+  color: #3C4F64;
 }
 
 .opened {
@@ -1709,7 +1710,7 @@ button {
   cursor: pointer;
 }
 
-.icon{
+.icon {
   margin-left: 2px;
   margin-right: 4px;
   font-size: 18px;
@@ -1815,21 +1816,17 @@ font-awesome-icon {
 /* Media Query für kleinere Bildschirme */
 @media only screen and (max-width: 1200px) {
   .container {
-    flex-direction: column; /* Ändern Sie die Ausrichtung auf Spalte für kleinere Bildschirme */
-    padding: 1rem; /* Reduzieren Sie das Padding für kleinere Bildschirme */
+    flex-direction: column;
+    /* Ändern Sie die Ausrichtung auf Spalte für kleinere Bildschirme */
+    padding: 1rem;
+    /* Reduzieren Sie das Padding für kleinere Bildschirme */
   }
 }
 
 @media only screen and (max-width: 500px) {
   .container {
-    display: none; /* Ausblenden des Hauptcontainers */
+    display: none;
+    /* Ausblenden des Hauptcontainers */
   }
 }
-
-
-
-
-
-
-
 </style>
