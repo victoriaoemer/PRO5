@@ -921,6 +921,7 @@ function saveCurrentState() {
   const currentState = {};
   for (let key in loadedObjects) {
     currentState[key] = objectTextures[key];
+
   }
   stateHistory.push({ ...currentState }); // Hier verwenden wir den Spread Operator, um eine tiefe Kopie zu erstellen
 }
@@ -1410,6 +1411,7 @@ function changeAllTextures(index) {
   for (let key in loadedObjects) {
     const object = loadedObjects[key];
     const textureUrl = textures[index];
+    objectTextures[key] = textureUrl;
 
     // Use the dynamicTextureLoader to load textures dynamically
     dynamicTextureLoader.load(textureUrl, function (texture) {
@@ -1419,7 +1421,7 @@ function changeAllTextures(index) {
           node.material.needsUpdate = true;
         }
       });
-      objectTextures[key] = textureUrl;
+      
     });
   }
   textureIndex = index;
@@ -1436,6 +1438,7 @@ function changeOneTexture(index, object) {
 
   if (loadedObject) {
     const textureUrl = textures[index];
+    objectTextures[originalObjectName] = textureUrl;
 
     // Use the dynamicTextureLoader to load textures dynamically
     dynamicTextureLoader.load(textureUrl, function (texture) {
@@ -1445,7 +1448,7 @@ function changeOneTexture(index, object) {
           node.material.needsUpdate = true;
         }
       });
-      objectTextures[originalObjectName] = textureUrl;
+      
       textureIndex = index;
       selectedOneTexture.value = textures[textureIndex];
       saveCurrentState();
