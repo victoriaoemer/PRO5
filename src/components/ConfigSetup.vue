@@ -1503,6 +1503,7 @@ document.addEventListener('DOMContentLoaded', function () {
   align-items: center;
   display: flex;
   justify-content: center;
+  z-index: 101;
 }
 
 .logooutside {
