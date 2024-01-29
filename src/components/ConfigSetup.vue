@@ -173,6 +173,7 @@
 </template>
 
 
+
 <script setup>
 import * as THREE from 'three';
 import { ref, computed, reactive } from 'vue';
@@ -182,22 +183,19 @@ import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockCont
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
-//Modules below are regarded to shader
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { Reflector } from 'three/addons/objects/Reflector.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
+import { onMounted, render } from 'vue';
 import Stats from 'stats.js'
+import jsPDF from 'jspdf';
+
+
 const HelpscreenisVisible = ref(false);
 const KonfigInfoisVisible = ref(false);
 let downloadComplete = ref(false);
 let downloadInProgress = ref(false);
-
-
-import jsPDF from 'jspdf';
-
-
-import { onMounted, render } from 'vue';
 
 const loadedObjects = {};
 const fixedObjects = {};
@@ -205,6 +203,8 @@ const objectTextures = {};
 const additionalObjects = {};
 
 var stats = new Stats();
+
+//comment in for stats
 /*stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 
 stats.dom.style.transform = 'scale(0.1)'; // Ändere den Skalierungsfaktor nach Bedarf
@@ -214,6 +214,7 @@ stats.dom.style.transformOrigin = 'top left'; // Ändere den Ursprung nach Bedar
 document.body.appendChild( stats.dom );*/
 
 
+//Cameras for different views
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera.name = 'camera';
 const cameraTotale = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -233,7 +234,7 @@ camera6.name = 'camera6';
 let activeCamera = camera;
 let selectedCameraView = ref('totale');
 
-
+//Mirrors in scene
 let mirror, bathrommMirror, windowrefl, windowreflback;
 const additionalObjectsLoaded = ref(false);
 
@@ -310,7 +311,7 @@ const textures = [
   '/PRO5/assets/gltf/text/black.jpg',
   // '/PRO5/assets/gltf/text/adthe.jpg',
 ]
-const textureloader = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
+const texture = new THREE.TextureLoader().load('/PRO5/assets/gltf/text/Gold_wood.jpg');
 const dynamicTextureLoader = new THREE.TextureLoader();
 
 
@@ -537,7 +538,7 @@ glTFLoader.load('/PRO5/assets/gltf/Closet_sep/closet.gltf', function (gltf) {
   loadedObjects.closet = gltf.scene;
   loadedObjects.closet.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
-      node.material.map = textureloader;
+      node.material.map = texture;
       node.castShadow = true;
     }
   });
@@ -582,7 +583,7 @@ glTFLoader.load('/PRO5/assets/gltf/Bed_sep/bedwood.gltf', function (gltf) {
   loadedObjects.bedwood = gltf.scene;
   loadedObjects.bedwood.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
-      node.material.map = textureloader;
+      node.material.map = texture;
       node.castShadow = true;
     }
   });
@@ -597,7 +598,7 @@ glTFLoader.load('/PRO5/assets/gltf/Garderobe/garderobe.gltf', function (gltf) {
   loadedObjects.garderobe = gltf.scene;
   loadedObjects.garderobe.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
-      node.material.map = textureloader;
+      node.material.map = texture;
       node.castShadow = true;
     }
   });
@@ -626,7 +627,7 @@ glTFLoader.load('/PRO5/assets/gltf/LowChair_sep/lowChair_wood.gltf', function (g
   loadedObjects.lowchairwood = gltf.scene;
   loadedObjects.lowchairwood.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
-      node.material.map = textureloader;
+      node.material.map = texture;
       node.castShadow = true;
     }
   });
@@ -642,7 +643,7 @@ glTFLoader.load('/PRO5/assets/gltf/HighChair_sep/highChair_wood.gltf', function 
   loadedObjects.highchairwood = gltf.scene;
   loadedObjects.highchairwood.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
-      node.material.map = textureloader;
+      node.material.map = texture;
       node.castShadow = true;
     }
   });
@@ -671,7 +672,7 @@ glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchen.gltf', function (gltf) {
   loadedObjects.kitchen = gltf.scene;
   loadedObjects.kitchen.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
-      node.material.map = textureloader;
+      node.material.map = texture;
       node.castShadow = true;
       // node.receiveShadow = true;
     }
@@ -687,7 +688,7 @@ glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchenbackwall.gltf', function (
   loadedObjects.kitchenbackwall = gltf.scene;
   loadedObjects.kitchenbackwall.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
-      node.material.map = textureloader;
+      node.material.map = texture;
       node.castShadow = true;
       // node.receiveShadow = true;
     }
@@ -703,7 +704,7 @@ glTFLoader.load('/PRO5/assets/gltf/Kitchen_sep/kitchenworkwood.gltf', function (
   loadedObjects.kitchenworkwood = gltf.scene;
   loadedObjects.kitchenworkwood.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
-      node.material.map = textureloader;
+      node.material.map = texture;
       node.castShadow = true;
       // node.receiveShadow = true;
     }
@@ -759,7 +760,7 @@ glTFLoader.load('/PRO5/assets/gltf/Washbasin_sep/washbasin.gltf', function (gltf
   loadedObjects.washbasin = gltf.scene;
   loadedObjects.washbasin.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
-      node.material.map = textureloader;
+      node.material.map = texture;
       node.castShadow = true;
     }
   });
@@ -773,7 +774,7 @@ glTFLoader.load('/PRO5/assets/gltf/Desk_sep/desk.gltf', function (gltf) {
   loadedObjects.desk = gltf.scene;
   loadedObjects.desk.traverse(function (node) {
     if (node instanceof THREE.Mesh) {
-      node.material.map = textureloader;
+      node.material.map = texture;
       node.castShadow = true;
     }
   });
